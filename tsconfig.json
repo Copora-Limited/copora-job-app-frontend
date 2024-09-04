@@ -17,10 +17,11 @@
         "name": "next"
       }
     ],
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "pages/components/AuctionGridTitleSection.tsx", "pages/auth/login.tsx", "pages/auth/login-with-code.js", "pages/auth/login-without-code.js", "pages/auth/passwordless-login.js", "pages/api/auth/[...nextauth].js"],
   "exclude": ["node_modules"]
 }

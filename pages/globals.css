@@ -1,0 +1,30 @@
+/* styles/globals.css */
+@import "~@fortawesome/fontawesome-free/css/all.min.css";
+
+/* Tailwind's preflight CSS */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom colors */
+:root {
+  --primary: #032541;
+  --secondary: #0d9488;
+}
+
+/* Example of using the custom colors */
+.bg-primary {
+  background-color: var(--primary);
+}
+
+.text-primary {
+  color: var(--primary);
+}
+
+.bg-secondary {
+  background-color: var(--secondary);
+}
+
+.text-secondary {
+  color: var(--secondary);
+}

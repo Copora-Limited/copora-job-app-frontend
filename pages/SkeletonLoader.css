@@ -1,0 +1,19 @@
+/* src/components/SkeletonLoader.css */
+.skeleton-loader {
+    padding: 20px;
+  }
+  
+  .skeleton-title {
+    background-color: #e0e0e0;
+    height: 24px;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  
+  .skeleton-description {
+    background-color: #e0e0e0;
+    height: 16px;
+    width: 80%;
+    margin-bottom: 10px;
+  }
+  
