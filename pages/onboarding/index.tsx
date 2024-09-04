@@ -117,16 +117,19 @@ const Onboarding = () => {
 			}
 
 			// Update the onboardingStep
-			await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/users/onboarding-step`, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `Bearer ${token}`,
-				},
-				body: JSON.stringify({
-					onboardingStep: currentStep + 1, // The current step number
-				}),
-			});
+			await fetch(
+				`${process.env.NEXT_PUBLIC_BASE_URL}/users/update-onboarding-step`,
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${token}`,
+					},
+					body: JSON.stringify({
+						onboardingStep: currentStep + 1, // The current step number
+					}),
+				}
+			);
 
 			// Move to the next step
 			const nextStep = Math.min(currentStep + 1, steps.length - 1);
