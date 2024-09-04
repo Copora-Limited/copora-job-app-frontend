@@ -127,6 +127,7 @@ const Onboarding = () => {
 					},
 					body: JSON.stringify({
 						onboardingStep: currentStep + 1, // The current step number
+						applicationNo,
 					}),
 				}
 			);
