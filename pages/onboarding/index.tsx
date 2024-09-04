@@ -118,7 +118,7 @@ const Onboarding = () => {
 
 			// Update the onboardingStep
 			await fetch(
-				`${process.env.NEXT_PUBLIC_BASE_URL}//auth/users/update-onboarding-step`,
+				`${process.env.NEXT_PUBLIC_BASE_URL}/auth/users/update-onboarding-step`,
 				{
 					method: "POST",
 					headers: {
