@@ -18,7 +18,7 @@ const TopNav: React.FC = () => {
 	return (
 		<header
 			className={`w-full p-4 ${
-				darkMode ? "bg-gray-900 shadow-lg" : "bg-gray-100 shadow-md"
+				darkMode ? "bg-gray-900 shadow-lg" : "bg-white-100 shadow-md"
 			} text-gray-900 dark:text-gray-100 transition-colors duration-300`}>
 			<div className="container mx-auto flex items-center justify-between">
 				<div className="text-xl font-bold">

@@ -80,7 +80,7 @@ const ListUsersPage: React.FC<ListUsersPageProps> = ({
 		return (
 			<div
 				className={`${
-					darkMode ? "bg-gray-900 text-gray-100" : "bg-gray-100 text-gray-900"
+					darkMode ? "bg-gray-900 text-gray-100" : "bg-white-100 text-gray-900"
 				} p-4`}>
 				{error}
 			</div>
@@ -91,7 +91,7 @@ const ListUsersPage: React.FC<ListUsersPageProps> = ({
 		return (
 			<div
 				className={`${
-					darkMode ? "bg-gray-900 text-gray-100" : "bg-gray-100 text-gray-900"
+					darkMode ? "bg-gray-900 text-gray-100" : "bg-white-100 text-gray-900"
 				} p-4`}>
 				No users found.
 			</div>
@@ -102,7 +102,7 @@ const ListUsersPage: React.FC<ListUsersPageProps> = ({
 		<DashboardLayout>
 			<div
 				className={`${
-					darkMode ? "bg-gray-900 text-gray-100" : "bg-gray-100 text-gray-900"
+					darkMode ? "bg-gray-900 text-gray-100" : "bg-white-100 text-gray-900"
 				} min-h-screen`}>
 				<div className="container mx-auto p-4">
 					<div className="flex justify-between items-center mb-4">

@@ -14,7 +14,7 @@ const SideNav: React.FC<SideNavProps> = ({ isApplicant }) => {
 		// <nav className="bg-gray-800 text-gray-100 w-64 p-4  h-full ">
 		<nav
 			className={`w-64 h-full p-4 ${
-				darkMode ? "bg-gray-900" : "bg-gray-100"
+				darkMode ? "bg-gray-900" : "bg-gray-100 shadow-md"
 			} text-gray-900 dark:text-gray-100`}>
 			<ul>
 				{isApplicant ? (
