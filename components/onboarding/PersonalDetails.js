@@ -1,36 +1,28 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-interface PersonalDetailsProps {
-	onChange: (data: any) => void;
-}
+const PersonalDetails = ({ formData, onChange }) => {
+	// Initialize state with props
+	const [localFormData, setLocalFormData] = useState(formData);
 
-const PersonalDetails = ({ onChange }: PersonalDetailsProps) => {
-	const [formData, setFormData] = useState({
-		title: "",
-		dateOfBirth: "",
-		gender: "",
-		nationalInsuranceNumber: "",
-		profilePicture: null as File | null,
-		address: "",
-		city: "",
-		country: "",
-		phoneNumber: "",
-		state: "",
-		zipCode: "",
-	});
+	// Update state when props change
+	useEffect(() => {
+		setLocalFormData(formData);
+	}, [formData]);
 
-	const handleChange = (
-		e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-	) => {
+	console.log("formData Here", localFormData);
+
+	const handleChange = (e) => {
 		const { name, value } = e.target;
-		setFormData((prev) => ({ ...prev, [name]: value }));
-		onChange({ ...formData, [name]: value });
+		const updatedFormData = { ...localFormData, [name]: value };
+		setLocalFormData(updatedFormData);
+		onChange(updatedFormData);
 	};
 
-	const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleFileChange = (e) => {
 		const file = e.target.files?.[0] || null;
-		setFormData((prev) => ({ ...prev, profilePicture: file }));
-		onChange({ ...formData, profilePicture: file });
+		const updatedFormData = { ...formData, profilePicture: file };
+		setFormData(updatedFormData);
+		onChange(updatedFormData);
 	};
 
 	return (
@@ -46,7 +38,7 @@ const PersonalDetails = ({ onChange }: PersonalDetailsProps) => {
 					<select
 						required
 						name="title"
-						value={formData.title}
+						value={localFormData?.title || ""}
 						onChange={handleChange}
 						className="w-full p-2 border border-gray-300 rounded mt-1">
 						<option value="">Select Title</option>
@@ -68,7 +60,7 @@ const PersonalDetails = ({ onChange }: PersonalDetailsProps) => {
 						required
 						type="date"
 						name="dateOfBirth"
-						value={formData.dateOfBirth}
+						value={localFormData?.dateOfBirth || ""}
 						onChange={handleChange}
 						className="w-full p-2 border border-gray-300 rounded mt-1"
 					/>
@@ -83,7 +75,7 @@ const PersonalDetails = ({ onChange }: PersonalDetailsProps) => {
 					<select
 						required
 						name="gender"
-						value={formData.gender}
+						value={localFormData?.gender || ""}
 						onChange={handleChange}
 						className="w-full p-2 border border-gray-300 rounded mt-1">
 						<option value="">Select Gender</option>
@@ -103,7 +95,7 @@ const PersonalDetails = ({ onChange }: PersonalDetailsProps) => {
 						required
 						type="text"
 						name="nationalInsuranceNumber"
-						value={formData.nationalInsuranceNumber}
+						value={localFormData?.nationalInsuranceNumber || ""}
 						onChange={handleChange}
 						placeholder="National Insurance Number"
 						className="w-full p-2 border border-gray-300 rounded mt-1"
@@ -119,7 +111,7 @@ const PersonalDetails = ({ onChange }: PersonalDetailsProps) => {
 					<input
 						type="text"
 						name="address"
-						value={formData.address}
+						value={localFormData?.address || ""}
 						onChange={handleChange}
 						placeholder="Address"
 						className="w-full p-2 border border-gray-300 rounded mt-1"
@@ -135,7 +127,7 @@ const PersonalDetails = ({ onChange }: PersonalDetailsProps) => {
 					<input
 						type="text"
 						name="city"
-						value={formData.city}
+						value={localFormData?.city || ""}
 						onChange={handleChange}
 						placeholder="City"
 						className="w-full p-2 border border-gray-300 rounded mt-1"
@@ -151,7 +143,7 @@ const PersonalDetails = ({ onChange }: PersonalDetailsProps) => {
 					<input
 						type="text"
 						name="country"
-						value={formData.country}
+						value={localFormData?.country || ""}
 						onChange={handleChange}
 						placeholder="Country"
 						className="w-full p-2 border border-gray-300 rounded mt-1"
@@ -167,7 +159,7 @@ const PersonalDetails = ({ onChange }: PersonalDetailsProps) => {
 					<input
 						type="text"
 						name="phoneNumber"
-						value={formData.phoneNumber}
+						value={localFormData?.phoneNumber || ""}
 						onChange={handleChange}
 						placeholder="Phone Number"
 						className="w-full p-2 border border-gray-300 rounded mt-1"
@@ -183,7 +175,7 @@ const PersonalDetails = ({ onChange }: PersonalDetailsProps) => {
 					<input
 						type="text"
 						name="state"
-						value={formData.state}
+						value={localFormData?.state || ""}
 						onChange={handleChange}
 						placeholder="State"
 						className="w-full p-2 border border-gray-300 rounded mt-1"
@@ -199,7 +191,7 @@ const PersonalDetails = ({ onChange }: PersonalDetailsProps) => {
 					<input
 						type="text"
 						name="zipCode"
-						value={formData.zipCode}
+						value={localFormData?.zipCode || ""}
 						onChange={handleChange}
 						placeholder="Zip Code"
 						className="w-full p-2 border border-gray-300 rounded mt-1"

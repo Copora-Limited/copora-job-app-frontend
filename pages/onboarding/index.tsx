@@ -17,16 +17,14 @@ const Onboarding = () => {
 	const { data: session, status } = useSession();
 	const userData = session?.user;
 	const applicationNo = userData?.applicationNo;
-	console.log("applicationNo", applicationNo);
 	const { token } = useSessionContext(); // Assuming you have a custom session context
 	const router = useRouter();
 	const { step } = router.query;
 	const [currentStep, setCurrentStep] = useState<number>(0);
 	const [formData, setFormData] = useState<any>({});
-	const [error, setError] = useState<string | null>(null); // State to handle errors
-	const [validationErrors, setValidationErrors] = useState<string | null>(null); // State for validation errors
+	const [error, setError] = useState<string | null>(null);
+	const [validationErrors, setValidationErrors] = useState<string | null>(null);
 
-	// Steps list with appropriate formatting
 	const steps = [
 		"Personal Details",
 		"Contact Details",
@@ -39,7 +37,6 @@ const Onboarding = () => {
 		"Agreement Consent",
 	];
 
-	// Corresponding API endpoint slugs
 	const stepEndpoints = [
 		"personal-details",
 		"contact-details",
@@ -61,6 +58,37 @@ const Onboarding = () => {
 		}
 	}, [step]);
 
+	useEffect(() => {
+		const fetchApplicantData = async () => {
+			try {
+				if (!token || !applicationNo) {
+					throw new Error("Session or application number is missing.");
+				}
+
+				const response = await fetch(
+					`${process.env.NEXT_PUBLIC_BASE_URL}/applicant/${applicationNo}`,
+					{
+						headers: {
+							Authorization: `Bearer ${token}`,
+						},
+					}
+				);
+
+				if (!response.ok) {
+					throw new Error("Failed to fetch applicant data.");
+				}
+
+				const data = await response.json();
+				setFormData(data); // Populate form data with the response
+			} catch (err: any) {
+				console.error("Error fetching applicant data:", err);
+				setError(err.message || "An error occurred.");
+			}
+		};
+
+		fetchApplicantData();
+	}, [token, applicationNo]);
+
 	const validateStepData = () => {
 		const currentStepName = steps[currentStep];
 		let isValid = true;
@@ -68,14 +96,12 @@ const Onboarding = () => {
 
 		switch (currentStepName) {
 			case "Personal Details":
-				// Replace with actual validation logic for Personal Details
 				if (!formData.title || !formData.dateOfBirth) {
 					errors.title = "Title is required";
 					errors.dateOfBirth = "Date of Birth is required";
 					isValid = false;
 				}
 				break;
-			// Add validation for other steps here
 			default:
 				break;
 		}
@@ -86,7 +112,7 @@ const Onboarding = () => {
 
 	const handleNext = async () => {
 		if (!validateStepData()) {
-			return; // Prevent moving to the next step if validation fails
+			return;
 		}
 
 		const stepName = stepEndpoints[currentStep];
@@ -97,26 +123,23 @@ const Onboarding = () => {
 				throw new Error("User session is not available. Please log in again.");
 			}
 
-			// Save the current step data
 			const response = await fetch(endpoint, {
 				method: "POST",
 				headers: {
-					"Content-Type": "application/json", // Adjusted to JSON as "multipart/form-data" is not appropriate here
+					"Content-Type": "application/json",
 					Authorization: `Bearer ${token}`,
 				},
 				body: JSON.stringify({
 					...formData,
-					applicationNo, // Include applicationNo in the request
+					applicationNo,
 				}),
 			});
 
-			// Check if there is an error in the response
 			if (!response.ok) {
 				const errorData = await response.json();
 				throw new Error(errorData.message || "An error occurred.");
 			}
 
-			// Update the onboardingStep
 			await fetch(
 				`${process.env.NEXT_PUBLIC_BASE_URL}/auth/users/update-onboarding-step`,
 				{
@@ -126,23 +149,22 @@ const Onboarding = () => {
 						Authorization: `Bearer ${token}`,
 					},
 					body: JSON.stringify({
-						onboardingStep: currentStep + 1, // The current step number
+						onboardingStep: currentStep + 1,
 						applicationNo,
 					}),
 				}
 			);
 
-			// Move to the next step
 			const nextStep = Math.min(currentStep + 1, steps.length - 1);
 			router.push(`/onboarding?step=${nextStep + 1}`, undefined, {
 				shallow: true,
 			});
 			setCurrentStep(nextStep);
-			setError(null); // Clear any existing error
-			setValidationErrors(null); // Clear any existing validation errors
+			setError(null);
+			setValidationErrors(null);
 		} catch (err: any) {
 			console.error("Error saving data:", err);
-			setError(err.message || "An error occurred."); // Set the error message
+			setError(err.message || "An error occurred.");
 		}
 	};
 
@@ -158,30 +180,77 @@ const Onboarding = () => {
 		setFormData((prev: any) => ({ ...prev, ...data }));
 	};
 
+	// console.log("--Data", formData);
 	const renderStepContent = () => {
 		switch (steps[currentStep]) {
 			case "Personal Details":
-				return <PersonalDetails onChange={handleFormChange} />;
+				return (
+					<PersonalDetails
+						onChange={handleFormChange}
+						formData={formData.personalDetails}
+					/>
+				);
 			case "Contact Details":
-				return <ContactDetails onChange={handleFormChange} />;
+				return (
+					<ContactDetails
+						onChange={handleFormChange}
+						formData={formData.contactDetails}
+					/>
+				);
 			case "Professional Details":
-				return <ProfessionalDetails onChange={handleFormChange} />;
+				return (
+					<ProfessionalDetails
+						onChange={handleFormChange}
+						formData={formData.professionalDetails}
+					/>
+				);
 			case "Educational Details":
-				return <EducationalDetails onChange={handleFormChange} />;
+				return (
+					<EducationalDetails
+						onChange={handleFormChange}
+						formData={formData.educationalDetails}
+					/>
+				);
 			case "Reference":
-				return <Reference onChange={handleFormChange} />;
+				return (
+					<Reference
+						onChange={handleFormChange}
+						formData={formData.reference}
+					/>
+				);
 			case "Food Safety Questionnaire":
-				return <FoodSafetyQuestionnaire onChange={handleFormChange} />;
+				return (
+					<FoodSafetyQuestionnaire
+						onChange={handleFormChange}
+						formData={formData.foodSafetyQuestionnaire}
+					/>
+				);
 			case "Health and Disability":
-				return <HealthAndDisability onChange={handleFormChange} />;
+				return (
+					<HealthAndDisability
+						onChange={handleFormChange}
+						formData={formData.healthAndDisability}
+					/>
+				);
 			case "Bank Details":
-				return <BankDetails onChange={handleFormChange} />;
+				return (
+					<BankDetails
+						onChange={handleFormChange}
+						formData={formData.bankDetails}
+					/>
+				);
 			case "Agreement Consent":
-				return <AgreementConsent onChange={handleFormChange} />;
+				return (
+					<AgreementConsent
+						onChange={handleFormChange}
+						formData={formData.agreementConsent}
+					/>
+				);
 			default:
 				return null;
 		}
 	};
+
 	return (
 		<>
 			<OnboardingTopNav />
@@ -215,27 +284,13 @@ const Onboarding = () => {
 					{validationErrors && (
 						<p className="text-red-500">{validationErrors}</p>
 					)}
-					{/* 					
-					<div className="flex justify-between mt-4">
-						<button
-							onClick={handlePrevious}
-							disabled={currentStep === 0}
-							className="bg-gray-300 text-gray-700 px-4 py-2 rounded">
-							Previous
-						</button>
-						<button
-							onClick={handleNext}
-							className="bg-blue-500 text-white px-4 py-2 rounded">
-							{currentStep === steps.length - 1 ? "Submit" : "Next"}
-						</button>
-					</div> */}
 
 					<div className="mt-4">
 						{currentStep > 0 && (
 							<button
 								type="button"
 								onClick={handlePrevious}
-								className="mr-2 p-2 bg-gray-500  text-white px-4 py-2 rounded">
+								className="mr-2 p-2 bg-gray-500 text-white px-4 py-2 rounded">
 								Previous
 							</button>
 						)}
@@ -250,7 +305,7 @@ const Onboarding = () => {
 							<button
 								type="button"
 								onClick={handleNext}
-								className="p-2 bg-green-500 text-white rounded">
+								className="p-2 bg-green-500 text-white px-4 py-2 rounded">
 								Submit
 							</button>
 						)}
