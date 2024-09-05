@@ -4,31 +4,32 @@ const PersonalDetails = ({ formData, onChange }) => {
 	// Initialize state with props
 	const [localFormData, setLocalFormData] = useState(formData);
 
-	// Update state when props change
+	// Sync localFormData when formData prop changes
 	useEffect(() => {
 		setLocalFormData(formData);
 	}, [formData]);
 
-	// console.log("formData Here", localFormData);
-
+	// Handle input changes
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		const updatedFormData = { ...localFormData, [name]: value };
 		setLocalFormData(updatedFormData);
-		onChange(updatedFormData);
+		onChange(updatedFormData); // Notify parent component
 	};
 
+	// Handle file input changes
 	const handleFileChange = (e) => {
 		const file = e.target.files?.[0] || null;
 		const updatedFormData = { ...localFormData, passportPhoto: file };
 		setLocalFormData(updatedFormData);
-		onChange(updatedFormData);
+		onChange(updatedFormData); // Notify parent component
 	};
 
 	return (
 		<div>
 			<h2 className="text-xl font-bold mb-4">Personal Details</h2>
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+				{/* Title */}
 				<div>
 					<label
 						htmlFor="title"
@@ -50,6 +51,7 @@ const PersonalDetails = ({ formData, onChange }) => {
 					</select>
 				</div>
 
+				{/* Date of Birth */}
 				<div>
 					<label
 						htmlFor="dateOfBirth"
@@ -60,12 +62,17 @@ const PersonalDetails = ({ formData, onChange }) => {
 						required
 						type="date"
 						name="dateOfBirth"
-						value={localFormData?.dateOfBirth || ""}
+						value={
+							localFormData?.dateOfBirth
+								? new Date(localFormData.dateOfBirth).toISOString().slice(0, 10)
+								: ""
+						}
 						onChange={handleChange}
 						className="w-full p-2 border border-gray-300 rounded mt-1"
 					/>
 				</div>
 
+				{/* Gender */}
 				<div>
 					<label
 						htmlFor="gender"
@@ -85,6 +92,7 @@ const PersonalDetails = ({ formData, onChange }) => {
 					</select>
 				</div>
 
+				{/* National Insurance Number */}
 				<div>
 					<label
 						htmlFor="nationalInsuranceNumber"
@@ -102,102 +110,7 @@ const PersonalDetails = ({ formData, onChange }) => {
 					/>
 				</div>
 
-				<div>
-					<label
-						htmlFor="address"
-						className="block text-sm font-medium text-gray-700">
-						Address
-					</label>
-					<input
-						type="text"
-						name="address"
-						value={localFormData?.address || ""}
-						onChange={handleChange}
-						placeholder="Address"
-						className="w-full p-2 border border-gray-300 rounded mt-1"
-					/>
-				</div>
-
-				<div>
-					<label
-						htmlFor="city"
-						className="block text-sm font-medium text-gray-700">
-						City
-					</label>
-					<input
-						type="text"
-						name="city"
-						value={localFormData?.city || ""}
-						onChange={handleChange}
-						placeholder="City"
-						className="w-full p-2 border border-gray-300 rounded mt-1"
-					/>
-				</div>
-
-				<div>
-					<label
-						htmlFor="country"
-						className="block text-sm font-medium text-gray-700">
-						Country
-					</label>
-					<input
-						type="text"
-						name="country"
-						value={localFormData?.country || ""}
-						onChange={handleChange}
-						placeholder="Country"
-						className="w-full p-2 border border-gray-300 rounded mt-1"
-					/>
-				</div>
-
-				<div>
-					<label
-						htmlFor="phoneNumber"
-						className="block text-sm font-medium text-gray-700">
-						Phone Number
-					</label>
-					<input
-						type="text"
-						name="phoneNumber"
-						value={localFormData?.phoneNumber || ""}
-						onChange={handleChange}
-						placeholder="Phone Number"
-						className="w-full p-2 border border-gray-300 rounded mt-1"
-					/>
-				</div>
-
-				<div>
-					<label
-						htmlFor="state"
-						className="block text-sm font-medium text-gray-700">
-						State
-					</label>
-					<input
-						type="text"
-						name="state"
-						value={localFormData?.state || ""}
-						onChange={handleChange}
-						placeholder="State"
-						className="w-full p-2 border border-gray-300 rounded mt-1"
-					/>
-				</div>
-
-				<div>
-					<label
-						htmlFor="zipCode"
-						className="block text-sm font-medium text-gray-700">
-						Zip Code
-					</label>
-					<input
-						type="text"
-						name="zipCode"
-						value={localFormData?.zipCode || ""}
-						onChange={handleChange}
-						placeholder="Zip Code"
-						className="w-full p-2 border border-gray-300 rounded mt-1"
-					/>
-				</div>
-
+				{/* Passport Photo */}
 				<div className="col-span-2">
 					<label
 						htmlFor="passportPhoto"

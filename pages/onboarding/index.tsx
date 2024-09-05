@@ -61,8 +61,10 @@ const Onboarding = () => {
 	useEffect(() => {
 		const fetchApplicantData = async () => {
 			try {
+				// Ensure both token and applicationNo are available before making the request
 				if (!token || !applicationNo) {
-					throw new Error("Session or application number is missing.");
+					console.warn("Session or application number is missing.");
+					return; // Exit early if either token or applicationNo is missing
 				}
 
 				const response = await fetch(
@@ -86,9 +88,20 @@ const Onboarding = () => {
 			}
 		};
 
-		fetchApplicantData();
+		// Only fetch data if both token and applicationNo exist
+		if (token && applicationNo) {
+			fetchApplicantData();
+		}
 	}, [token, applicationNo]);
 
+	// useEffect to check if formData is properly updated
+	useEffect(() => {
+		if (formData && Object.keys(formData).length > 0) {
+			console.log("FormData updated:", formData);
+		}
+	}, [formData]);
+
+	// ValidateStepData function
 	const validateStepData = () => {
 		const currentStepName = steps[currentStep];
 		let isValid = true;
@@ -96,12 +109,16 @@ const Onboarding = () => {
 
 		switch (currentStepName) {
 			case "Personal Details":
-				if (!formData.title || !formData.dateOfBirth) {
+				if (!formData.personalDetails?.title) {
 					errors.title = "Title is required";
+					isValid = false;
+				}
+				if (!formData.personalDetails?.dateOfBirth) {
 					errors.dateOfBirth = "Date of Birth is required";
 					isValid = false;
 				}
 				break;
+			// Add other cases for validation of different steps if needed
 			default:
 				break;
 		}
@@ -141,9 +158,9 @@ const Onboarding = () => {
 			}
 
 			await fetch(
-				`${process.env.NEXT_PUBLIC_BASE_URL}/auth/users/update-onboarding-step`,
+				`${process.env.NEXT_PUBLIC_BASE_URL}/users/update-onboarding-step`,
 				{
-					method: "POST",
+					method: "PATCH",
 					headers: {
 						"Content-Type": "application/json",
 						Authorization: `Bearer ${token}`,
@@ -177,7 +194,13 @@ const Onboarding = () => {
 	};
 
 	const handleFormChange = (data: any) => {
-		setFormData((prev: any) => ({ ...prev, ...data }));
+		setFormData((prev: any) => ({
+			...prev,
+			personalDetails: {
+				...prev.personalDetails,
+				...data, // Ensure the correct field is updated
+			},
+		}));
 	};
 
 	// console.log("--Data", formData);

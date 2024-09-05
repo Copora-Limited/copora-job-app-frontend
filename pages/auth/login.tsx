@@ -2,10 +2,8 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
-import { getCsrfToken } from "next-auth/react";
-import { CtxOrReq } from "next-auth/client/_utils";
 
-const Login = ({ csrfToken }) => {
+const Login = () => {
 	const router = useRouter();
 	const [email, setEmail] = useState("sakinropo@gmail.com");
 	const [password, setPassword] = useState("Akinshafi@91");
@@ -100,11 +98,7 @@ const Login = ({ csrfToken }) => {
 					onSubmit={handleSubmit}
 					className="space-y-4">
 					{error && <p className="text-red-500 text-center mb-4">{error}</p>}
-					<input
-						name="csrfToken"
-						type="hidden"
-						defaultValue={csrfToken}
-					/>
+
 					<div className="flex flex-col">
 						<label
 							htmlFor="email"
@@ -191,13 +185,5 @@ const Login = ({ csrfToken }) => {
 		</div>
 	);
 };
-
-export async function getServerSideProps(context: CtxOrReq | undefined) {
-	return {
-		props: {
-			csrfToken: await getCsrfToken(context),
-		},
-	};
-}
 
 export default Login;
