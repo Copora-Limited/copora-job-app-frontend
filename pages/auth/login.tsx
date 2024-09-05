@@ -2,15 +2,19 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react";
 import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 const Login = () => {
 	const router = useRouter();
-	const [email, setEmail] = useState("sakinropo@gmail.com");
-	const [password, setPassword] = useState("Akinshafi@91");
+	const [email, setEmail] = useState("");
+	const [password, setPassword] = useState("");
 	const [error, setError] = useState<string | null>(null);
 	const [loading, setLoading] = useState(false);
 	const [redirectTimeout, setRedirectTimeout] = useState(5);
 	const [showRedirectButton, setShowRedirectButton] = useState(false);
+	const [showPassword, setShowPassword] = useState(false);
+	const [isDarkMode, setIsDarkMode] = useState(false); // Example state for dark mode
 
 	useEffect(() => {
 		let timer: NodeJS.Timeout | undefined;
@@ -80,6 +84,9 @@ const Login = () => {
 		router.push(`/login-with-code?email=${encodeURIComponent(email)}`);
 	};
 
+	const togglePasswordVisibility = () => {
+		setShowPassword((prev) => !prev);
+	};
 	return (
 		<div className="flex items-center justify-center min-h-screen bg-primary text-white p-4">
 			<div className="bg-white text-black rounded-lg shadow-lg p-8 max-w-md w-full">
@@ -114,20 +121,29 @@ const Login = () => {
 							className="p-2 border border-gray-300 rounded"
 						/>
 					</div>
-					<div className="flex flex-col">
-						<label
-							htmlFor="password"
-							className="mb-2 text-lg">
-							Password:
-						</label>
+					<div className="relative mb-6">
 						<input
-							type="password"
-							id="password"
+							type={showPassword ? "text" : "password"}
+							placeholder="Password"
 							value={password}
 							onChange={(e) => setPassword(e.target.value)}
-							required
-							className="p-2 border border-gray-300 rounded"
+							className={`w-full px-3 py-2 border rounded-full text-lg focus:outline-none focus:ring-2 ${
+								isDarkMode
+									? "bg-gray-700 border-gray-600 text-white focus:ring-cyan-600"
+									: "bg-white border-gray-300 text-gray-900 focus:ring-cyan-500"
+							}`}
 						/>
+						<button
+							type="button"
+							onClick={togglePasswordVisibility}
+							className="absolute inset-y-0 right-0 flex items-center pr-3">
+							<FontAwesomeIcon
+								icon={showPassword ? faEyeSlash : faEye}
+								className={`h-5 w-5 ${
+									isDarkMode ? "text-gray-300" : "text-gray-500"
+								}`}
+							/>
+						</button>
 					</div>
 					<button
 						type="submit"
