@@ -18,7 +18,7 @@ const Redirect = () => {
 			if (role === "applicant") {
 				if (resetPassword) {
 					// Check onboarding step and redirect accordingly
-					if (onboardingStep < 2) {
+					if (onboardingStep < 9) {
 						router.push(`/onboarding?step=${onboardingStep}`);
 					} else {
 						// Redirect applicants with resetPassword set to true and onboardingStep >= 2 to /applicant

@@ -4,7 +4,7 @@ import PersonalDetails from "@/components/onboarding/PersonalDetails";
 import ContactDetails from "@/components/onboarding/ContactDetails";
 import ProfessionalDetails from "@/components/onboarding/ProfessionalDetails";
 import EducationalDetails from "@/components/onboarding/EducationalDetails";
-import Reference from "@/components/onboarding/Reference";
+// import Reference from "@/components/onboarding/Reference";
 import FoodSafetyQuestionnaire from "@/components/onboarding/FoodSafetyQuestionnaire";
 import HealthAndDisability from "@/components/onboarding/HealthAndDisability";
 import BankDetails from "@/components/onboarding/BankDetails";
@@ -30,7 +30,7 @@ const Onboarding = () => {
 		"Contact Details",
 		"Professional Details",
 		"Educational Details",
-		"Reference",
+		// "Reference",
 		"Food Safety Questionnaire",
 		"Health and Disability",
 		"Bank Details",
@@ -42,7 +42,7 @@ const Onboarding = () => {
 		"contact-details",
 		"professional-details",
 		"educational-details",
-		"reference",
+		// "reference",
 		"food-safety-questionnaire",
 		"health-and-disability",
 		"bank-details",
@@ -205,101 +205,72 @@ const Onboarding = () => {
 		}));
 	};
 
-	// console.log("--Data", formData);
-	// const renderStepContent = () => {
-	// 	switch (steps[currentStep]) {
-	// 		case "Personal Details":
-	// 			return (
-	// 				<PersonalDetails
-	// 					onChange={handleFormChange}
-	// 					formData={formData.personalDetails}
-	// 				/>
-	// 			);
-	// 		case "Contact Details":
-	// 			return (
-	// 				<ContactDetails
-	// 					onChange={handleFormChange}
-	// 					formData={formData.contactDetails}
-	// 				/>
-	// 			);
-	// 		case "Professional Details":
-	// 			return (
-	// 				<ProfessionalDetails
-	// 					onChange={handleFormChange}
-	// 					formData={formData.professionalDetails}
-	// 				/>
-	// 			);
-	// 		case "Educational Details":
-	// 			return (
-	// 				<EducationalDetails
-	// 					onChange={handleFormChange}
-	// 					formData={formData.educationalDetails}
-	// 				/>
-	// 			);
-	// 		case "Reference":
-	// 			return (
-	// 				<Reference
-	// 					onChange={handleFormChange}
-	// 					formData={formData.reference}
-	// 				/>
-	// 			);
-	// 		case "Food Safety Questionnaire":
-	// 			return (
-	// 				<FoodSafetyQuestionnaire
-	// 					onChange={handleFormChange}
-	// 					formData={formData.foodSafetyQuestionnaire}
-	// 				/>
-	// 			);
-	// 		case "Health and Disability":
-	// 			return (
-	// 				<HealthAndDisability
-	// 					onChange={handleFormChange}
-	// 					formData={formData.healthAndDisability}
-	// 				/>
-	// 			);
-	// 		case "Bank Details":
-	// 			return (
-	// 				<BankDetails
-	// 					onChange={handleFormChange}
-	// 					formData={formData.bankDetails}
-	// 				/>
-	// 			);
-	// 		case "Agreement Consent":
-	// 			return (
-	// 				<AgreementConsent
-	// 					onChange={handleFormChange}
-	// 					formData={formData.agreementConsent}
-	// 				/>
-	// 			);
-	// 		default:
-	// 			return null;
-	// 	}
-	// };
 	const renderStepContent = () => {
 		const currentStepName = steps[currentStep];
-		const stepData =
-			formData[currentStepName.toLowerCase().replace(/\s+/g, "")];
 
+		// formData
 		switch (currentStepName) {
 			case "Personal Details":
 				return (
 					<PersonalDetails
 						onChange={handleFormChange}
-						formData={stepData}
+						formData={formData.personalDetails}
 					/>
 				);
 			case "Contact Details":
 				return (
 					<ContactDetails
 						onChange={handleFormChange}
-						formData={stepData}
+						formData={formData.contactDetails}
 					/>
 				);
 			case "Professional Details":
 				return (
 					<ProfessionalDetails
 						onChange={handleFormChange}
-						formData={stepData}
+						formData={formData.professionalDetails}
+					/>
+				);
+			case "Educational Details":
+				return (
+					<EducationalDetails
+						onChange={handleFormChange}
+						formData={formData.educationalDetails}
+					/>
+				);
+			// case "Reference":
+			// 	return (
+			// 		<Reference
+			// 			onChange={handleFormChange}
+			// 			formData={formData.reference}
+			// 		/>
+			// 	);
+			case "Food Safety Questionnaire":
+				return (
+					<FoodSafetyQuestionnaire
+						onChange={handleFormChange}
+						formData={formData.foodSafetyQuestionnaire}
+					/>
+				);
+			case "Health and Disability":
+				return (
+					<HealthAndDisability
+						onChange={handleFormChange}
+						formData={formData.healthAndDisability}
+					/>
+				);
+			case "Bank Details":
+				return (
+					<BankDetails
+						onChange={handleFormChange}
+						formData={formData.bankDetails}
+					/>
+				);
+			case "Agreement Consent":
+				return (
+					<AgreementConsent
+						onChange={handleFormChange}
+						formData={formData.agreementConsent}
 					/>
 				);
 			// Add other cases similarly
