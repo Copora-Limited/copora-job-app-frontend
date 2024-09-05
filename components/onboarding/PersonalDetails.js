@@ -20,7 +20,7 @@ const PersonalDetails = ({ formData, onChange }) => {
 
 	const handleFileChange = (e) => {
 		const file = e.target.files?.[0] || null;
-		const updatedFormData = { ...formData, profilePicture: file };
+		const updatedFormData = { ...formData, passportPhoto: file };
 		setFormData(updatedFormData);
 		onChange(updatedFormData);
 	};
@@ -200,13 +200,13 @@ const PersonalDetails = ({ formData, onChange }) => {
 
 				<div className="col-span-2">
 					<label
-						htmlFor="profilePicture"
+						htmlFor="passportPhoto"
 						className="block text-sm font-medium text-gray-700">
 						Passport Photo
 					</label>
 					<input
 						type="file"
-						name="profilePicture"
+						name="passportPhoto"
 						onChange={handleFileChange}
 						className="w-full p-2 border border-gray-300 rounded mt-1"
 					/>
