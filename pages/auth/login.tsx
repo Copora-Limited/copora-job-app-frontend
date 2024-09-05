@@ -93,7 +93,7 @@ const Login = ({ csrfToken }) => {
 					</Link>
 				</h4>
 				<div className="mb-4 text-2xl font-bold text-gray-600 text-center">
-					LogIn
+					Login
 				</div>
 
 				<form

@@ -9,7 +9,7 @@ const PersonalDetails = ({ formData, onChange }) => {
 		setLocalFormData(formData);
 	}, [formData]);
 
-	console.log("formData Here", localFormData);
+	// console.log("formData Here", localFormData);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -20,8 +20,8 @@ const PersonalDetails = ({ formData, onChange }) => {
 
 	const handleFileChange = (e) => {
 		const file = e.target.files?.[0] || null;
-		const updatedFormData = { ...formData, passportPhoto: file };
-		setFormData(updatedFormData);
+		const updatedFormData = { ...localFormData, passportPhoto: file };
+		setLocalFormData(updatedFormData);
 		onChange(updatedFormData);
 	};
 
