@@ -108,11 +108,12 @@ const ListUsersPage: React.FC<ListUsersPageProps> = ({
 						<h1 className="text-2xl font-bold">All Admin User</h1>
 						<Link
 							href={`/admin/create?role=${role}`}
-							className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg">
+							className="bg-primary hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg">
 							Create New
 						</Link>
 					</div>
-					<div className="overflow-x-auto">
+
+					<div className="relative overflow-x-auto">
 						<table className="min-w-full bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md">
 							<thead className="bg-gray-200 dark:bg-gray-700">
 								<tr>
@@ -148,7 +149,6 @@ const ListUsersPage: React.FC<ListUsersPageProps> = ({
 											)}
 										</td>
 										<td className="p-4 border-b">
-											{/* {user.twoFactorEnabled ? "Enabled" : "Disabled"} */}
 											{user.role == "admin" ? (
 												<span className="text-green-600 font-semibold">
 													Admin
@@ -159,14 +159,14 @@ const ListUsersPage: React.FC<ListUsersPageProps> = ({
 												</span>
 											)}
 										</td>
-										<td className="p-4 border-b text-right">
+										<td className="p-4 border-b text-right relative">
 											<Menu
 												as="div"
 												className="relative">
 												<Menu.Button className="text-gray-500 hover:text-gray-900 dark:hover:text-gray-300">
 													<FontAwesomeIcon icon={faEllipsisVertical} />
 												</Menu.Button>
-												<Menu.Items className="absolute right-0 w-48 mt-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg">
+												<Menu.Items className="absolute right-0 w-48 mt-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50">
 													<div className="p-1">
 														<Menu.Item>
 															{({ active }) => (
