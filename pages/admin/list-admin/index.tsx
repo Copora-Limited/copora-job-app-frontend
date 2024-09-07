@@ -113,7 +113,7 @@ const ListUsersPage: React.FC<ListUsersPageProps> = ({
 						</Link>
 					</div>
 
-					<div className="relative overflow-x-auto">
+					<div className=" overflow-x-auto">
 						<table className="min-w-full bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md">
 							<thead className="bg-gray-200 dark:bg-gray-700">
 								<tr>
@@ -159,19 +159,19 @@ const ListUsersPage: React.FC<ListUsersPageProps> = ({
 												</span>
 											)}
 										</td>
-										<td className="p-4 border-b text-right relative">
+										<td className="p-4 border-b text-right ">
 											<Menu
 												as="div"
-												className="relative">
+												className="">
 												<Menu.Button className="text-gray-500 hover:text-gray-900 dark:hover:text-gray-300">
 													<FontAwesomeIcon icon={faEllipsisVertical} />
 												</Menu.Button>
-												<Menu.Items className="absolute right-0 w-48 mt-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50">
+												<Menu.Items className="absolute z-100 right-14 w-40 mt-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg ">
 													<div className="p-1">
 														<Menu.Item>
 															{({ active }) => (
 																<Link
-																	href={`/admin/view/${user.id}`}
+																	href={`/admin/list-admin/view/${user.id}`}
 																	className={`${
 																		active ? "bg-gray-100 dark:bg-gray-600" : ""
 																	} flex items-center w-full p-2 text-gray-900 dark:text-gray-100`}>
@@ -183,7 +183,7 @@ const ListUsersPage: React.FC<ListUsersPageProps> = ({
 														<Menu.Item>
 															{({ active }) => (
 																<Link
-																	href={`/admin/edit/${user.id}`}
+																	href={`/admin/list-admin/${user.id}`}
 																	className={`${
 																		active ? "bg-gray-100 dark:bg-gray-600" : ""
 																	} flex items-center w-full p-2 text-gray-900 dark:text-gray-100`}>

@@ -178,7 +178,7 @@ const ListUsersPage: React.FC<ListUsersPageProps> = ({
 														<Menu.Item>
 															{({ active }) => (
 																<Link
-																	href={`/admin/view/${user.id}`}
+																	href={`/admin/list-applicants/view/${user.id}`}
 																	className={`${
 																		active ? "bg-gray-100 dark:bg-gray-600" : ""
 																	} flex items-center w-full p-2 text-gray-900 dark:text-gray-100`}>
@@ -190,7 +190,7 @@ const ListUsersPage: React.FC<ListUsersPageProps> = ({
 														<Menu.Item>
 															{({ active }) => (
 																<Link
-																	href={`/admin/edit/${user.id}`}
+																	href={`/admin/list-applicants/${user.id}`}
 																	className={`${
 																		active ? "bg-gray-100 dark:bg-gray-600" : ""
 																	} flex items-center w-full p-2 text-gray-900 dark:text-gray-100`}>
