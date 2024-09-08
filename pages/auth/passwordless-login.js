@@ -53,14 +53,17 @@ const PasswordlessLogin = () => {
 					{success && (
 						<p className="text-green-500 text-center mb-4">{success}</p>
 					)}
-					{error && <p className="text-red-500 text-center mb-4">{error}</p>}
+					{error && <p className="text-red-500 text-center mb-2">{error}</p>}
 					<div className="flex flex-col">
-						<label
-							htmlFor="email"
-							className="mb-2 text-lg">
-							Email:
-						</label>
+						<div className="mb-2 text-center">
+							<label
+								htmlFor="email"
+								className=" text-sm">
+								Ditch the password hassle! Enjoy secure, password-free login
+							</label>
+						</div>
 						<input
+							placeholder="Enter registered email"
 							type="email"
 							id="email"
 							value={email}
@@ -78,6 +81,16 @@ const PasswordlessLogin = () => {
 						{loading ? "Sending..." : "Send Code"}
 					</button>
 				</form>
+				<div className="mt-4 text-center">
+					<p>
+						Back to password{" "}
+						<Link
+							href="/auth/login"
+							className="text-secondary">
+							Login
+						</Link>
+					</p>
+				</div>
 			</div>
 		</div>
 	);

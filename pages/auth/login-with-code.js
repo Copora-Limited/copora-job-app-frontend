@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import { verifyTwoFactor } from "@/hooks/useAuth"; // Adjust the path as necessary
+import Link from "next/link";
 
 const LoginWithCode = () => {
 	const router = useRouter();
@@ -29,14 +30,24 @@ const LoginWithCode = () => {
 	};
 
 	return (
-		<div style={{ padding: "20px", maxWidth: "600px", margin: "auto" }}>
-			<div className="contact-form-area">
-				<h5>Enter Two-Factor Code</h5>
+		<div className="flex items-center justify-center min-h-screen bg-primary text-white p-4">
+			<div className="bg-white text-black rounded-lg shadow-lg p-8 max-w-md w-full">
+				<h4 className="text-xl font-bold mb-4 text-center uppercase">
+					<Link
+						href="/"
+						className="text-secondary">
+						{process.env.NEXT_PUBLIC_APP_NAME}
+					</Link>
+				</h4>
+				<div className="mb-4 text-2xl font-bold text-gray-600 text-center">
+					Login with code
+				</div>
+				{/* <h5>Enter Two-Factor Code</h5> */}
 				<form onSubmit={handleSubmit}>
 					<div
 						className="form-inner"
 						style={{ marginBottom: "15px" }}>
-						<label htmlFor="code">Code:</label>
+						<label htmlFor="code">Enter Code received in your email:</label>
 						<input
 							type="text"
 							id="code"
@@ -47,16 +58,13 @@ const LoginWithCode = () => {
 							style={{ width: "100%", padding: "8px" }}
 						/>
 					</div>
+
 					<button
 						type="submit"
-						disabled={loading}
-						className="btn btn-dark"
-						style={{
-							padding: "10px 20px",
-							borderRadius: "5px",
-							cursor: "pointer",
-							width: "100%",
-						}}>
+						className={`w-full p-2 rounded bg-secondary text-white hover:bg-teal-700 transition ${
+							loading ? "opacity-50 cursor-not-allowed" : ""
+						}`}
+						disabled={loading}>
 						{loading ? "Verifying..." : "Verify Code"}
 					</button>
 				</form>

@@ -7,7 +7,7 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 const Login = () => {
 	const router = useRouter();
-	const [email, setEmail] = useState("ezetenduwilliams@gmail.com");
+	const [email, setEmail] = useState("engineering@copora.com");
 	const [password, setPassword] = useState("Test@123");
 	const [error, setError] = useState<string | null>(null);
 	const [loading, setLoading] = useState(false);

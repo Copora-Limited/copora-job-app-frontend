@@ -110,7 +110,7 @@
   
   export const sendResetPasswordEmail = async (email: string) => {
     // const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/users/forgot-password`, { 
-    const response = await fetch("https://copora-job-api.onrender.com/users/forget-password", { 
+    const response = await fetch("https://seashell-app-xpacn.ondigitalocean.app/users/forget-password", { 
     
       // Adjust URL as necessary
       method: 'POST',
