@@ -1,33 +1,54 @@
 import React, { useState, useEffect } from "react";
 
 const PersonalDetails = ({ formData, onChange }) => {
-	// Initialize state with props
 	const [localFormData, setLocalFormData] = useState(formData);
 
-	// Sync localFormData when formData prop changes
+	useEffect(() => {
+		// Check if LinkedIn user data is in localStorage
+		const linkedinData = localStorage.getItem("linkedinUserData");
+		if (linkedinData) {
+			const parsedData = JSON.parse(linkedinData);
+			setLocalFormData((prevData) => ({
+				...prevData,
+				title: parsedData.title || "",
+				dateOfBirth: parsedData.dateOfBirth || "",
+				gender: parsedData.gender || "",
+				nationalInsuranceNumber: parsedData.nationalInsuranceNumber || "",
+				passportPhoto: prevData.passportPhoto || "",
+			}));
+			localStorage.removeItem("linkedinUserData"); // Clear the data after use
+		}
+	}, []);
+
 	useEffect(() => {
 		setLocalFormData(formData);
 	}, [formData]);
 
-	// Handle input changes
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		const updatedFormData = { ...localFormData, [name]: value };
 		setLocalFormData(updatedFormData);
-		onChange(updatedFormData); // Notify parent component
+		onChange(updatedFormData);
 	};
 
-	// Handle file input changes
 	const handleFileChange = (e) => {
 		const file = e.target.files?.[0] || null;
 		const updatedFormData = { ...localFormData, passportPhoto: file };
 		setLocalFormData(updatedFormData);
-		onChange(updatedFormData); // Notify parent component
+		onChange(updatedFormData);
 	};
 
 	return (
 		<div>
+			<div className="mb-3">
+				<button
+					className="bg-secondary text-white px-4 py-2 rounded"
+					onClick={() => (window.location.href = "/auth/linkedin")}>
+					Prefill with LinkedIn
+				</button>
+			</div>
 			<h2 className="text-xl font-bold mb-4">Personal Details</h2>
+
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 				{/* Title */}
 				<div>
