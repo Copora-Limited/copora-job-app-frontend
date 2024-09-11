@@ -306,7 +306,7 @@ const Onboarding = () => {
 				</div>
 				<div className="w-full md:w-3/4 p-4">
 					<h1 className="mb-4">Welcome {userData?.name}</h1>
-					
+
 					{renderStepContent()}
 
 					{error && <p className="text-red-500">{error}</p>}
@@ -314,7 +314,7 @@ const Onboarding = () => {
 						<p className="text-red-500">{validationErrors}</p>
 					)}
 
-					<div className="mt-4">
+					<div className="mt-4 flex justify-between">
 						{currentStep > 0 && (
 							<button
 								type="button"

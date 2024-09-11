@@ -40,11 +40,11 @@ const PersonalDetails = ({ formData, onChange }) => {
 
 	return (
 		<div>
-			<div className="mb-3">
+			<div className="mb-3 flex justify-end">
 				<button
-					className="bg-secondary text-white px-4 py-2 rounded"
+					className="bg-blue-800 text-white px-4 py-2 rounded"
 					onClick={() => (window.location.href = "/auth/linkedin")}>
-					Prefill with LinkedIn
+					Apply with LinkedIn
 				</button>
 			</div>
 			<h2 className="text-xl font-bold mb-4">Personal Details</h2>
