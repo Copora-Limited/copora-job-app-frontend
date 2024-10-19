@@ -16,19 +16,19 @@ const Redirect = () => {
 			const { role, email, resetPassword, onboardingStep } = session.user;
 			console.log("User", session?.user);
 			if (role === "applicant") {
-				if (resetPassword) {
+				// if (resetPassword) {
 					// Check onboarding step and redirect accordingly
-					if (onboardingStep < 2) {
+					if (onboardingStep < 11) {
 						router.push(`/onboarding?step=${onboardingStep}`);
 					} else {
 						// Redirect applicants with resetPassword set to true and onboardingStep >= 2 to /applicant
 						router.push("/applicant");
 					}
 					return;
-				}
+				// }
 
 				// Redirect to notify-me if resetPassword is false
-				router.push(`/auth/notify-me?email=${email}&new=true`);
+				// router.push(`/auth/notify-me?email=${email}&new=true`);
 			} else if (role === "admin") {
 				// Redirect admins to /admin
 				router.push("/admin");

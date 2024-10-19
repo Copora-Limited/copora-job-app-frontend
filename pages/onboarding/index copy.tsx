@@ -3,8 +3,6 @@ import { useRouter } from "next/router";
 import PersonalDetails from "@/components/onboarding/PersonalDetails";
 import ContactDetails from "@/components/onboarding/ContactDetails";
 import GeneralInformation from "@/components/onboarding/GeneralInformation";
-import NextOfKin from "@/components/onboarding/NextOfKin";
-
 import ProfessionalDetails from "@/components/onboarding/ProfessionalDetails";
 import EducationalDetails from "@/components/onboarding/EducationalDetails";
 import Reference from "@/components/onboarding/Reference";
@@ -16,7 +14,8 @@ import { useSession } from "next-auth/react";
 import { useSessionContext } from "@/context/SessionContext"; // Use the custom session context
 import OnboardingTopNav from "@/components/OnboardingTopNav";
 import SideBarNavOnboarding from "@/components/SideBarNavOnboarding";
-import { Spin } from "antd";
+import { ClipLoader } from 'react-spinners';
+import { ThreeDots } from 'react-loader-spinner';
 
 
 const Onboarding = () => {
@@ -238,13 +237,6 @@ const Onboarding = () => {
 						formData={formData.generalInformation}
 					/>
 				);
-			case "Next of Kin Details":
-				return (
-					<NextOfKin
-						onChange={handleFormChange}
-						formData={formData.nextOfKin}
-					/>
-				);
 			case "Professional Details":
 				return (
 					<ProfessionalDetails
@@ -314,10 +306,7 @@ const Onboarding = () => {
 				<h1 className="mb-4">Welcome {userData?.name}</h1>
 
 				{loading ? (
-					<div className="loader-overlay">
-						<div className="loader"></div>
-					</div>
-					
+					 <ThreeDots color="#00BFFF" height={80} width={80} />
 				) : (
 					renderStepContent()
 				)}
@@ -339,26 +328,20 @@ const Onboarding = () => {
 					</button>
 				)}
 
-				   {currentStep < steps.length - 1 ? (
+					{currentStep < steps.length - 1 ? (
 						<button
 							type="button"
 							onClick={handleNext}
-							disabled={saving} // Disable button when saving is true
-							className={`w-full h-[44px] flex items-center justify-center gap-2 ${
-								saving ? 'bg-[#D0D5DD] text-white cursor-not-allowed' : 'bg-teal-700 hover:bg-teal-900'
-							} transition duration-500 text-white border border-[#667080] rounded-[100px] md:text-[16px] text-[13px] font-semibold px-[12px]`}
+							className="w-full h-[44px] flex items-center justify-center gap-2 bg-teal-700 hover:bg-teal-900 transition duration-500 text-white border border-[#667080] rounded-[100px] md:text-[16px] text-[13px] font-semibold px-[12px] disabled:bg-[#D0D5DD] disabled:text-white disabled:cursor-not-allowed disabled:border-none click_btn"
 						>
-							{saving ? 'Saving...' : 'Save & Next'}
+								Save & Next
 						</button>
 					) : (
 						<button
 							type="submit"
-							disabled={saving} // Disable button when saving is true
-							className={`w-full h-[44px] flex items-center justify-center gap-2 ${
-								saving ? 'bg-[#D0D5DD] text-white cursor-not-allowed' : 'bg-appGreen hover:bg-teal-700'
-							} transition duration-500 text-white border border-[#667080] rounded-[100px] md:text-[16px] text-[13px] font-semibold px-[12px]`}
+							className="w-full h-[44px] flex items-center justify-center gap-2 bg-appGreen hover:bg-teal-700 transition duration-500 text-white border border-[#667080] rounded-[100px] md:text-[16px] text-[13px] font-semibold px-[12px] disabled:bg-[#D0D5DD] disabled:text-white disabled:cursor-not-allowed disabled:border-none click_btn"
 						>
-							{saving ? 'Submitting...' : 'Submit'}
+							Submit
 						</button>
 					)}
 				</div>

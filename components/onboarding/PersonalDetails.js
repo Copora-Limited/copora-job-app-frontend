@@ -1,7 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import Image from "next/image";
+import UploadBtn from "@/components/Custom/Buttons/UploadBtn";
 
 const PersonalDetails = ({ formData, onChange }) => {
 	const [localFormData, setLocalFormData] = useState(formData);
+	const [profilePic, setProfilePic] = useState("");
+	const fileRef = useRef(null);
 
 	useEffect(() => {
 		// Check if LinkedIn user data is in localStorage
@@ -10,11 +14,9 @@ const PersonalDetails = ({ formData, onChange }) => {
 			const parsedData = JSON.parse(linkedinData);
 			setLocalFormData((prevData) => ({
 				...prevData,
-				title: parsedData.title || "",
 				dateOfBirth: parsedData.dateOfBirth || "",
 				gender: parsedData.gender || "",
 				nationalInsuranceNumber: parsedData.nationalInsuranceNumber || "",
-				passportPhoto: prevData.passportPhoto || "",
 			}));
 			localStorage.removeItem("linkedinUserData"); // Clear the data after use
 		}
@@ -31,47 +33,54 @@ const PersonalDetails = ({ formData, onChange }) => {
 		onChange(updatedFormData);
 	};
 
-	const handleFileChange = (e) => {
-		const file = e.target.files?.[0] || null;
-		const updatedFormData = { ...localFormData, passportPhoto: file };
+	const handlePhotoFileChange = (e) => {
+		if (!e.target.files) return;
+		const selectedFile = e.target.files[0];
+		setProfilePic(URL.createObjectURL(selectedFile));
+		const updatedFormData = { ...localFormData, passportPhoto: selectedFile };
 		setLocalFormData(updatedFormData);
-		onChange(updatedFormData);
+		onChange(updatedFormData); // Update the passport photo in the formData
+	};
+
+	const handleClick = () => {
+		fileRef.current?.click();
 	};
 
 	return (
 		<div>
-			<div className="mb-3 flex justify-end">
-				<button
-					className="bg-blue-800 text-white px-4 py-2 rounded"
-					onClick={() => (window.location.href = "/auth/linkedin")}>
-					Apply with LinkedIn
-				</button>
-			</div>
 			<h2 className="text-xl font-bold mb-4">Personal Details</h2>
 
-			<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-				{/* Title */}
-				<div>
-					<label
-						htmlFor="title"
-						className="block text-sm font-medium text-gray-700">
-						Title
-					</label>
-					<select
-						required
-						name="title"
-						value={localFormData?.title || ""}
-						onChange={handleChange}
-						className="w-full p-2 border border-gray-300 rounded mt-1">
-						<option value="">Select Title</option>
-						<option value="Mr">Mr</option>
-						<option value="Mrs">Mrs</option>
-						<option value="Miss">Miss</option>
-						<option value="Ms">Ms</option>
-						<option value="Dr">Dr</option>
-					</select>
+			<div className="w-full flex items-center gap-3 mt-8">
+				<input
+					type="file"
+					hidden
+					ref={fileRef}
+					onChange={handlePhotoFileChange}
+					accept="image/*"
+				/>
+
+				<div className="relative w-[60px] h-[60px] rounded-full">
+					<Image
+						src={profilePic || "/assets/img/user-avatar.svg"} // Use next/image for profile picture
+						alt="user"
+						layout="fill" // Fill the parent div
+						className="rounded-full"
+						objectFit="cover" // Ensures the image covers the area
+					/>
+
+					<Image
+						src="/assets/img/verified_tick.svg" // Use next/image for verified tick
+						alt="verified tick"
+						width={19}
+						height={19}
+						className="absolute bottom-0 right-0"
+					/>
 				</div>
 
+				<UploadBtn text="Upload profile" onClick={handleClick} />
+			</div>
+
+			<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 				{/* Date of Birth */}
 				<div>
 					<label
@@ -127,21 +136,6 @@ const PersonalDetails = ({ formData, onChange }) => {
 						value={localFormData?.nationalInsuranceNumber || ""}
 						onChange={handleChange}
 						placeholder="National Insurance Number"
-						className="w-full p-2 border border-gray-300 rounded mt-1"
-					/>
-				</div>
-
-				{/* Passport Photo */}
-				<div className="col-span-2">
-					<label
-						htmlFor="passportPhoto"
-						className="block text-sm font-medium text-gray-700">
-						Passport Photo
-					</label>
-					<input
-						type="file"
-						name="passportPhoto"
-						onChange={handleFileChange}
 						className="w-full p-2 border border-gray-300 rounded mt-1"
 					/>
 				</div>

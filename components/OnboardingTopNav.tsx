@@ -10,7 +10,8 @@ export default function OnboardingTopNav() {
 	};
 
 	return (
-		<div className="bg-gray-800 text-white p-4 flex justify-between items-center">
+		<div className="bg-gray-800 text-white p-1 flex justify-between items-center">
+			
 			{/* App Name */}
 			<div className="text-xl font-bold">
 				<Link

@@ -22,6 +22,6 @@
       "@/*": ["./*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "pages/components/AuctionGridTitleSection.tsx", "pages/auth/login.tsx", "pages/auth/login-with-code.js", "pages/auth/login-without-code.js", "pages/auth/passwordless-login.js", "pages/api/auth/[...nextauth].js", "components/onboarding/PersonalDetails.js", "components/onboarding/ContactDetails.js", "components/onboarding/ProfessionalDetails.js", "components/onboarding/EducationalDetails.js", "components/onboarding/FoodSafetyQuestionnaire.js", "components/onboarding/HealthAndDisability.js", "components/onboarding/BankDetails.js", "components/onboarding/AgreementConsent.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "pages/components/AuctionGridTitleSection.tsx", "pages/auth/login.js", "pages/auth/login-with-code.js", "pages/auth/login-without-code.js", "pages/auth/passwordless-login.js", "pages/api/auth/[...nextauth].js", "components/onboarding/PersonalDetails.js", "components/onboarding/ContactDetails.js", "components/onboarding/ProfessionalDetails.js", "components/onboarding/EducationalDetails.js", "components/onboarding/FoodSafetyQuestionnaire.js", "components/onboarding/HealthAndDisability.js", "components/onboarding/BankDetails.js", "components/onboarding/AgreementConsent.js", "pages/redirect/index.js"],
   "exclude": ["node_modules"]
 }

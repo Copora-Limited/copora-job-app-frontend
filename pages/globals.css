@@ -6,12 +6,111 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: AzoSans_Light;
+  src: url("/src/assets/fonts/AzoSans-Light.ttf");
+}
+
+@font-face {
+  font-family: AzoSans_Medium;
+  src: url("/src/assets/fonts/AzoSans-Medium.ttf");
+}
+
+@font-face {
+  font-family: AzoSans_Regular;
+  src: url("/assets/fonts/AzoSans-Regular.ttf");
+}
+
+@font-face {
+  font-family: AzoSans_Bold;
+  src: url("/assets/fonts/AzoSans-Bold.ttf");
+}
+
+@font-face {
+  font-family: AzoSans_Italic;
+  src: url("/assets/fonts/AzoSans-BlackItalic.ttf");
+}
+
+*,
+*::after,
+*::before {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
 /* Custom colors */
 :root {
   --primary: #032541;
   --secondary: #0d9488;
+  --font-light: AzoSans_Light;
+  --font-medium: AzoSans_Medium;
+  --font-regular: AzoSans_Regular;
+  --font-bold: AzoSans_Bold;
+  --font-italic: AzoSans_Italic;
 }
 
+body {
+  font-family: var(--font-medium);
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* @layer base {
+  body {
+    @apply antialiased w-screen h-screen bg-gradient-to-r from-[#F6FEFD] to-[#FFF6F1] overflow-hidden;
+  }
+
+  ::-webkit-scrollbar {
+    width: 4px;
+    background-color: rgb(214, 214, 214);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    width: 4px;
+    background-color: rgb(167, 167, 167);
+  }
+
+  .scroller-none::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scroller::-webkit-scrollbar {
+    width: 4px;
+    background-color: rgb(214, 214, 214);
+  }
+
+  .scroller::-webkit-scrollbar-thumb {
+    width: 4px;
+    background-color: rgb(167, 167, 167);
+  }
+
+  .click_btn:active {
+    transform: scale(0.9);
+    background-color: #2980b9;
+    transition: all 0.4s;
+  }
+
+  .click_btn.clicked {
+    animation: clickEffect 0.4s ease-out;
+  }
+
+  @keyframes clickEffect {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(0.9);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+} */
 /* Example of using the custom colors */
 .bg-primary {
   background-color: var(--primary);
@@ -27,4 +126,76 @@
 
 .text-secondary {
   color: var(--secondary);
+}
+
+
+
+
+.custom-table .ant-table-thead > tr > th {
+  background-color: #f3f8ff;
+  color: #667085;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.applicant_side {
+  width: calc(100% - 300px);
+}
+
+.saved_animation {
+  animation: saved_slide 4s linear delay 1;
+}
+
+@keyframes saved_slide {
+  0% {
+    opacity: 0;
+    right: -400px;
+  }
+
+  55% {
+    opacity: 1;
+    right: 0px;
+  }
+
+  100% {
+    opacity: 0;
+    right: 400px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .applicant_side {
+    width: 100%;
+  }
+}
+
+/* 
+:where(.css-dev-only-do-not-override-qnu6hi).ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #247A84 !important;
+  text-shadow: 0 0 0.25px currentcolor;
+}
+
+:where(.css-dev-only-do-not-override-qnu6hi).ant-tabs .ant-tabs-tab:hover {
+  color: #247A84 !important;
+}
+
+.custom-tabs .ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: green !important;
+} */
+
+.custom-tabs .ant-tabs-tab {
+  flex: 1;
+  text-align: left;
+  background-color: transparent !important;
+  height: 30px !important;
+  color: #667085;
+  border-bottom: 1px solid #e4e7ec;
+}
+
+.custom-tabs .ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: #247a84 !important;
+}
+
+.custom-tabs .ant-tabs-ink-bar {
+  background-color: #247a84;
 }

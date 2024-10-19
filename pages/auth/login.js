@@ -7,17 +7,17 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 const Login = () => {
 	const router = useRouter();
-	const [email, setEmail] = useState("ezetenduwilliams@gmail.com");
-	const [password, setPassword] = useState("Test@123");
-	const [error, setError] = useState<string | null>(null);
+	const [email, setEmail] = useState("daniel.walker@copora.com");
+	const [password, setPassword] = useState("mPMB6h");
+	const [error, setError] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const [redirectTimeout, setRedirectTimeout] = useState(5);
 	const [showRedirectButton, setShowRedirectButton] = useState(false);
 	const [showPassword, setShowPassword] = useState(false);
 	const [isDarkMode, setIsDarkMode] = useState(false); // Example state for dark mode
-
+	
 	useEffect(() => {
-		let timer: NodeJS.Timeout | undefined;
+		let timer;
 
 		if (redirectTimeout > 0 && showRedirectButton) {
 			timer = setInterval(() => {
@@ -32,7 +32,7 @@ const Login = () => {
 		return () => timer && clearInterval(timer);
 	}, [redirectTimeout, showRedirectButton, router, email]);
 
-	const handleSubmit = async (e: React.FormEvent) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setLoading(true);
 
@@ -44,14 +44,14 @@ const Login = () => {
 			} else {
 				handleError(result);
 			}
-		} catch (error: any) {
+		} catch (error) {
 			setError(error.message || "An unexpected error occurred");
 		} finally {
 			setLoading(false);
 		}
 	};
 
-	const authenticateUser = async (email: string, password: string) => {
+	const authenticateUser = async (email, password) => {
 		return await signIn("credentials", {
 			redirect: false,
 			email,
@@ -59,7 +59,7 @@ const Login = () => {
 		});
 	};
 
-	const handleSuccess = (result: any) => {
+	const handleSuccess = (result) => {
 		if (result.status === 200) {
 			redirectUser(result?.data?.role);
 		} else if (result.status === 403) {
@@ -72,11 +72,11 @@ const Login = () => {
 		}
 	};
 
-	const handleError = (result: any) => {
+	const handleError = (result) => {
 		setError(result.error || "Login failed");
 	};
 
-	const redirectUser = (role: string) => {
+	const redirectUser = (role) => {
 		router.push("/redirect");
 	};
 

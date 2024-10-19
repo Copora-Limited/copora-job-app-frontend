@@ -42,17 +42,53 @@ const ContactDetails = ({ formData, onChange }) => {
 				{/* Street */}
 				<div>
 					<label
-						htmlFor="street"
+						htmlFor="address_line_1"
 						className="block text-sm font-medium text-gray-700">
-						Street
+						address 1
 					</label>
 					<input
 						required
 						type="text"
-						name="street"
-						value={localFormData?.street || ""}
+						name="address_line_1"
+						value={localFormData?.address_line_1 || ""}
 						onChange={handleChange}
-						placeholder="Street Address"
+						placeholder="Address"
+						className="w-full p-2 border border-gray-300 rounded mt-1"
+					/>
+				</div>
+				<div>
+					<label
+						htmlFor="address_line_2"
+						className="block text-sm font-medium text-gray-700">
+						address 2
+					</label>
+					<input
+						required
+						type="text"
+						name="address_line_2"
+						value={localFormData?.address_line_2 || ""}
+						onChange={handleChange}
+						placeholder="Address 2"
+						className="w-full p-2 border border-gray-300 rounded mt-1"
+					/>
+				</div>
+
+
+				
+				{/* Country */}
+				<div>
+					<label
+						htmlFor="country"
+						className="block text-sm font-medium text-gray-700">
+						Country
+					</label>
+					<input
+						required
+						type="text"
+						name="country"
+						value={localFormData?.country || ""}
+						onChange={handleChange}
+						placeholder="Country"
 						className="w-full p-2 border border-gray-300 rounded mt-1"
 					/>
 				</div>
@@ -75,23 +111,6 @@ const ContactDetails = ({ formData, onChange }) => {
 					/>
 				</div>
 
-				{/* Country */}
-				<div>
-					<label
-						htmlFor="country"
-						className="block text-sm font-medium text-gray-700">
-						Country
-					</label>
-					<input
-						required
-						type="text"
-						name="country"
-						value={localFormData?.country || ""}
-						onChange={handleChange}
-						placeholder="Country"
-						className="w-full p-2 border border-gray-300 rounded mt-1"
-					/>
-				</div>
 
 				{/* Postcode */}
 				<div>
@@ -112,7 +131,7 @@ const ContactDetails = ({ formData, onChange }) => {
 				</div>
 
 				{/* LinkedIn */}
-				<div>
+				{/* <div>
 					<label
 						htmlFor="linkedin"
 						className="block text-sm font-medium text-gray-700">
@@ -126,10 +145,10 @@ const ContactDetails = ({ formData, onChange }) => {
 						placeholder="LinkedIn Profile URL"
 						className="w-full p-2 border border-gray-300 rounded mt-1"
 					/>
-				</div>
+				</div> */}
 
 				{/* Twitter */}
-				<div>
+				{/* <div>
 					<label
 						htmlFor="twitter"
 						className="block text-sm font-medium text-gray-700">
@@ -143,75 +162,9 @@ const ContactDetails = ({ formData, onChange }) => {
 						placeholder="Twitter Profile URL"
 						className="w-full p-2 border border-gray-300 rounded mt-1"
 					/>
-				</div>
+				</div> */}
 
-				{/* Behance */}
-				<div>
-					<label
-						htmlFor="behance"
-						className="block text-sm font-medium text-gray-700">
-						Behance
-					</label>
-					<input
-						type="text"
-						name="behance"
-						value={localFormData?.behance || ""}
-						onChange={handleChange}
-						placeholder="Behance Profile URL"
-						className="w-full p-2 border border-gray-300 rounded mt-1"
-					/>
-				</div>
-
-				{/* Dribbble */}
-				<div>
-					<label
-						htmlFor="dribble"
-						className="block text-sm font-medium text-gray-700">
-						Dribbble
-					</label>
-					<input
-						type="text"
-						name="dribble"
-						value={localFormData?.dribble || ""}
-						onChange={handleChange}
-						placeholder="Dribbble Profile URL"
-						className="w-full p-2 border border-gray-300 rounded mt-1"
-					/>
-				</div>
-
-				{/* GitHub */}
-				<div>
-					<label
-						htmlFor="github"
-						className="block text-sm font-medium text-gray-700">
-						GitHub
-					</label>
-					<input
-						type="text"
-						name="github"
-						value={localFormData?.github || ""}
-						onChange={handleChange}
-						placeholder="GitHub Profile URL"
-						className="w-full p-2 border border-gray-300 rounded mt-1"
-					/>
-				</div>
-
-				{/* Website */}
-				<div>
-					<label
-						htmlFor="website"
-						className="block text-sm font-medium text-gray-700">
-						Website
-					</label>
-					<input
-						type="text"
-						name="website"
-						value={localFormData?.website || ""}
-						onChange={handleChange}
-						placeholder="Personal Website URL"
-						className="w-full p-2 border border-gray-300 rounded mt-1"
-					/>
-				</div>
+				
 			</div>
 		</div>
 	);
