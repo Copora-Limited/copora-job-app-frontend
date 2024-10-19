@@ -3,6 +3,8 @@ import { useRouter } from "next/router";
 import PersonalDetails from "@/components/onboarding/PersonalDetails";
 import ContactDetails from "@/components/onboarding/ContactDetails";
 import GeneralInformation from "@/components/onboarding/GeneralInformation";
+import NextOfKinDetails from "@/components/onboarding/NextOfKin";
+
 import ProfessionalDetails from "@/components/onboarding/ProfessionalDetails";
 import EducationalDetails from "@/components/onboarding/EducationalDetails";
 import Reference from "@/components/onboarding/Reference";
@@ -14,8 +16,7 @@ import { useSession } from "next-auth/react";
 import { useSessionContext } from "@/context/SessionContext"; // Use the custom session context
 import OnboardingTopNav from "@/components/OnboardingTopNav";
 import SideBarNavOnboarding from "@/components/SideBarNavOnboarding";
-import { ClipLoader } from 'react-spinners';
-import { ThreeDots } from 'react-loader-spinner';
+import { Spin } from "antd";
 
 
 const Onboarding = () => {
@@ -113,7 +114,7 @@ const Onboarding = () => {
 		const currentStepName = steps[currentStep];
 		let isValid = true;
 		let errors: { [key: string]: string } = {};
-		console.log("formData", formData.personalDetails);
+		console.log("formData", formData.currentStepName);
 		switch (currentStepName) {
 			case "Personal Details":
 				if (formData.personalDetails?.dateOfBirth === "") {
@@ -134,34 +135,54 @@ const Onboarding = () => {
 		if (!validateStepData()) {
 			return;
 		}
-
-		setSaving(true); // Start saving loader
+	
 		const stepName = stepEndpoints[currentStep];
 		const endpoint = `${process.env.NEXT_PUBLIC_BASE_URL}/${stepName}`;
-		const stepData = formData[stepName.replace(/-/g, "")]; // Extract specific data for the current step
-
+		
+		// Map stepEndpoints to their corresponding formData keys
+		const stepKeyMap: { [key: string]: string } = {
+			"personal-details": "personalDetails",
+			"contact-details": "contactDetails",
+			"general-info": "generalInfo",
+			"next-of-kin": "nextOfKin",
+			"professional-details": "professionalDetails",
+			"educational-details": "educationalDetails",
+			"food-safety-questionnaire": "foodSafetyQuestionnaire",
+			"health-and-disability": "healthAndDisability",
+			"bank-details": "bankDetails",
+			"agreement-consent": "agreementConsent",
+		};
+	
+		// Use the map to get the correct key from formData
+		const stepKey = stepKeyMap[stepName];
+		const stepData = formData[stepKey]; // Extract specific data for the current step
+	
+		console.log("formData:", formData);
+		console.log("stepData:", stepData);
+		// if(stepData == "personalDetails" || stepData == "generalInfo" || ){
+		// 	 "multipart/form-data"
+		// }else{
+		// 	"application/json"
+		// }
 		try {
 			if (!token) {
 				throw new Error("User session is not available. Please log in again.");
 			}
-
+	
 			const response = await fetch(endpoint, {
 				method: "POST",
 				headers: {
-					"Content-Type": "application/json",
+					"Content-Type": "multipart/form-data",
 					Authorization: `Bearer ${token}`,
 				},
-				body: JSON.stringify({
-					...stepData,
-					applicationNo,
-				}),
+				body: stepData instanceof FormData ? stepData : JSON.stringify({ ...stepData, applicationNo }),
 			});
-
+	
 			if (!response.ok) {
 				const errorData = await response.json();
 				throw new Error(errorData.message || "An error occurred.");
 			}
-
+	
 			await fetch(
 				`${process.env.NEXT_PUBLIC_BASE_URL}/auth/users/update-onboarding-step`,
 				{
@@ -176,7 +197,7 @@ const Onboarding = () => {
 					}),
 				}
 			);
-
+	
 			const nextStep = Math.min(currentStep + 1, steps.length - 1);
 			router.push(`/onboarding?step=${nextStep + 1}`, undefined, {
 				shallow: true,
@@ -187,8 +208,6 @@ const Onboarding = () => {
 		} catch (err: any) {
 			console.error("Error saving data:", err);
 			setError(err.message || "An error occurred.");
-		} finally {
-			setSaving(false); // Stop saving loader
 		}
 	};
 
@@ -235,6 +254,13 @@ const Onboarding = () => {
 					<GeneralInformation
 						onChange={handleFormChange}
 						formData={formData.generalInformation}
+					/>
+				);
+			case "Next of Kin Details":
+				return (
+					<NextOfKinDetails
+						onChange={handleFormChange}
+						formData={formData.nextOfKin}
 					/>
 				);
 			case "Professional Details":
@@ -306,7 +332,10 @@ const Onboarding = () => {
 				<h1 className="mb-4">Welcome {userData?.name}</h1>
 
 				{loading ? (
-					 <ThreeDots color="#00BFFF" height={80} width={80} />
+					<div className="loader-overlay">
+						<div className="loader"></div>
+					</div>
+					
 				) : (
 					renderStepContent()
 				)}
@@ -328,20 +357,26 @@ const Onboarding = () => {
 					</button>
 				)}
 
-					{currentStep < steps.length - 1 ? (
+				   {currentStep < steps.length - 1 ? (
 						<button
 							type="button"
 							onClick={handleNext}
-							className="w-full h-[44px] flex items-center justify-center gap-2 bg-teal-700 hover:bg-teal-900 transition duration-500 text-white border border-[#667080] rounded-[100px] md:text-[16px] text-[13px] font-semibold px-[12px] disabled:bg-[#D0D5DD] disabled:text-white disabled:cursor-not-allowed disabled:border-none click_btn"
+							disabled={saving} // Disable button when saving is true
+							className={`w-full h-[44px] flex items-center justify-center gap-2 ${
+								saving ? 'bg-[#D0D5DD] text-white cursor-not-allowed' : 'bg-teal-700 hover:bg-teal-900'
+							} transition duration-500 text-white border border-[#667080] rounded-[100px] md:text-[16px] text-[13px] font-semibold px-[12px]`}
 						>
-								Save & Next
+							{saving ? 'Saving...' : 'Save & Next'}
 						</button>
 					) : (
 						<button
 							type="submit"
-							className="w-full h-[44px] flex items-center justify-center gap-2 bg-appGreen hover:bg-teal-700 transition duration-500 text-white border border-[#667080] rounded-[100px] md:text-[16px] text-[13px] font-semibold px-[12px] disabled:bg-[#D0D5DD] disabled:text-white disabled:cursor-not-allowed disabled:border-none click_btn"
+							disabled={saving} // Disable button when saving is true
+							className={`w-full h-[44px] flex items-center justify-center gap-2 ${
+								saving ? 'bg-[#D0D5DD] text-white cursor-not-allowed' : 'bg-appGreen hover:bg-teal-700'
+							} transition duration-500 text-white border border-[#667080] rounded-[100px] md:text-[16px] text-[13px] font-semibold px-[12px]`}
 						>
-							Submit
+							{saving ? 'Submitting...' : 'Submit'}
 						</button>
 					)}
 				</div>

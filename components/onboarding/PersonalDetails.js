@@ -17,6 +17,7 @@ const PersonalDetails = ({ formData, onChange }) => {
 				dateOfBirth: parsedData.dateOfBirth || "",
 				gender: parsedData.gender || "",
 				nationalInsuranceNumber: parsedData.nationalInsuranceNumber || "",
+				passportPhoto: prevData.passportPhoto || "",
 			}));
 			localStorage.removeItem("linkedinUserData"); // Clear the data after use
 		}
@@ -33,13 +34,18 @@ const PersonalDetails = ({ formData, onChange }) => {
 		onChange(updatedFormData);
 	};
 
+	const handleFileChange = (e) => {
+		const file = e.target.files?.[0] || null;
+		const updatedFormData = { ...localFormData, passportPhoto: file };
+		setLocalFormData(updatedFormData);
+		onChange(updatedFormData);
+	};
+
 	const handlePhotoFileChange = (e) => {
 		if (!e.target.files) return;
 		const selectedFile = e.target.files[0];
 		setProfilePic(URL.createObjectURL(selectedFile));
-		const updatedFormData = { ...localFormData, passportPhoto: selectedFile };
-		setLocalFormData(updatedFormData);
-		onChange(updatedFormData); // Update the passport photo in the formData
+		handleFileChange(e); // Update passport photo in localFormData
 	};
 
 	const handleClick = () => {
@@ -136,6 +142,21 @@ const PersonalDetails = ({ formData, onChange }) => {
 						value={localFormData?.nationalInsuranceNumber || ""}
 						onChange={handleChange}
 						placeholder="National Insurance Number"
+						className="w-full p-2 border border-gray-300 rounded mt-1"
+					/>
+				</div>
+
+				{/* Passport Photo */}
+				<div className="col-span-2">
+					<label
+						htmlFor="passportPhoto"
+						className="block text-sm font-medium text-gray-700">
+						Passport Photo
+					</label>
+					<input
+						type="file"
+						name="passportPhoto"
+						onChange={handleFileChange}
 						className="w-full p-2 border border-gray-300 rounded mt-1"
 					/>
 				</div>
