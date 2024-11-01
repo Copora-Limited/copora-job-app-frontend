@@ -27,7 +27,7 @@ export default NextAuth({
           );
 
           const data = await res.json();
-          console.log(data);
+
           if (res.ok && data.user) {
             // Return user object if authentication is successful
             return {

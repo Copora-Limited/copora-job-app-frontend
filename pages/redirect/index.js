@@ -1,46 +1,52 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 
 const Redirect = () => {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const [messageIndex, setMessageIndex] = useState(0);
+
+  const motivationalMessages = [
+    "Stay positive, work hard, make it happen!",
+    "Success is not final, failure is not fatal: it is the courage to continue that counts.",
+    "Dream big and dare to fail.",
+    "Believe you can, and you’re halfway there.",
+    "Good things come to those who hustle.",
+    "Every day is a fresh start, take a deep breath and start again.",
+    "Your only limit is your mind.",
+    "Focus on the journey, not the destination.",
+    "Push yourself, because no one else is going to do it for you.",
+    "The only way to do great work is to love what you do.",
+  ];
 
   useEffect(() => {
-    if (status === "loading") {
-      // Optionally show a loading state while fetching session
-      return;
-    }
+    const interval = setInterval(() => {
+      setMessageIndex(
+        (prevIndex) => (prevIndex + 1) % motivationalMessages.length
+      );
+    }, 3000); // Change message every 3 seconds
+
+    if (status === "loading") return;
 
     if (status === "authenticated" && session?.user) {
-      const { role, applicationNo, email, resetPassword, onboardingStep } =
-        session.user;
-      console.log("User", session?.user);
+      const { role, onboardingStep } = session.user;
       if (role === "applicant") {
-        // if (resetPassword) {
-        // Check onboarding step and redirect accordingly
         if (onboardingStep < 11) {
           router.push(`/onboarding?step=${onboardingStep}`);
         } else {
-          // Redirect applicants with resetPassword set to true and onboardingStep >= 2 to /applicant
           router.push("/applicant");
         }
-        return;
-        // }
-
-        // Redirect to notify-me if resetPassword is false
-        // router.push(`/auth/notify-me?email=${email}&new=true`);
       } else if (role === "admin") {
-        // Redirect admins to /admin
         router.push("/admin");
       } else {
-        // Default redirection
         router.push("/");
       }
     } else {
-      // Redirect to login if not authenticated
       router.push("/auth/login");
     }
+
+    return () => clearInterval(interval); // Cleanup interval on component unmount
   }, [status, session, router]);
 
   return (
@@ -50,9 +56,7 @@ const Redirect = () => {
           Redirecting...
         </h1>
         <p className="text-gray-500 mb-6">
-          You are being redirected.
-          {/* If the redirection doesn't happen automatically,  */}
-          {/* <a href="/auth/login" className="text-blue-500 hover:underline">click here</a>. */}
+          {motivationalMessages[messageIndex]}
         </p>
         <svg
           className="animate-spin h-12 w-12 text-blue-500 mx-auto"

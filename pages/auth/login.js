@@ -9,14 +9,22 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 const Login = () => {
   const router = useRouter();
-  const [email, setEmail] = useState("daniel.walker@copora.com");
-  const [password, setPassword] = useState("mPMB6h");
+  // const [email, setEmail] = useState("daniel.walker@copora.com");
+  // const [password, setPassword] = useState("mPMB6h");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [redirectTimeout, setRedirectTimeout] = useState(5);
   const [showRedirectButton, setShowRedirectButton] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(false); // Example state for dark mode
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     let timer;
@@ -187,17 +195,17 @@ const Login = () => {
             </Link>
           </div>
 
-          <p className="w-full text-[12px] text-appMuted text-center">
-            By continuing you agree to {process.env.NEXT_PUBLIC_APP_NAME}'s{" "}
-            <div
-              href="/"
-              className="text-appGreen cursor-pointer transition-all duration-500 hover:text-teal-600"
-            >
-              <Link href="/" className="text-secondary">
+          {isMounted && (
+            <p className="w-full text-[12px] text-appMuted text-center">
+              By continuing you agree to {process.env.NEXT_PUBLIC_APP_NAME}'s{" "}
+              <Link
+                href="/"
+                className="text-appGreen cursor-pointer transition-all duration-500 hover:text-teal-600"
+              >
                 Terms of use
               </Link>
-            </div>
-          </p>
+            </p>
+          )}
         </form>
 
         {showRedirectButton && (
