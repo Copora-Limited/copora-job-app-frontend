@@ -16,6 +16,7 @@ const PersonalDetails = ({ onChange }) => {
   const [hasFetchedData, setHasFetchedData] = useState(false);
   const [profilePic, setProfilePic] = useState("");
   const fileRef = useRef(null);
+  const [nin, setNin] = useState(Array(9).fill("")); // Initialize NIN array with 9 empty strings
 
   useEffect(() => {
     setIsMounted(true);
@@ -41,6 +42,7 @@ const PersonalDetails = ({ onChange }) => {
         const data = await response.json();
         setLocalFormData(data);
         setProfilePic(data.passportPhoto || "");
+        setNin(data.nationalInsuranceNumber.split("") || Array(9).fill("")); // Split NIN into digits
         onChange(data);
         setHasFetchedData(true); // Only set data once
         setIsLoading(false);
@@ -72,6 +74,23 @@ const PersonalDetails = ({ onChange }) => {
 
   const handleClick = () => {
     fileRef.current?.click();
+  };
+
+  const handleNinChange = (index, e) => {
+    const value = e.target.value.toUpperCase(); // Ensure the NIN is in uppercase
+    const isValidInput =
+      (index < 2 && /^[A-Za-z]?$/.test(value)) || // First 2 inputs: Alphabets only
+      (index >= 2 && index < 8 && /^\d?$/.test(value)) || // Next 6 inputs: Numbers only
+      (index === 8 && /^[A-Za-z]?$/.test(value)); // Last input: Alphabet only
+
+    if (isValidInput && value.length <= 1) {
+      const newNin = [...nin];
+      newNin[index] = value;
+      setNin(newNin);
+      const nationalInsuranceNumber = newNin.join("");
+      setLocalFormData({ ...localFormData, nationalInsuranceNumber });
+      onChange({ ...localFormData, nationalInsuranceNumber });
+    }
   };
 
   return (
@@ -162,15 +181,28 @@ const PersonalDetails = ({ onChange }) => {
           >
             National Insurance Number
           </label>
-          <input
-            required
-            type="text"
-            name="nationalInsuranceNumber"
-            value={localFormData.nationalInsuranceNumber || ""}
-            onChange={handleChange}
-            placeholder="National Insurance Number"
-            className="w-full p-2 border border-gray-300 rounded mt-1"
-          />
+          {/* <label className="flex justify-left items-center">National Insurance Number <FaAsterisk size={6} color="red" /> </label> */}
+          <p className="text-[12px] font-azoSansRegular">
+            This will be in you National Insurance letter, payslip or P60. For
+            example, 'QQ 12 34 56 C'
+          </p>
+
+          <div className="grid grid-cols-9 gap-2 mt-2">
+            {nin.map((digit, index) => (
+              <input
+                key={index}
+                id={`nin-${index}`}
+                type="text"
+                maxLength={1}
+                value={digit}
+                onChange={(e) => handleNinChange(index, e)}
+                placeholder={
+                  index < 2 ? "A" : index < 8 ? "0" : "A" // Set appropriate placeholder
+                }
+                className="w-10 h-10 text-center border rounded"
+              />
+            ))}
+          </div>
         </div>
       </div>
     </>
