@@ -15,7 +15,7 @@ export default function OnboardingLayout() {
   const { data: session } = useSession();
   const { token } = useSessionContext();
   const applicationNo = session?.user?.applicationNo;
-
+  const username = session?.user?.name;
   const router = useRouter();
   const { step } = router.query;
   const [currentStep, setCurrentStep] = useState(0);
@@ -276,6 +276,10 @@ export default function OnboardingLayout() {
         <div className="w-full h-[92vh] mt-[9vh] overflow-y-auto scroller">
           <div className="md:w-4/5 w-[90%] mx-auto">
             <div className="w-full my-5">
+              <h4 className="md:text-[18px] text-[16px] font-medium my-3 capitalize">
+                Welcome {username}
+              </h4>
+
               <h5 className="md:text-[18px] text-[16px] font-medium text-[#101828]">
                 {steps[currentStep]?.label}
               </h5>
