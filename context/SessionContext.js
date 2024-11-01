@@ -1,12 +1,12 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 
-const SessionContext = createContext | undefined;
+const SessionContext = createContext(null);
 
 export const SessionProvider = ({ children }) => {
   const { data: session } = useSession();
-  const [token, setToken] = (useState < string) | (null > null);
-  const [user, setUser] = useState < any > null;
+  const [token, setToken] = useState(null);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     if (session) {
