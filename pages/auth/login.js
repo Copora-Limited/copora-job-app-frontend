@@ -111,10 +111,10 @@ const Login = () => {
         {/* </h4> */}
         <div className="mt-3">
           <h5 className="md:text-[18px] text-[16px] text-primary font-bold text-center">
-            Login to Continue Onboarding
+            Welcome
           </h5>
           <p className="md:text-[14px] text-[12px] text-[#475467] text-center">
-            Welcome back! Please enter your details.
+            Kindly enter your credentials to proceed.
           </p>
         </div>
 
