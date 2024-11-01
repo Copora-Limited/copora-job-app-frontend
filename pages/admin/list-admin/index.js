@@ -4,6 +4,10 @@ import { useTheme } from "@/context/ThemeContext";
 import Link from "next/link";
 import { Menu } from "@headlessui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import { useSession } from "next-auth/react";
+import { useSessionContext } from "@/context/SessionContext";
+
 import {
   faEllipsisVertical,
   faEdit,
