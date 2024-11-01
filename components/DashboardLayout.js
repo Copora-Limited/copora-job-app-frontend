@@ -1,14 +1,13 @@
-// components/OnboardingLayout.js
-import React, { ReactNode } from "react";
+// components/DashboardLayout.js
+import React from "react";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 
 import TopNav from "./TopNav";
 import SideNav from "./SideNav";
-import Content from "./Content";
 import publicRoutes from "@/publicRoute";
 
-const DashboardLayout = () => {
+const DashboardLayout = ({ children }) => {
   const { data: session } = useSession();
   const router = useRouter();
   const isPublicRoute = publicRoutes.includes(router.pathname);
@@ -22,7 +21,6 @@ const DashboardLayout = () => {
       <div className="flex flex-1">
         {!isPublicRoute && <SideNav isApplicant={isApplicant} />}
         <div className="flex-1">
-          <Content />
           <div className="p-8">{children}</div>
         </div>
       </div>

@@ -9,10 +9,10 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 const Login = () => {
   const router = useRouter();
-  const [email, setEmail] = useState("daniel.walker@copora.com");
-  const [password, setPassword] = useState("mPMB6h");
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
+  // const [email, setEmail] = useState("daniel.walker@copora.com");
+  // const [password, setPassword] = useState("mPMB6h");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
