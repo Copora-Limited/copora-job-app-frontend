@@ -1,4 +1,3 @@
-import { FC } from "react";
 import PersonalDetails from "@/components/onboardingForm/PersonalDetails";
 import ContactDetails from "@/components/onboardingForm/ContactDetails";
 import GeneralInformation from "@/components/onboardingForm/GeneralInformation";

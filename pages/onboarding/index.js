@@ -143,7 +143,7 @@ export default function OnboardingLayout() {
     const stepData =
       formData[camelCaseStepName] || formData[stepName.replace(/-/g, "")];
 
-    console.log("New formData", stepData);
+    console.log("New formData", formData[camelCaseStepName]);
 
     try {
       setIsSaving(true);
@@ -210,7 +210,7 @@ export default function OnboardingLayout() {
 
       if (currentStep === steps.length - 1) {
         toast.success("Onboarding complete! Redirecting...");
-        router.push("/onboardcongratulations");
+        router.push("/onboarding/congratulations");
       } else {
         toast.success("Step saved successfully!");
         handleNext();

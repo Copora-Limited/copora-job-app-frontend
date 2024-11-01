@@ -25,7 +25,7 @@ const NextOfKinDetails = ({ onChange }) => {
 
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/applicant/${applicationNo}`,
+          `${process.env.NEXT_PUBLIC_BASE_URL}/next-of-kin/${applicationNo}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -37,8 +37,8 @@ const NextOfKinDetails = ({ onChange }) => {
         }
 
         const data = await response.json();
-        setLocalFormData(data.nextOfKin);
-        setRelationship(data.nextOfKin.relationship || ""); // Set initial relationship if available
+        setLocalFormData(data);
+        setRelationship(data.relationship || ""); // Set initial relationship if available
         onChange(data);
         setHasFetchedData(true);
         setIsLoading(false);
@@ -74,6 +74,7 @@ const NextOfKinDetails = ({ onChange }) => {
             id="firstName"
             label="First Name"
             type="text"
+            name="firstName"
             isRequired
             value={localFormData.firstName}
             onChange={handleChange}
@@ -87,6 +88,7 @@ const NextOfKinDetails = ({ onChange }) => {
             id="lastName"
             label="Last Name"
             type="text"
+            name="lastname"
             isRequired
             value={localFormData.lastname}
             onChange={handleChange}
