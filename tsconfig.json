@@ -1,15 +1,21 @@
 {
   "compilerOptions": {
-    "lib": ["dom", "dom.iterable", "esnext"],
+    // "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,
     "esModuleInterop": true,
-    "module": "esnext",
+    "lib": [
+      "ES2020",
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "module": "ESNext",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
+    // "jsx": "preserve",
     "jsx": "preserve",
     "incremental": true,
     "plugins": [
@@ -19,9 +25,33 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"]
+      "@/*": [
+        "./*"
+      ]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "pages/components/AuctionGridTitleSection.tsx", "pages/auth/login.js", "pages/auth/login-with-code.js", "pages/auth/login-without-code.js", "pages/auth/passwordless-login.js", "pages/api/auth/[...nextauth].js", "components/onboarding/PersonalDetails.js", "components/onboarding/ContactDetails.js", "components/onboarding/ProfessionalDetails.js", "components/onboarding/EducationalDetails.js", "components/onboarding/FoodSafetyQuestionnaire.js", "components/onboarding/HealthAndDisability.js", "components/onboarding/BankDetails.js", "components/onboarding/AgreementConsent.js", "pages/redirect/index.js"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "pages/components/AuctionGridTitleSection.tsx",
+    "pages/auth/login.js",
+    "pages/auth/login-with-code.js",
+    "pages/auth/login-without-code.js",
+    "pages/auth/passwordless-login.js",
+    "pages/api/auth/[...nextauth].js",
+    "components/onboardingForm/PersonalDetails.js",
+    "components/onboardingForm/ContactDetails.js",
+    "components/onboardingForm/ProfessionalDetails.js",
+    "components/onboardingForm/EducationalDetails.js",
+    "components/onboardingForm/FoodSafetyQuestionnaire.js",
+    "components/onboardingForm/HealthAndDisability.js",
+    "components/onboardingForm/BankDetails.js",
+    "components/onboardingForm/AgreementConsent.js",
+    "pages/redirect/index.js"
+, "components/onboardingForm/Reference.js", "pages/onboarding/index.js", "components/DashboardLayout.js", "components/FontAwesomeIcons.js", "context/SessionContext.js", "pages/admin/analytics.js", "pages/admin/create.js", "pages/admin/index.js", "pages/admin/view.js", "hooks/Store/useOnboardingStore.js", "hooks/Store/useDashboardStore.js", "pages/admin/list-admin/[id].js", "pages/admin/list-admin/index.js", "pages/admin/list-applicants/[id].js", "pages/admin/list-applicants/index.js", "pages/onboarding/OnboardingStepContent.js", "pages/index.js", "pages/applicant/index.js", "pages/_app.js", "components/Content.js", "components/ThemeToggle.js", "components/TopNav.js", "components/SideNav.js", "components/OnboardingAsideLeft.js", "components/OnboardingTopNav.js", "context/ThemeContext.js", "components/Logo.js", "pages/auth/error.js", "components/onboardingForm/ValidationComponent.js"  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

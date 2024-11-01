@@ -8,12 +8,12 @@
 
 @font-face {
   font-family: AzoSans_Light;
-  src: url("/src/assets/fonts/AzoSans-Light.ttf");
+  src: url("/assets/fonts/AzoSans-Light.ttf");
 }
 
 @font-face {
   font-family: AzoSans_Medium;
-  src: url("/src/assets/fonts/AzoSans-Medium.ttf");
+  src: url("/assets/fonts/AzoSans-Medium.ttf");
 }
 
 @font-face {
@@ -60,7 +60,7 @@ body {
   }
 }
 
-/* @layer base {
+@layer base {
   body {
     @apply antialiased w-screen h-screen bg-gradient-to-r from-[#F6FEFD] to-[#FFF6F1] overflow-hidden;
   }
@@ -98,7 +98,14 @@ body {
   .click_btn.clicked {
     animation: clickEffect 0.4s ease-out;
   }
+  .form-control{
+    color: #000 !important;
+    font-weight: bolder !important;
+  }
 
+  .accent-appGreen {
+    accent-color: #247A84 !important;
+  }
   @keyframes clickEffect {
     0% {
       transform: scale(1);
@@ -110,8 +117,10 @@ body {
       transform: scale(1);
     }
   }
-} */
+}
 /* Example of using the custom colors */
+
+
 .bg-primary {
   background-color: var(--primary);
 }
