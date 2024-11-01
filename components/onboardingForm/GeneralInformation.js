@@ -189,13 +189,15 @@ const GeneralInformation = ({ onChange }) => {
               idLeft="FoodHygieneLeft"
               idRight="FoodHygieneRight"
             />
-            {(localFormData.level2FoodHygieneCertificate === "true" ||
-              localFormData.level2FoodHygieneCertificateUpload) &&
-              renderUploadSection(
-                "level2FoodHygieneCertificateUpload",
-                "Food Hygiene Certificate",
-                "fileInputFoodHygiene"
-              )}
+            <div className="w-full grid md:grid-cols-2 grid-cols-1 gap-4">
+              {(localFormData.level2FoodHygieneCertificate === "true" ||
+                localFormData.level2FoodHygieneCertificateUpload) &&
+                renderUploadSection(
+                  "level2FoodHygieneCertificateUpload",
+                  "Food Hygiene Certificate",
+                  "fileInputFoodHygiene"
+                )}
+            </div>
 
             <OptionsComponent
               title="Personal License Holder"
@@ -210,13 +212,15 @@ const GeneralInformation = ({ onChange }) => {
               idLeft="PersonalLicenseLeft"
               idRight="PersonalLicenseRight"
             />
-            {(localFormData.personalLicenseHolder === "true" ||
-              localFormData.personalLicenseCertificateUpload) &&
-              renderUploadSection(
-                "personalLicenseCertificateUpload",
-                "Personal License",
-                "fileInputPersonalLicense"
-              )}
+            <div className="w-full grid md:grid-cols-2 grid-cols-1 gap-4">
+              {(localFormData.personalLicenseHolder === "true" ||
+                localFormData.personalLicenseCertificateUpload) &&
+                renderUploadSection(
+                  "personalLicenseCertificateUpload",
+                  "Personal License",
+                  "fileInputPersonalLicense"
+                )}
+            </div>
 
             <OptionsComponent
               title="DBS - Disclosure and Barring Service"
@@ -235,13 +239,15 @@ const GeneralInformation = ({ onChange }) => {
               idLeft="DBSLeft"
               idRight="DBSRight"
             />
-            {(localFormData.dbsDisclosureAndBarringService === "true" ||
-              localFormData.dbsCertificateUpload) &&
-              renderUploadSection(
-                "dbsCertificateUpload",
-                "DBS",
-                "fileInputDBS"
-              )}
+            <div className="w-full grid md:grid-cols-2 grid-cols-1 gap-4">
+              {(localFormData.dbsDisclosureAndBarringService === "true" ||
+                localFormData.dbsCertificateUpload) &&
+                renderUploadSection(
+                  "dbsCertificateUpload",
+                  "DBS",
+                  "fileInputDBS"
+                )}
+            </div>
           </div>
         </div>
       </div>
