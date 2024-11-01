@@ -173,8 +173,9 @@ export default function OnboardingLayout() {
             }
           }
         }
-
-        formData.append("applicationNo", applicationNo);
+        // if (stepName == "general-info") {
+        //   formData.append("applicationNo", applicationNo);
+        // }
 
         body = formData;
       } else {
