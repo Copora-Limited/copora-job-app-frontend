@@ -18,7 +18,7 @@ const PrimaryInput: FC<CustomInputProps> = ({
   ...inputProps
 }) => {
   return (
-    <div className="w-full flex flex-col gap-1 my-4">
+    <div className="w-full flex flex-col gap-1">
       {label && (
         <div className="w-full flex items-center justify-between">
           <label

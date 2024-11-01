@@ -98,29 +98,36 @@ const ReferenceDetails = ({ onChange }) => {
     );
 
     if (confirmed) {
-      try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/reference/${applicationNo}/${recordToDelete.id}`,
-          {
-            method: "DELETE",
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(
-            errorData.message || "Failed to delete reference record."
+      if (recordToDelete.id) {
+        try {
+          const response = await fetch(
+            `${process.env.NEXT_PUBLIC_BASE_URL}/reference/${applicationNo}/${recordToDelete.id}`,
+            {
+              method: "DELETE",
+              headers: { Authorization: `Bearer ${token}` },
+            }
           );
-        }
 
-        const updatedRecords = referenceRecords.filter((_, i) => i !== index);
-        setReferenceRecords(updatedRecords);
-        onChange(updatedRecords);
-      } catch (error) {
-        console.error("Error deleting reference record:", error);
-        // Optionally, you can display an error message to the user
+          if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(
+              errorData.message || "Failed to delete reference record."
+            );
+          }
+
+          const updatedRecords = referenceRecords.filter((_, i) => i !== index);
+          setReferenceRecords(updatedRecords);
+          onChange(updatedRecords);
+        } catch (error) {
+          console.error("Error deleting reference record:", error);
+          // Optionally, you can display an error message to the user
+        }
       }
+
+      // Update the local state to remove the record regardless of whether it was saved or not
+      const updatedRecords = referenceRecords.filter((_, i) => i !== index);
+      setReferenceRecords(updatedRecords);
+      onChange(updatedRecords);
     }
   };
 

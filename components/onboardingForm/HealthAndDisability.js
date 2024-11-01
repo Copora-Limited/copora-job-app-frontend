@@ -118,32 +118,37 @@ const HealthAndDisabilityForm = ({ onChange }) => {
       )}
       <>
         {/* GP Name */}
-        <PrimaryInput
-          id="gpName"
-          label="GP Name (Doctor)"
-          isRequired
-          type="text"
-          placeholder="Enter your GP Name"
-          value={formState.gpName}
-          onChange={(e) => handleChange("gpName", e.target.value)}
-        />
+        <div className="w-full flex flex-col md:col-span-1 col-span-2 mt-4">
+          <PrimaryInput
+            id="gpName"
+            label="GP Name (Doctor)"
+            isRequired
+            type="text"
+            placeholder="Enter your GP Name"
+            value={formState.gpName}
+            onChange={(e) => handleChange("gpName", e.target.value)}
+          />
+        </div>
 
         {/* GP Address */}
-        <PrimaryInput
-          id="gpAddress"
-          label="GP Address"
-          isRequired
-          type="text"
-          placeholder="Enter address"
-          value={formState.gpAddress}
-          onChange={(e) => handleChange("gpAddress", e.target.value)}
-        />
+        <div className="w-full flex flex-col md:col-span-1 col-span-2 mt-4">
+          <PrimaryInput
+            id="gpAddress"
+            label="GP Address"
+            isRequired
+            type="text"
+            placeholder="Enter address"
+            value={formState.gpAddress}
+            onChange={(e) => handleChange("gpAddress", e.target.value)}
+          />
+        </div>
 
         <h4 className="mt-5 md:text-[14px] text-[12px] text-[#475467] font-semibold">
           Health Questions
         </h4>
 
         {/* Relevant Health Issues */}
+        
         <QuestionWithDetails
           question="Do you have any health issues or a disability relevant to the position or role you seek?"
           field="relevantHealthIssues"

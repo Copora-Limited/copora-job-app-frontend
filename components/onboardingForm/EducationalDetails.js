@@ -163,7 +163,7 @@ const EducationDetails = ({ onChange }) => {
             />
           </div>
 
-          <div className="w-full flex flex-col md:col-span-1 col-span-2 gap-1 mt-[4px]">
+          <div className="w-full flex flex-col md:col-span-1 col-span-2 gap-1 mt-4">
             <PrimarySelect
               label="Select Qualifications"
               id="title"
@@ -189,7 +189,7 @@ const EducationDetails = ({ onChange }) => {
             />
           </div>
 
-          <div className="w-full flex flex-col md:col-span-1 col-span-2 gap-1">
+          <div className="w-full flex flex-col md:col-span-1 col-span-2 mt-4">
             <PrimaryInput
               id="courseOfStudy"
               label="Subject Studied"
@@ -203,7 +203,7 @@ const EducationDetails = ({ onChange }) => {
             />
           </div>
 
-          <div className="w-full flex flex-col md:col-span-1 col-span-2 gap-1">
+          <div className="w-full flex flex-col md:col-span-1 col-span-2 mt-4">
             <PrimaryInput
               id="yearAdmitted"
               label="Year Admitted"
@@ -218,7 +218,7 @@ const EducationDetails = ({ onChange }) => {
             />
           </div>
 
-          <div className="w-full flex flex-col md:col-span-1 col-span-2 gap-1 ">
+          <div className="w-full flex flex-col md:col-span-1 col-span-2 mt-4 ">
             <PrimaryInput
               id="yearGraduated"
               label="Date of Completion"
