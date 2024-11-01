@@ -134,6 +134,7 @@ const Login = () => {
             <input
               type="email"
               id="email"
+              placeholder="Enter email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -153,7 +154,7 @@ const Login = () => {
             <div className="w-full md:h-[40px] h-[35px] flex items-center justify-between rounded-[8px] border border-[#D0D5DD] py-[8px] px-[14px]">
               <input
                 type={showPassword ? "text" : "password"}
-                placeholder="Password"
+                placeholder="Enter Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className={`outline-0 border-0 w-full h-full placeholder:text-[#667085] placeholder:text-[14px] text-[14px] text-[#667085] ${
