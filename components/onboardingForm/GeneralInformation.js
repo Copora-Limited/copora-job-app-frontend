@@ -11,6 +11,7 @@ const GeneralInformation = ({ onChange }) => {
   const { data: session } = useSession();
   const { token } = useSessionContext();
   const applicationNo = session?.user?.applicationNo;
+  const [hasFetchedData, setHasFetchedData] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [localFormData, setLocalFormData] = useState({});
   const [isMounted, setIsMounted] = useState(false);
@@ -19,7 +20,7 @@ const GeneralInformation = ({ onChange }) => {
     setIsMounted(true);
 
     const fetchGeneralInfoData = async () => {
-      if (!token || !applicationNo) return;
+      if (!token || !applicationNo || hasFetchedData) return;
 
       setIsLoading(true);
       try {
@@ -40,11 +41,15 @@ const GeneralInformation = ({ onChange }) => {
         const data = await response.json();
         console.log("Sole data", data);
         // Ensure localFormData only updates if it's different
+
         setLocalFormData((prevData) => {
           if (JSON.stringify(prevData) !== JSON.stringify(data)) {
             onChange(data); // Call onChange only if data has changed
             return data; // Only update if data is different
           }
+
+          setHasFetchedData(true); // Only set data once
+
           return prevData; // Prevent unnecessary updates
         });
       } catch (error) {
@@ -55,7 +60,7 @@ const GeneralInformation = ({ onChange }) => {
     };
 
     fetchGeneralInfoData();
-  }, [token, applicationNo]); // Removed onChange from dependencies
+  }, [token, applicationNo, hasFetchedData]); // Removed onChange from dependencies
 
   const handleCheckboxChange = (name, value) => {
     const updatedFormData = { ...localFormData, [name]: value };
@@ -147,7 +152,7 @@ const GeneralInformation = ({ onChange }) => {
               { title: "Barista", key: "barista" },
               {
                 title: "Supervising / Managing Staff",
-                key: "supervisingManagingStaff",
+                key: "supervising",
               },
             ].map(({ title, key }) => (
               <OptionsComponent

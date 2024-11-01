@@ -17,7 +17,7 @@ const FoodSafetyQuestionnaire = ({ onChange }) => {
     bacteriaFactTrue: "",
     highRiskFoodStoragePosition: "",
     temperatureDangerZone: "",
-    handWashingScenarios: [],
+    handWashingScenarios: [], // Ensure this is initialized as an empty array
     allergenDefinition: "",
     highRiskFoodsExamples: "",
     foodSafetyActOffense: "",
@@ -300,10 +300,11 @@ const FoodSafetyQuestionnaire = ({ onChange }) => {
           <input
             type="checkbox"
             id={`handWashing-${option}`}
-            checked={formState.handWashingScenarios.includes(option)}
+            checked={formState.handWashingScenarios?.includes(option)} // Use optional chaining
             className="accent-appGreen"
             onChange={() => handleHandWashingScenariosChange(option)}
           />
+
           <label htmlFor={`handWashing-${option}`}>{option}</label>
         </div>
       ))}
@@ -357,7 +358,7 @@ const FoodSafetyQuestionnaire = ({ onChange }) => {
             <input
               type="checkbox"
               id={`highRiskFoods-${option}`}
-              checked={formState.highRiskFoodsExamples.includes(option)}
+              checked={formState.highRiskFoodsExamples?.includes(option)}
               className="accent-appGreen"
               onChange={() => handleChange("highRiskFoodsExamples", option)}
             />

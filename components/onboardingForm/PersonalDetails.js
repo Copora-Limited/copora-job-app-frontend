@@ -42,7 +42,8 @@ const PersonalDetails = ({ onChange }) => {
         const data = await response.json();
         setLocalFormData(data);
         setProfilePic(data.passportPhoto || "");
-        setNin(data.nationalInsuranceNumber.split("") || Array(9).fill("")); // Split NIN into digits
+
+        setNin(data.nationalInsuranceNumber?.split("") || Array(9).fill("")); // Split NIN into digits
         onChange(data);
         setHasFetchedData(true); // Only set data once
         setIsLoading(false);
@@ -90,6 +91,11 @@ const PersonalDetails = ({ onChange }) => {
       const nationalInsuranceNumber = newNin.join("");
       setLocalFormData({ ...localFormData, nationalInsuranceNumber });
       onChange({ ...localFormData, nationalInsuranceNumber });
+
+      // Move focus to the next input if the current one is filled
+      if (value && index < nin.length - 1) {
+        document.getElementById(`nin-${index + 1}`).focus();
+      }
     }
   };
 
