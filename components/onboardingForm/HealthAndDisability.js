@@ -148,7 +148,7 @@ const HealthAndDisabilityForm = ({ onChange }) => {
         </h4>
 
         {/* Relevant Health Issues */}
-        
+
         <QuestionWithDetails
           question="Do you have any health issues or a disability relevant to the position or role you seek?"
           field="relevantHealthIssues"
@@ -229,13 +229,19 @@ const HealthAndDisabilityForm = ({ onChange }) => {
               htmlFor="agreementCertification"
               className="text-black text-[12px]"
             >
-              {warning ? (
+              {/* {warning ? (
                 <h3 className="text-[14px] text-[red] font-semibold">
                   {warning}
                 </h3>
-              ) : (
-                "I Agree that to the best of my knowledge, all the above statements are true and I understand that if I have wilfully withheld or falsified any information, my Conditions of Employment may be invalidated. I Certify that I am free and have no medical history to suggest I could suffer from any sickness, disease or infection that is likely to contaminate food or place where food is prepared."
-              )}
+              ) : ( */}
+              "I Agree that to the best of my knowledge, all the above
+              statements are true and I understand that if I have wilfully
+              withheld or falsified any information, my Conditions of Employment
+              may be invalidated. I Certify that I am free and have no medical
+              history to suggest I could suffer from any sickness, disease or
+              infection that is likely to contaminate food or place where food
+              is prepared."
+              {/* )} */}
             </label>
           </div>
         </div>
