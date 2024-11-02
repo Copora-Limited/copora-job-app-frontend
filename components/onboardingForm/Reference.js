@@ -160,14 +160,13 @@ const ReferenceDetails = ({ onChange }) => {
               id={`employer`}
               label="Employer"
               type="text"
-              placeholder="Enter employer's name"
+              isRequired
+              placeholder="Enter employer's name (e.g., ABC Company Limited) or 'NA' if not applicable"
               name={`employerName`}
               value={record.employerName}
               onChange={(e) =>
                 handleReferenceChange(index, "employerName", e.target.value)
               }
-              // isDelete
-              // handleDelete={() => removeReferenceRecord(index)}
             />
           </div>
 
@@ -176,7 +175,8 @@ const ReferenceDetails = ({ onChange }) => {
               id={`jobTitle`}
               label={`Job Title`}
               type="text"
-              placeholder="Enter Job title"
+              isRequired
+              placeholder="Enter Job title or 'NA' if not applicable"
               name={`jobTitle`}
               value={record.jobTitle}
               onChange={(e) =>
@@ -190,7 +190,8 @@ const ReferenceDetails = ({ onChange }) => {
               id={`contactName`}
               label="Contact Name"
               type="text"
-              placeholder="Enter Contact Name"
+              isRequired
+              placeholder="Enter Contact Name (e.g., John Doe)"
               name={`contactName`}
               value={record.contactName}
               onChange={(e) =>
@@ -240,7 +241,7 @@ const ReferenceDetails = ({ onChange }) => {
               label={`Email`}
               isRequired
               type="text"
-              placeholder="Enter email"
+              placeholder="Enter email (e.g., example@mail.com)"
               name={`email`}
               value={record.email}
               onChange={(e) =>
@@ -253,7 +254,6 @@ const ReferenceDetails = ({ onChange }) => {
             <PrimaryInput
               id={`startDate`}
               label={`Start Date`}
-              isRequired
               type="date"
               placeholder="DD/MM/YYYY"
               name={`startDate`}
@@ -291,6 +291,7 @@ const ReferenceDetails = ({ onChange }) => {
               }
             />
           </div>
+
           <div className="w-full flex flex-col md:col-span-2 col-span-1 gap-1">
             <PrimaryInput
               id={`responsibilities`}

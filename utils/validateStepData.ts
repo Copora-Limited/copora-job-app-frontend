@@ -59,15 +59,47 @@ interface FormData {
         console.log("Validate General Info", formData.generalInfo)
 
         if (!formData.generalInfo?.plateWaiting) {
-          errors.plateWaiting = "plateWaiting is required";
+          errors.plateWaiting = "Please answer Yes or No for plateWaiting question";
           isValid = false;
         }
         if (!formData.generalInfo?.retailCashier) {
-          errors.retailCashier = "retailCashier is required";
+          errors.retailCashier = "Please answer Yes or No for retailCashier question";
+          isValid = false;
+        }
+        if (!formData.generalInfo?.barWork) {
+          errors.barWork = "Please answer Yes or No for bar work question";
+          isValid = false;
+        }
+        if (!formData.generalInfo?.hospitality) {
+          errors.hospitality = "Please answer Yes or No for hospitality  question";
+          isValid = false;
+        }
+
+        if (!formData.generalInfo?.foodService) {
+          errors.foodService = "Please answer Yes or No for food and service question";
+          isValid = false;
+        }
+
+        if (!formData.generalInfo?.barista) {
+          errors.barista = "Please answer Yes or No for barista question";
           isValid = false;
         }
         if (!formData.generalInfo?.supervising) {
-          errors.supervising = "supervising is required";
+          errors.supervising = "Please answer Yes or No for Supervising / managing staff question";
+          isValid = false;
+        }
+        if (!formData.generalInfo?.level2FoodHygieneCertificate) {
+          errors.level2FoodHygieneCertificate = "Please answer Yes or No for level 2 food hygiene certificate question";
+          isValid = false;
+        }
+
+        if (!formData.generalInfo?.personalLicenseHolder) {
+          errors.personalLicenseHolder = "Please answer Yes or No for personal license holder question";
+          isValid = false;
+        }
+
+        if (!formData.generalInfo?.dbsDisclosureAndBarringService) {
+          errors.dbsDisclosureAndBarringService = "Please answer Yes or No for dbs Disclosure And Barring Service question";
           isValid = false;
         }
         break;
@@ -89,13 +121,9 @@ interface FormData {
         }
         break;
   
-      case "Reference Details":
-        if (formData.referenceDetails?.referenceName == "") {
-          errors.referenceName = "Reference name is required";
-          isValid = false;
-        }
-        break;
-  
+        case "Reference Details":
+          break;
+      
       case "Educational Details":
         if (formData.educationalDetails?.highestQualification == "") {
           errors.highestQualification = "Highest qualification is required";

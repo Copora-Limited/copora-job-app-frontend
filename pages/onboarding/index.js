@@ -132,13 +132,19 @@ export default function OnboardingLayout() {
     console.log("stepName", stepName);
     console.log("camelCaseStepName", camelCaseStepName);
 
+    // Validate step data
     const { isValid, errors } = validateStepData(currentStep, formData);
+    console.table("New formData", formData[camelCaseStepName]);
+    // console.log(JSON.stringify(myObject, null, 2));
+
+    // Handle validation errors
     if (!isValid) {
       setValidationErrors(errors);
       toast.error("Validation failed. Please check your input.");
       return;
+    } else {
+      setValidationErrors(""); // Clear previous validation errors
     }
-    setValidationErrors("");
 
     const stepData =
       formData[camelCaseStepName] || formData[stepName.replace(/-/g, "")];
@@ -149,7 +155,7 @@ export default function OnboardingLayout() {
       setIsSaving(true);
 
       if (!token) {
-        throw new Error("User session is not available. Please log in again.");
+        toast.error("User session is not available. Please log in again.");
       }
 
       let body;
@@ -195,7 +201,10 @@ export default function OnboardingLayout() {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || "An error occurred.");
+        // throw new Error(errorData.message || "An error occurred.");
+        toast.error(errorData.message);
+        setIsSaving(false);
+        return; // Prevent submission
       }
 
       await fetch(
