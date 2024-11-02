@@ -43,12 +43,8 @@ const AgreementConsentForm = ({ onChange }) => {
         }
 
         const data = await response.json();
-        setAgreementDetails({
-          firstName: data.firstName || "",
-          lastName: data.lastName || "",
-          address: data.address || "",
-          userConsent: data.userConsent || false,
-        });
+        console.log(data);
+        setAgreementDetails(data);
         setFirstName(data.firstName || "");
         setLastName(data.lastName || "");
         setAddress(data.address || "");
@@ -113,7 +109,7 @@ const AgreementConsentForm = ({ onChange }) => {
           </p>
         </div>
 
-        <div className="w-full mt-5 flex flex-col gap-3">
+        <div className="w-full mt-5 flex flex-col gap-3 ">
           <h4 className="text-center text-[14px] font-medium">
             CONTENTS CLAUSE
           </h4>
@@ -146,7 +142,7 @@ const AgreementConsentForm = ({ onChange }) => {
           <RenderContent index="21." content="Disclaimer 13" />
         </div>
 
-        <div className="mt-5">
+        <div className="mt-5 ">
           THIS AGREEMENT is dated
           <br />
           <br />
