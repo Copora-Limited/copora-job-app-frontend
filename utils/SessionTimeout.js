@@ -9,11 +9,11 @@ const SessionTimeout = ({ timeout = 10000 }) => {
   const timeoutRef = useRef(null);
 
   const resetTimeout = () => {
-    console.log("User activity detected. Resetting timeout.");
+    // console.log("User activity detected. Resetting timeout.");
 
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
-      console.log("Previous timeout cleared.");
+      // console.log("Previous timeout cleared.");
     }
 
     // Apply the timeout only if the user is not on a public route
@@ -24,7 +24,7 @@ const SessionTimeout = ({ timeout = 10000 }) => {
       }, timeout);
       console.log(`New timeout set for ${timeout / 1000} seconds.`);
     } else {
-      console.log("User is on a public route. Timeout not applied.");
+      // console.log("User is on a public route. Timeout not applied.");
     }
   };
 
