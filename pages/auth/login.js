@@ -9,11 +9,8 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
 const Login = () => {
   const router = useRouter();
-  // const [email, setEmail] = useState("daniel.walker@copora.com");
-  // const [password, setPassword] = useState("mPMB6h");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [redirectTimeout, setRedirectTimeout] = useState(5);
@@ -25,6 +22,13 @@ const Login = () => {
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  useEffect(() => {
+    // Check for the "message" query parameter and set the error state if "timeout"
+    if (router.query.message === "timeout") {
+      setError("Session timed out due to inactivity.");
+    }
+  }, [router.query]);
 
   useEffect(() => {
     let timer;

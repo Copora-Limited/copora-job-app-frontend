@@ -12,13 +12,11 @@ export default NextAuth({
       },
       async authorize(credentials) {
         try {
-          const res = await fetch(
+          const response = await fetch(
             `${process.env.NEXT_PUBLIC_BASE_URL}/users/login`,
             {
               method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
+              headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
                 email: credentials.email,
                 password: credentials.password,
@@ -26,34 +24,21 @@ export default NextAuth({
             }
           );
 
-          const data = await res.json();
+          const data = await response.json();
 
-          if (res.ok && data.user) {
-            // Return user object if authentication is successful
+          if (response.ok && data.user) {
             return {
-              id: data.user.userId,
-              firstName: data.user.firstName,
-              lastName: data.user.lastName,
-              email: data.user.email,
-              role: data.user.role,
-              resetPassword: data.user.resetPassword,
-              applicationNo: data.user.applicationNo,
-              onboardingStep: data.user.onboardingStep,
-              profilePicture: data.user.profilePicture,
-              token: data.token, // Store the token from the response
+              ...data.user,
+              token: data.token, // Add custom token to user object
+              exp: Math.floor(Date.now() / 1000) + 30 * 60, // 30-minute expiration in seconds
             };
-          } else {
-            // Handle different error responses from the backend
-            if (data.statusCode == 400 || data.statusCode == 401) {
-              throw new Error(data.message);
-            } else {
-              throw new Error("Authentication failed", data.message);
-            }
           }
+
+          // Handle error responses
+          throw new Error(data.message || "Authentication failed");
         } catch (error) {
-          // Console log the error for debugging purposes
           console.error("Error in authorize function:", error.message);
-          throw new Error(error.message); // Propagate the error to NextAuth
+          throw new Error(error.message);
         }
       },
     }),
@@ -64,32 +49,26 @@ export default NextAuth({
   },
   callbacks: {
     async jwt({ token, user }) {
+      // On initial sign-in, merge user data with the token
       if (user) {
-        // token.id = user.id;
-        token.name = user.firstName + " " + user.lastName;
-        token.email = user.email;
-        token.role = user.role;
-        token.resetPassword = user.resetPassword;
-        token.applicationNo = user.applicationNo;
-        token.onboardingStep = user.onboardingStep;
-        // token.profilePicture = user.profilePicture;
-        token.token = user.token; // Storing the token in the session
+        token = { ...token, ...user };
       }
+
+      // Check token expiration and return null if expired
+      if (Date.now() >= (token.exp || 0) * 1000) {
+        console.log("Token has expired");
+        return null; // Forces logout if token is expired
+      }
+
       return token;
     },
     async session({ session, token }) {
-      session.user = {
-        // id: token.id,
-        name: token.name,
-        email: token.email,
-        role: token.role,
-        resetPassword: token.resetPassword,
-        applicationNo: token.applicationNo,
-        onboardingStep: token.onboardingStep,
-        // profilePicture: token.profilePicture,
-        token: token.token,
-      };
+      session.user = token; // Add token data to session for client-side access
       return session;
     },
+  },
+  session: {
+    maxAge: 30 * 60, // Session duration: 30 minutes in seconds
+    updateAge: 5 * 60, // Extend session when user is active: 5 minutes in seconds
   },
 });

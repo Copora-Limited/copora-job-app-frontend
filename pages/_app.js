@@ -7,7 +7,7 @@ import { SessionProvider } from "@/context/SessionContext";
 import "react-phone-input-2/lib/style.css"; // Phone input styles
 import "react-toastify/dist/ReactToastify.css"; // Toastify styles
 import { ToastContainer } from "react-toastify";
-
+import SessionTimeout from "@/utils/SessionTimeout";
 // Optional: If you have a layout component, you can uncomment it
 // import Layout from "@/components/Layout";
 
@@ -15,6 +15,7 @@ export default function App({ Component, pageProps }) {
   return (
     <NextAuthProvider session={pageProps.session}>
       <SessionProvider>
+        <SessionTimeout timeout={300000} />
         <ThemeProvider>
           {/* <Layout> */}
           <Component {...pageProps} />
