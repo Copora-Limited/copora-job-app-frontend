@@ -28,7 +28,8 @@
       "@/*": [
         "./*"
       ]
-    }
+    },
+    "target": "ES2017"
   },
   "include": [
     "next-env.d.ts",
@@ -49,8 +50,43 @@
     "components/onboardingForm/HealthAndDisability.js",
     "components/onboardingForm/BankDetails.js",
     "components/onboardingForm/AgreementConsent.js",
-    "pages/redirect/index.js"
-, "components/onboardingForm/Reference.js", "pages/onboarding/index.js", "components/DashboardLayout.js", "components/FontAwesomeIcons.js", "context/SessionContext.js", "pages/admin/analytics.js", "pages/admin/create.js", "pages/admin/index.js", "pages/admin/view.js", "hooks/Store/useOnboardingStore.js", "hooks/Store/useDashboardStore.js", "pages/admin/list-admin/[id].js", "pages/admin/list-admin/index.js", "pages/admin/list-applicants/[id].js", "pages/admin/list-applicants/index.js", "pages/onboarding/OnboardingStepContent.js", "pages/index.js", "pages/applicant/index.js", "pages/_app.js", "components/Content.js", "components/ThemeToggle.js", "components/TopNav.js", "components/SideNav.js", "components/OnboardingAsideLeft.js", "components/OnboardingTopNav.js", "context/ThemeContext.js", "components/Logo.js", "pages/auth/error.js", "components/onboardingForm/ValidationComponent.js", "pages/auth/reset-password.js", "pages/auth/verify-email.js", "pages/auth/verify-twofactor.js", "pages/auth/notify-me.js", "pages/auth/forgot-password.js"  ],
+    "pages/redirect/index.js",
+    "components/onboardingForm/Reference.js",
+    "pages/onboarding/index.js",
+    "components/DashboardLayout.js",
+    "components/FontAwesomeIcons.js",
+    "context/SessionContext.js",
+    "pages/admin/analytics.js",
+    "pages/admin/create.js",
+    "pages/admin/index.js",
+    "pages/admin/view.js",
+    "hooks/Store/useOnboardingStore.js",
+    "hooks/Store/useDashboardStore.js",
+    "pages/admin/list-admin/[id].js",
+    "pages/admin/list-admin/index.js",
+    "pages/admin/list-applicants/[id].js",
+    "pages/admin/list-applicants/index.js",
+    "pages/onboarding/OnboardingStepContent.js",
+    "pages/index.js",
+    "pages/applicant/index.js",
+    "pages/_app.js",
+    "components/Content.js",
+    "components/ThemeToggle.js",
+    "components/TopNav.js",
+    "components/SideNav.js",
+    "components/OnboardingAsideLeft.js",
+    "components/OnboardingTopNav.js",
+    "context/ThemeContext.js",
+    "components/Logo.js",
+    "pages/auth/error.js",
+    "components/onboardingForm/ValidationComponent.js",
+    "pages/auth/reset-password.js",
+    "pages/auth/verify-email.js",
+    "pages/auth/verify-twofactor.js",
+    "pages/auth/notify-me.js",
+    "pages/auth/forgot-password.js",
+    "components/dashboard/UserTable.js"
+  ],
   "exclude": [
     "node_modules"
   ]

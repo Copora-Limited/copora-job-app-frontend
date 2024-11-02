@@ -15,6 +15,11 @@ const LicenseRegulatory = ({ onChange }) => {
   const [hasFetchedData, setHasFetchedData] = useState(false);
 
   useEffect(() => {
+    setIsMounted(true);
+    return () => setIsMounted(false);
+  }, []);
+
+  useEffect(() => {
     const fetchData = async () => {
       if (!token || !applicationNo || hasFetchedData) return;
 
@@ -31,7 +36,7 @@ const LicenseRegulatory = ({ onChange }) => {
         }
 
         const data = await response.json();
-        setFormState(data);
+        setChecked(data.agreementToReportInfection || false);
         onChange(data); // Notify parent component with fetched data
         setIsLoading(false);
         setHasFetchedData(true);
@@ -44,7 +49,8 @@ const LicenseRegulatory = ({ onChange }) => {
     fetchData();
   }, [applicationNo, token, hasFetchedData, onChange]);
 
-  const handleChange = (value) => {
+  const handleChange = (e) => {
+    const value = e.target.checked;
     setChecked(value);
     const updatedFormState = { agreementToReportInfection: value };
     onChange(updatedFormState); // Notify parent component
@@ -98,13 +104,12 @@ const LicenseRegulatory = ({ onChange }) => {
           </li>
         </ul>
       </div>
-
       <div className="w-full mt-4 font-azoSansLight">
         <CheckOption
           checked={checked}
           text="I agree that you fully understand and will comply with the above for the whole duration of your employment with Copora."
           id="licensing"
-          onChange={(e) => setChecked(e.target.checked)}
+          onChange={handleChange}
         />
       </div>
     </>

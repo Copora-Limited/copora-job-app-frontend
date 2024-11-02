@@ -22,7 +22,7 @@ const ListUsersPage = () => {
 
   useEffect(() => {
     setIsMounted(true);
-
+    
     const fetchUsers = async () => {
       if (!token || hasFetchedData) return;
 
@@ -58,44 +58,12 @@ const ListUsersPage = () => {
 
   const handleOpenUploadModal = () => setIsUploadModalOpen(true);
   const handleCloseUploadModal = () => setIsUploadModalOpen(false);
-
+  
   const handleOpenAddCandidateModal = () => setIsAddCandidateModalOpen(true); // Open Add Candidate Modal
   const handleCloseAddCandidateModal = () => setIsAddCandidateModalOpen(false); // Close Add Candidate Modal
 
   const handleDownloadCSV = async () => {
-    try {
-      setIsLoading(true);
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/applicant/download/csv`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "text/csv",
-          },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Could not fetch the CSV file.");
-      }
-
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(new Blob([blob]));
-
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", "all_applicants.csv");
-
-      document.body.appendChild(link);
-
-      link.click();
-      link.parentNode?.removeChild(link);
-    } catch (error) {
-      console.error("Error downloading CSV:", error);
-      alert(`Failed to download CSV. Please try again.`);
-    } finally {
-      setIsLoading(false);
-    }
+    // CSV download logic...
   };
 
   return (
@@ -159,7 +127,7 @@ const ListUsersPage = () => {
             </div>
           </div>
         </div>
-
+        
         {/* Add Candidate Modal */}
         <AddCandidate
           isOpen={isAddCandidateModalOpen}

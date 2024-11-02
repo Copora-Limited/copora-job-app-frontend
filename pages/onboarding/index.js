@@ -173,9 +173,10 @@ export default function OnboardingLayout() {
             }
           }
         }
-        // if (stepName == "general-info") {
-        //   formData.append("applicationNo", applicationNo);
-        // }
+        if (!formData.has("applicationNo")) {
+          formData.append("applicationNo", applicationNo);
+          // toast.success("Application number Appended.");
+        }
 
         body = formData;
       } else {
@@ -207,7 +208,7 @@ export default function OnboardingLayout() {
           },
           body: JSON.stringify({
             onboardingStep: currentStep + 1,
-            applicationNo,
+            applicationNo: applicationNo,
           }),
         }
       );

@@ -21,7 +21,7 @@ const DashboardLayout = ({ children }) => {
       <div className="flex flex-1">
         {!isPublicRoute && <SideNav isApplicant={isApplicant} />}
         <div className="flex-1">
-          <div className="p-8">{children}</div>
+          <div className="">{children}</div>
         </div>
       </div>
     </div>
