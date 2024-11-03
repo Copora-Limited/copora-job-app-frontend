@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import DashboardLayout from "@/components/DashboardLayout"; // Adjust the path as needed
 import { useSession } from "next-auth/react";
 import { CircleSpinnerOverlay } from "react-spinner-overlay";
-// import { Spin } from "antd";
+import { Spin } from "antd";
 import StatisticsCard from "@/components/dashboard/StatisticCard"; // Adjust the path as needed
 
 export default function AdminDashboard() {
@@ -86,10 +86,11 @@ export default function AdminDashboard() {
   return (
     <DashboardLayout>
       {isMounted && (
-        <CircleSpinnerOverlay
-          loading={isLoading}
-          overlayColor="rgba(0,153,255,0.2)"
-        />
+        // <CircleSpinnerOverlay
+        //   loading={isLoading}
+        //   overlayColor="rgba(0,153,255,0.2)"
+        // />
+        <Spin loading={isLoading}></Spin>
       )}
 
       <div className="w-full h-[92vh] grid grid-rows-[10%_1fr] md:px-12 px-5 py-3">
