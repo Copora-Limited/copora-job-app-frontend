@@ -16,14 +16,14 @@ const SideNav = forwardRef(({ isOpen, onClose, isApplicant }, ref) => {
 
   const getLinkClass = (path) => {
     return currentPath === path
-      ? "w-full h-[40px] rounded-[4px] bg-secondary text-white hover:bg-[#EBF1FD] group hover:text-secondary flex items-center gap-2 pl-4 transition-all duration-500"
-      : "w-full h-[40px] rounded-[4px] text-white group flex items-center gap-2 pl-4 transition-all duration-500";
+      ? "w-full h-[40px] rounded-[4px] bg-[#EBF1FD] text-secondary group flex items-center gap-2 pl-4 transition-all duration-500 hover:bg-[#EBF1FD] hover:text-secondary"
+      : "w-full h-[40px] rounded-[4px] bg-secondary text-white group flex items-center gap-2 pl-4 transition-all duration-500 hover:bg-[#EBF1FD] hover:text-secondary";
   };
 
   const getIconClass = (path) => {
     return currentPath === path
-      ? "fill-[#fff] group-hover:fill-secondary"
-      : "fill-[#fff]";
+      ? "fill-secondary "
+      : "fill-[#fff] group-hover:fill-secondary";
   };
 
   return (
