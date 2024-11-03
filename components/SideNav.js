@@ -7,8 +7,10 @@ import {
   NewCandidateIcon,
   CandidateIcon,
   CloseIcon,
+  SettingsIcon,
 } from "./Icon";
 import WhiteLogo from "./WhiteLogo";
+import UserAvatar from "./UserAvatar";
 
 const SideNav = forwardRef(({ isOpen, onClose, isApplicant }, ref) => {
   const router = useRouter();
@@ -75,6 +77,32 @@ const SideNav = forwardRef(({ isOpen, onClose, isApplicant }, ref) => {
             </>
           )}
           <hr />
+        </div>
+        <div className="w-full flex flex-col gap-3">
+          {isApplicant ? (
+            // Applicant navigation links
+            <>
+              <Link
+                href="/dashboard/settings"
+                className={getLinkClass("/dashboard/settings")}
+              >
+                <SettingsIcon className={getIconClass("/dashboard/settings")} />
+                <span className="mt-1">Settings</span>
+              </Link>
+              {/* Add more applicant-specific links here */}
+            </>
+          ) : (
+            <>
+              <Link
+                href="/admin/settings"
+                className={getLinkClass("/admin/settings")}
+              >
+                <SettingsIcon className={getIconClass("/admin/settings")} />
+                <span className="mt-1">Settings</span>
+              </Link>
+            </>
+          )}
+          <UserAvatar />
         </div>
       </div>
     </aside>
