@@ -52,8 +52,8 @@ const SideNav = forwardRef(({ isOpen, onClose, isApplicant }, ref) => {
                 href="/dashboard/candidate"
                 className={getLinkClass("/dashboard")}
               >
-                <CandidateIcon className={getIconClass("/dashboard")} />
-                <span className="mt-1">My Page</span>
+                <DashboardIcon className={getIconClass("/dashboard")} />
+                <span className="mt-1">Dashboard</span>
               </Link>
               {/* Add more applicant-specific links here */}
             </>
