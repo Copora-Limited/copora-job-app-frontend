@@ -183,7 +183,7 @@ const Login = () => {
           </div>
           <button
             type="submit"
-            className={`w-full p-2 rounded bg-secondary text-white hover:bg-teal-700 transition ${
+            className={`w-full p-2 rounded bg-appGreen hover:bg-teal-700 transition duration-500 text-white ${
               loading ? "opacity-50 cursor-not-allowed" : ""
             }`}
             disabled={loading}
