@@ -35,7 +35,7 @@ const Redirect = () => {
         if (onboardingStep < 11) {
           router.push(`/onboarding?step=${onboardingStep}`);
         } else {
-          router.push("/applicant");
+          router.push("/dashboard");
         }
       } else if (role === "admin") {
         router.push("/admin");

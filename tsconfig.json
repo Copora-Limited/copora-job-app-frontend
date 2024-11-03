@@ -68,7 +68,7 @@
     "pages/admin/list-applicants/index.js",
     "pages/onboarding/OnboardingStepContent.js",
     "pages/index.js",
-    "pages/applicant/index.js",
+    "pages/dashboard/index.js",
     "pages/_app.js",
     "components/Content.js",
     "components/ThemeToggle.js",

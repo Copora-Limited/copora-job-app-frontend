@@ -11,7 +11,12 @@ const DashboardLayout = ({ children }) => {
   const router = useRouter();
   const isPublicRoute = publicRoutes.includes(router.pathname);
   const userRole = session?.user?.role;
+
+  // console.log(userRole);
   const isApplicant = userRole === "applicant";
+
+  console.log("isApplicant", isApplicant);
+
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
   const sideNavRef = useRef(null);
 

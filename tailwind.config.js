@@ -1,5 +1,5 @@
-// tailwind.config.js
 /** @type {import('tailwindcss').Config} */
+const { fontFamily } = require("tailwindcss/defaultTheme");
 
 module.exports = {
   darkMode: "class", // or 'media' for media-query-based dark mode
@@ -10,6 +10,19 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        azoSansLight: ["var(--font-light)", ...fontFamily.sans],
+        azoSansMedium: ["var(--font-medium)", ...fontFamily.sans],
+        azoSansRegular: ["var(--font-regular)", ...fontFamily.sans],
+        azoSansBold: ["var(--font-bold)", ...fontFamily.sans],
+        azoSansItalic: ["var(--font-italic)", ...fontFamily.sans],
+      },
+      colors: {
+        primary: "#101828",
+        appGreen: "#247A84",
+        secondary: "#032541",
+        appMuted: "#667085",
+      },
       animation: {
         fadeIn: "fadeIn 0.3s ease-out",
         fadeOut: "fadeOut 0.3s ease-out", // Define fadeOut animation

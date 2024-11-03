@@ -43,27 +43,37 @@ const SideNav = forwardRef(({ isOpen, onClose, isApplicant }, ref) => {
           </button>
         </div>
         <div className="w-full h-full flex flex-col gap-3">
-          <Link href="/admin" className={getLinkClass("/admin")}>
-            <DashboardIcon className={getIconClass("/admin")} />
-            <span className="mt-1">Dashboard</span>
-          </Link>
-          <Link
-            href="/admin/list-applicants"
-            className={getLinkClass("/admin/list-applicants")}
-          >
-            <NewCandidateIcon
-              className={getIconClass("/admin/list-applicants")}
-            />
-            <span className="mt-1">New Candidate</span>
-          </Link>
-          <Link
-            href="/dashboard/candidate"
-            className={getLinkClass("/candidate")}
-          >
-            <CandidateIcon className={getIconClass("/candidate")} />
-            <span className="mt-1">Candidate</span>
-          </Link>
-          {/* Add more links as needed */}
+          {isApplicant ? (
+            // Applicant navigation links
+            <>
+              <Link
+                href="/dashboard/candidate"
+                className={getLinkClass("/dashboard")}
+              >
+                <CandidateIcon className={getIconClass("/dashboard")} />
+                <span className="mt-1">My Page</span>
+              </Link>
+              {/* Add more applicant-specific links here */}
+            </>
+          ) : (
+            // Admin navigation links
+            <>
+              <Link href="/admin" className={getLinkClass("/admin")}>
+                <DashboardIcon className={getIconClass("/admin")} />
+                <span className="mt-1">Dashboard</span>
+              </Link>
+              <Link
+                href="/admin/list-applicants"
+                className={getLinkClass("/admin/list-applicants")}
+              >
+                <NewCandidateIcon
+                  className={getIconClass("/admin/list-applicants")}
+                />
+                <span className="mt-1">New Candidate</span>
+              </Link>
+              {/* Add more admin-specific links here */}
+            </>
+          )}
           <hr />
         </div>
       </div>
