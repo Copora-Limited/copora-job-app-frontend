@@ -155,6 +155,7 @@ const Login = () => {
                 <FaAsterisk size={6} />
               </span>
             </label>
+
             <div className="w-full md:h-[40px] h-[35px] flex items-center justify-between rounded-[8px] border border-[#D0D5DD] py-[8px] px-[14px]">
               <input
                 type={showPassword ? "text" : "password"}
@@ -180,6 +181,15 @@ const Login = () => {
                 />
               </button>
             </div>
+
+            {/* <div className="w-full flex items-center justify-between-end mt-1"> */}
+            <Link
+              href="/auth/forgot-password"
+              className=" float-end my-2 cursor-pointer transition-all duration-500 text-teal-600 hover:text-secondary text-[12px] md:text-[14px]"
+            >
+              Forgot Password ?
+            </Link>
+            {/* </div> */}
           </div>
           <button
             type="submit"
@@ -190,15 +200,6 @@ const Login = () => {
           >
             {loading ? "Logging in..." : "Login"}
           </button>
-
-          <div className="w-full flex items-center justify-between">
-            <Link
-              href="/auth/forgot-password"
-              className="text-secondary cursor-pointer transition-all duration-500 hover:text-teal-600 text-[12px] md:text-[14px]"
-            >
-              Forgot Password ?
-            </Link>
-          </div>
 
           {isMounted && (
             <p className="w-full text-[12px] text-appMuted text-center">
