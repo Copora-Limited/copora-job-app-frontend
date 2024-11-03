@@ -2,6 +2,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 import { SearchIcon, NotificationIcon, OpenSideNav } from "./Icon";
 import { useTheme } from "@/context/ThemeContext";
 
@@ -9,6 +10,8 @@ const TopNav = ({ onMenuClick }) => {
   const { darkMode } = useTheme();
   const router = useRouter();
   const [sideNavOpen, setSideNavOpen] = useState(false);
+  const { data: session } = useSession();
+  const profilePicture = session?.user?.profilePicture;
 
   const handleLogout = async () => {
     await signOut({ redirect: false });
@@ -62,8 +65,14 @@ const TopNav = ({ onMenuClick }) => {
         </div>
 
         <div className="w-[40px] h-[40px] rounded-full">
-          <img
+          {/* <img
             src="/assets/contact-avatar.svg"
+            alt="User avatar"
+            className="w-full h-full rounded-full"
+          /> */}
+
+          <img
+            src={profilePicture ? profilePicture : "/assets/default_user.png"}
             alt="User avatar"
             className="w-full h-full rounded-full"
           />

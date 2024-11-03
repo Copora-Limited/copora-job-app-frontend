@@ -8,6 +8,7 @@ import ShiftCard from "@/components/dashboard/ShiftCard"; // A placeholder for t
 export default function ApplicantPage() {
   const { data: session } = useSession();
   const fullName = session?.user?.firstName + " " + session?.user?.lastName;
+  const profilePicture = session?.user?.profilePicture;
 
   return (
     <DashboardLayout>
@@ -93,10 +94,13 @@ export default function ApplicantPage() {
               {/* Replace with actual profile card */}
               <div className="flex flex-col items-center justify-center  p-4 text-center shadow my-4">
                 <img
-                  src="/assets/default_user.png"
+                  src={
+                    profilePicture ? profilePicture : "/assets/default_user.png"
+                  }
                   alt="User Profile"
-                  className="rounded-full w-20 h-20 mb-2 "
+                  className="rounded-full w-20 h-20 mb-2"
                 />
+
                 <div className="">{fullName}</div>
               </div>
 

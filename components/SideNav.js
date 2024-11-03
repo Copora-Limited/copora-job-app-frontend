@@ -8,6 +8,8 @@ import {
   CandidateIcon,
   CloseIcon,
   SettingsIcon,
+  AnnouncementIcon,
+  CalendarIcon,
 } from "./Icon";
 import WhiteLogo from "./WhiteLogo";
 import UserAvatar from "./UserAvatar";
@@ -48,12 +50,27 @@ const SideNav = forwardRef(({ isOpen, onClose, isApplicant }, ref) => {
           {isApplicant ? (
             // Applicant navigation links
             <>
-              <Link
-                href="/dashboard/candidate"
-                className={getLinkClass("/dashboard")}
-              >
+              <Link href="/dashboard" className={getLinkClass("/dashboard")}>
                 <DashboardIcon className={getIconClass("/dashboard")} />
                 <span className="mt-1">Dashboard</span>
+              </Link>
+
+              <Link
+                href="/dashboard/job-offer"
+                className={getLinkClass("/dashboard/job-offer")}
+              >
+                <AnnouncementIcon
+                  className={getIconClass("/dashboard/job-offer")}
+                />
+                <span className="mt-1">Job offers</span>
+              </Link>
+
+              <Link
+                href="/dashboard/schedule"
+                className={getLinkClass("/dashboard/schedule")}
+              >
+                <CalendarIcon className={getIconClass("/dashboard/schedule")} />
+                <span className="mt-1">Schedule</span>
               </Link>
               {/* Add more applicant-specific links here */}
             </>

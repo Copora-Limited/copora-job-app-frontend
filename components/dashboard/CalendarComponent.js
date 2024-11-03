@@ -21,7 +21,7 @@ export default function CalendarComponent() {
   const CustomToolbar = ({ date, label }) => {
     return (
       <div className="my-custom-toolbar text-center mb-2">
-        <span className="text-sm ">{label}</span>{" "}
+        {/* <span className="text-sm ">{label}</span>{" "} */}
       </div>
     );
   };
