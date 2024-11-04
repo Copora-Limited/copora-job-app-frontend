@@ -9,6 +9,7 @@ export default function ApplicantPage() {
   const { data: session } = useSession();
   const fullName = session?.user?.firstName + " " + session?.user?.lastName;
   const profilePicture = session?.user?.profilePicture;
+  const applicationNo = session?.user?.applicationNo;
 
   return (
     <DashboardLayout>
@@ -102,6 +103,7 @@ export default function ApplicantPage() {
                 />
 
                 <div className="">{fullName}</div>
+                <div className="">{applicationNo}</div>
               </div>
 
               {/* <!-- Content for the 4-column section --> */}
