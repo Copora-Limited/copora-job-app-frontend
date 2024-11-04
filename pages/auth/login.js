@@ -24,11 +24,13 @@ const Login = () => {
   }, []);
 
   useEffect(() => {
-    // Check for the "message" query parameter and set the error state if "timeout"
-    if (router.query.message === "timeout") {
+    // Check for the "message" in localStorage and set the error state if it matches "timeout"
+    if (localStorage.getItem("message") === "timeout") {
       setError("Session timed out due to inactivity.");
+      // Optionally, clear the message from localStorage if you want to show it only once
+      localStorage.removeItem("message");
     }
-  }, [router.query]);
+  }, []); // Only run once when the component mounts
 
   useEffect(() => {
     let timer;

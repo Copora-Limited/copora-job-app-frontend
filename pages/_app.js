@@ -15,7 +15,7 @@ export default function App({ Component, pageProps }) {
   return (
     <NextAuthProvider session={pageProps.session}>
       <SessionProvider>
-        <SessionTimeout timeout={600000} />
+        <SessionTimeout timeout={300000} />
         <ThemeProvider>
           {/* <Layout> */}
           <Component {...pageProps} />

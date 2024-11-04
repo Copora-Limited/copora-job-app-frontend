@@ -20,9 +20,10 @@ const SessionTimeout = ({ timeout = 10000 }) => {
     if (!publicRoutes.includes(router.pathname)) {
       timeoutRef.current = setTimeout(() => {
         console.log("User inactive. Signing out due to inactivity.");
-        signOut({ callbackUrl: "/auth/login?message=timeout" });
+        localStorage.setItem("message", "timeout");
+        signOut({ callbackUrl: "/auth/login" });
       }, timeout);
-      // console.log(`New timeout set for ${timeout / 1000} seconds.`);
+      console.log(`New timeout set for ${timeout / 1000} seconds.`);
     } else {
       // console.log("User is on a public route. Timeout not applied.");
     }
