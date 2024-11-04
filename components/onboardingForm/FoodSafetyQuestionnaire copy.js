@@ -12,15 +12,15 @@ const FoodSafetyQuestionnaire = ({ onChange }) => {
   const [formState, setFormState] = useState({
     cleaningRawMeatUtensilsRequired: "",
     cleanHandsWhenDirty: "",
-    contaminatedFoodCharacteristics: "",
+    contaminatedFoodAppearance: "",
+    trueStatementAboutBacteria: "",
     highRiskFoodStorage: "",
     temperatureDangerZone: "",
     handWashingScenarios: [],
-    // foodSafetyActTrueOrFalse: "",
+    foodSafetyActTrueOrFalse: "",
     allergenDefinition: "",
     highRiskFoods: "",
-    bacteriaFactOne: "",
-    bacteriaFactTwo: "",
+    bacteriaFacts: "",
     foodSafetyActOffence: "",
     // Add more fields with initial values as needed
   });
@@ -76,20 +76,24 @@ const FoodSafetyQuestionnaire = ({ onChange }) => {
     onChange(updatedFormData); // Notify parent component
   };
 
-  const handlecheckboxChange = (field, value) => {
+  const handleRadioChange = (field, value) => {
     const updatedFormState = { ...formState, [field]: value };
-    console.log("Updated Form State (checkbox):", updatedFormState); // Debug log
+    console.log("Updated Form State (Radio):", updatedFormState); // Debug log
     setFormState(updatedFormState);
     onChange(updatedFormState); // Notify parent component
   };
 
-  const handleHandWashingScenariosChange = (num, value) => {
+  const handleHandWashingScenariosChange = (value) => {
     setFormState((prevState) => {
       const scenarios = Array.isArray(prevState.handWashingScenarios)
         ? [...prevState.handWashingScenarios]
-        : ["", "", ""]; // Initialize with empty strings for three scenarios
+        : [];
 
-      scenarios[num - 1] = value; // Update the specific scenario
+      if (scenarios.includes(value)) {
+        scenarios.splice(scenarios.indexOf(value), 1); // Remove if already exists
+      } else {
+        scenarios.push(value); // Add new scenario
+      }
 
       const updatedState = { ...prevState, handWashingScenarios: scenarios };
       console.log("Updated handWashingScenarios:", updatedState); // Debug log
@@ -107,65 +111,35 @@ const FoodSafetyQuestionnaire = ({ onChange }) => {
         />
       )}
       <div className="w-full flex flex-col gap-5 mt-5">
-        {/* Question 1: cleaningRawMeatUtensilsRequired */}
+        {/* Question 1 */}
         <h6 className="text-[14px] text-black font-medium">
-          It is important to clean chopping boards/utensils after using them for
-          raw meat.
+          True or False: It is important to clean chopping boards/utensils after
+          using them for raw meat.
         </h6>
         <div className="w-full flex md:flex-row flex-col md:items-start items-center gap-4 mt-2">
           <div className="flex items-center gap-3">
-            <input
-              type="checkbox"
-              id="utensil-true-1"
-              checked={formState.cleaningRawMeatUtensilsRequired === true}
-              className="accent-appGreen"
-              onChange={() =>
-                handleCheckboxChange("cleaningRawMeatUtensilsRequired", true)
-              }
-            />
-            <label htmlFor="utensil-true-1">True</label>
+            <input type="checkbox" id="q1-true" className="accent-appGreen" />
+            <label htmlFor="q1-true">True</label>
           </div>
           <div className="flex items-center gap-3">
-            <input
-              type="checkbox"
-              id="utensil-false-1"
-              checked={formState.cleaningRawMeatUtensilsRequired === false}
-              className="accent-appGreen"
-              onChange={() =>
-                handleCheckboxChange("cleaningRawMeatUtensilsRequired", false)
-              }
-            />
-            <label htmlFor="utensil-false-1">False</label>
+            <input type="checkbox" id="q1-false" className="accent-appGreen" />
+            <label htmlFor="q1-false">False</label>
           </div>
         </div>
 
-        {/* Question 2: Cleaning Requirement */}
+        {/* Question 2 */}
         <h6 className="text-[14px] text-black font-medium">
-          You only need to clean hands and kitchen surfaces when they look
-          dirty.
+          True or False: You only need to clean hands and kitchen surfaces when
+          they look dirty.
         </h6>
         <div className="w-full flex md:flex-row flex-col md:items-start items-center gap-4 mt-2">
           <div className="flex items-center gap-3">
-            <input
-              type="checkbox"
-              id="cleanHandsWhenDirty-true"
-              checked={formState.cleanHandsWhenDirty === true}
-              className="accent-appGreen"
-              onChange={() => handleCheckboxChange("cleanHandsWhenDirty", true)}
-            />
-            <label htmlFor="cleanHandsWhenDirty-true">True</label>
+            <input type="checkbox" id="q2-true" className="accent-appGreen" />
+            <label htmlFor="q2-true">True</label>
           </div>
           <div className="flex items-center gap-3">
-            <input
-              type="checkbox"
-              id="cleanHandsWhenDirty-false"
-              checked={formState.cleanHandsWhenDirty === false}
-              className="accent-appGreen"
-              onChange={() =>
-                handleCheckboxChange("cleanHandsWhenDirty", false)
-              }
-            />
-            <label htmlFor="cleanHandsWhenDirty-false">False</label>
+            <input type="checkbox" id="q2-false" className="accent-appGreen" />
+            <label htmlFor="q2-false">False</label>
           </div>
         </div>
 
@@ -182,11 +156,10 @@ const FoodSafetyQuestionnaire = ({ onChange }) => {
         ].map((option, index) => (
           <div key={index} className="flex items-center gap-3">
             <input
-              type="checkbox"
+              type="radio"
               name="q3"
               id={`q3-${index}`}
               className="accent-appGreen"
-              checked={formState.contaminatedFoodCharacteristics === option}
               onChange={() =>
                 handleChange("contaminatedFoodCharacteristics", option)
               }
@@ -207,12 +180,10 @@ const FoodSafetyQuestionnaire = ({ onChange }) => {
         ].map((option, index) => (
           <div key={index} className="flex items-center gap-3">
             <input
-              type="checkbox"
+              type="radio"
               name="q4"
               id={`q4-${index}`}
               className="accent-appGreen"
-              checked={formState.bacteriaFactOne === option}
-              onChange={() => handleChange("bacteriaFactOne", option)}
             />
             <label htmlFor={`q4-${index}`}>{option}</label>
           </div>
@@ -225,12 +196,10 @@ const FoodSafetyQuestionnaire = ({ onChange }) => {
         {["Below raw food", "Above raw food"].map((option, index) => (
           <div key={index} className="flex items-center gap-3">
             <input
-              type="checkbox"
+              type="radio"
               name="q5"
               id={`q5-${index}`}
               className="accent-appGreen"
-              checked={formState.highRiskFoodStorage === option}
-              onChange={() => handleChange("highRiskFoodStorage", option)}
             />
             <label htmlFor={`q5-${index}`}>{option}</label>
           </div>
@@ -244,12 +213,10 @@ const FoodSafetyQuestionnaire = ({ onChange }) => {
           (option, index) => (
             <div key={index} className="flex items-center gap-3">
               <input
-                type="checkbox"
+                type="radio"
                 name="q6"
                 id={`q6-${index}`}
-                checked={formState.temperatureDangerZone === option}
                 className="accent-appGreen"
-                onChange={() => handleChange("temperatureDangerZone", option)}
               />
               <label htmlFor={`q6-${index}`}>{option}</label>
             </div>
@@ -262,18 +229,30 @@ const FoodSafetyQuestionnaire = ({ onChange }) => {
           work.
         </h6>
         {[1, 2, 3].map((num) => (
-          <div key={num} className="flex items-center gap-3">
-            <input
-              type="text"
-              placeholder={`Scenario ${num}`}
-              className="accent-appGreen border border-gray-300 p-2 rounded-md w-full"
-              value={formState.handWashingScenarios?.[num - 1] || ""} // Fill the input with the existing scenario
-              onChange={(e) =>
-                handleHandWashingScenariosChange(num, e.target.value)
-              } // Pass the current value
-            />
-          </div>
+          <input
+            key={num}
+            type="text"
+            placeholder={`Scenario ${num}`}
+            className="border border-gray-300 p-2 rounded-md w-full"
+          />
         ))}
+
+        {/* Question 8 */}
+        <h6 className="text-[14px] text-black font-medium">
+          True or False: The Food Safety Act 1990 is wide-ranging legislation on
+          food safety and consumer protection in relation to food throughout
+          Great Britain.
+        </h6>
+        <div className="w-full flex md:flex-row flex-col md:items-start items-center gap-4 mt-2">
+          <div className="flex items-center gap-3">
+            <input type="checkbox" id="q8-true" className="accent-appGreen" />
+            <label htmlFor="q8-true">True</label>
+          </div>
+          <div className="flex items-center gap-3">
+            <input type="checkbox" id="q8-false" className="accent-appGreen" />
+            <label htmlFor="q8-false">False</label>
+          </div>
+        </div>
 
         {/* Question 9 */}
         <h6 className="text-[14px] text-black font-medium">
@@ -287,12 +266,10 @@ const FoodSafetyQuestionnaire = ({ onChange }) => {
         ].map((option, index) => (
           <div key={index} className="flex items-center gap-3">
             <input
-              type="checkbox"
+              type="radio"
               name="q9"
               id={`q9-${index}`}
-              checked={formState.allergenDefinition === option}
               className="accent-appGreen"
-              onChange={() => handleChange("allergenDefinition", option)}
             />
             <label htmlFor={`q9-${index}`}>{option}</label>
           </div>
@@ -306,12 +283,10 @@ const FoodSafetyQuestionnaire = ({ onChange }) => {
           (option, index) => (
             <div key={index} className="flex items-center gap-3">
               <input
-                type="checkbox"
+                type="radio"
                 name="q10"
                 id={`q10-${index}`}
-                checked={formState.highRiskFoods?.includes(option)}
                 className="accent-appGreen"
-                onChange={() => handleChange("highRiskFoods", option)}
               />
               <label htmlFor={`q10-${index}`}>{option}</label>
             </div>
@@ -330,14 +305,12 @@ const FoodSafetyQuestionnaire = ({ onChange }) => {
         ].map((option, index) => (
           <div key={index} className="flex items-center gap-3">
             <input
-              type="checkbox"
-              name="bacteriaFact"
-              id={`bacteriaFact-${index}`}
-              checked={formState.bacteriaFactTwo === option}
+              type="radio"
+              name="q11"
+              id={`q11-${index}`}
               className="accent-appGreen"
-              onChange={() => handlecheckboxChange("bacteriaFactTwo", option)}
             />
-            <label htmlFor={`bacteriaFact-${index}`}>{option}</label>
+            <label htmlFor={`q11-${index}`}>{option}</label>
           </div>
         ))}
 
@@ -353,12 +326,10 @@ const FoodSafetyQuestionnaire = ({ onChange }) => {
         ].map((option, index) => (
           <div key={index} className="flex items-center gap-3">
             <input
-              type="checkbox"
+              type="radio"
               name="q12"
               id={`q12-${index}`}
-              checked={formState.foodSafetyActOffence === option}
               className="accent-appGreen"
-              onChange={() => handleChange("foodSafetyActOffence", option)}
             />
             <label htmlFor={`q12-${index}`}>{option}</label>
           </div>

@@ -146,8 +146,6 @@ interface FormData {
         break;
 
       case "Food Safety Questionnaire":
-        console.log("Food Safety formData", formData.foodSafetyQuestionnaire)
-        
         if (formData.foodSafetyQuestionnaire?.cleaningRawMeatUtensilsRequired == undefined || null) {
           errors.cleaningRawMeatUtensilsRequired = "cleaning raw meat utensils question is required";
           isValid = false;
