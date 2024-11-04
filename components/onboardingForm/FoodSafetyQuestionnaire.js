@@ -415,7 +415,7 @@ const FoodSafetyQuestionnaire = ({ onChange }) => {
         </div>
 
         {/* Question 12: Licensing Regulation Agreement */}
-        <h6 className="text-[14px] text-black font-medium">
+        {/* <h6 className="text-[14px] text-black font-medium">
           Are you aware of the Licensing Regulation agreement?
         </h6>
         <div className="flex items-center gap-3">
@@ -432,7 +432,7 @@ const FoodSafetyQuestionnaire = ({ onChange }) => {
             }
           />
           <label htmlFor="licensingRegulationAgreement-true">Yes</label>
-        </div>
+        </div> */}
         <div className="flex items-center gap-3">
           <input
             type="checkbox"

@@ -237,23 +237,29 @@ const EducationDetails = ({ onChange }) => {
             />
           </div>
 
-          <div className="w-full flex items-center gap-2">
-            <input
-              type="checkbox"
-              id={`stillStudying-${index}`}
-              name="stillStudying"
-              checked={record.stillStudying}
-              onChange={(e) =>
-                handleEducationChange(index, "stillStudying", e.target.checked)
-              }
-              className="w-4 h-4 rounded accent-appGreen"
-            />
-            <label
-              htmlFor={`stillStudying-${index}`}
-              className="text-[12px] text-[#667085]"
-            >
-              Still Studying
-            </label>
+          <div className="w-full flex flex-col col-span-2 gap-1 items-end ">
+            <div className="flex items-center gap-2">
+              <input
+                type="checkbox"
+                id={`stillStudying-${index}`}
+                name="stillStudying"
+                checked={record.stillStudying}
+                onChange={(e) =>
+                  handleEducationChange(
+                    index,
+                    "stillStudying",
+                    e.target.checked
+                  )
+                }
+                className="w-4 h-4 rounded accent-appGreen"
+              />
+              <label
+                htmlFor={`stillStudying-${index}`}
+                className="text-[12px] text-[#667085]"
+              >
+                Still Studying
+              </label>
+            </div>
           </div>
         </div>
       ))}

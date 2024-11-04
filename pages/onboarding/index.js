@@ -15,7 +15,7 @@ export default function OnboardingLayout() {
   const { data: session, status } = useSession();
   const { token } = useSessionContext();
   const applicationNo = session?.user?.applicationNo;
-  const username = session?.user?.name;
+  const username = session?.user?.firstName + " " + session?.user?.lastName;
   const router = useRouter();
   const { step } = router.query;
   const [currentStep, setCurrentStep] = useState(0);

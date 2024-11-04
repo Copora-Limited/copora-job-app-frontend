@@ -237,7 +237,7 @@ const HealthAndDisabilityForm = ({ onChange }) => {
               "I Agree that to the best of my knowledge, all the above
               statements are true and I understand that if I have wilfully
               withheld or falsified any information, my Conditions of Employment
-              may be invalidated. I Certify that I am free and have no medical
+              may be invalidated. I certify that I am free and have no medical
               history to suggest I could suffer from any sickness, disease or
               infection that is likely to contaminate food or place where food
               is prepared."
