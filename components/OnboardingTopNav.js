@@ -8,7 +8,8 @@ export default function OnboardingTopNav() {
   const profilePic = useOnboardingStore((state) => state.profilePic); // Uncommented this line
 
   const handleSignOut = async () => {
-    await signOut({ callbackUrl: "/auth/login" });
+    await signOut({ redirect: false });
+    router.push("/auth/login");
   };
 
   return (
