@@ -22,7 +22,7 @@ const SessionTimeout = ({ timeout = 10000 }) => {
         console.log("User inactive. Signing out due to inactivity.");
         signOut({ callbackUrl: "/auth/login?message=timeout" });
       }, timeout);
-      console.log(`New timeout set for ${timeout / 1000} seconds.`);
+      // console.log(`New timeout set for ${timeout / 1000} seconds.`);
     } else {
       // console.log("User is on a public route. Timeout not applied.");
     }

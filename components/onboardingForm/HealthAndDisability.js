@@ -61,23 +61,23 @@ const HealthAndDisabilityForm = ({ onChange }) => {
         setFormState({
           gpName: data.gpName || "",
           gpAddress: data.gpAddress || "",
-          relevantHealthIssues: data.relevantHealthIssues ?? false,
+          relevantHealthIssues: data.relevantHealthIssues ?? null,
           relevantHealthIssuesDetails: data.relevantHealthIssuesDetails || "",
-          majorIllnessTreatment: data.majorIllnessTreatment ?? false,
+          majorIllnessTreatment: data.majorIllnessTreatment ?? null,
           majorIllnessDetails: data.majorIllnessDetails || "",
-          suddenLossOfConsciousness: data.suddenLossOfConsciousness ?? false,
+          suddenLossOfConsciousness: data.suddenLossOfConsciousness ?? null,
           consciousnessLossDetails: data.consciousnessLossDetails || "",
-          healthRelatedAbsences: data.healthRelatedAbsences ?? false,
+          healthRelatedAbsences: data.healthRelatedAbsences ?? null,
           healthRelatedAbsencesDetails: data.healthRelatedAbsencesDetails || "",
-          currentMedications: data.currentMedications ?? false,
+          currentMedications: data.currentMedications ?? null,
           medicationDetails: data.medicationDetails || "",
-          physicalLimitations: data.physicalLimitations ?? false,
+          physicalLimitations: data.physicalLimitations ?? null,
           limitationsDetails: data.limitationsDetails || "",
-          colorVisionDefects: data.colorVisionDefects ?? false,
+          colorVisionDefects: data.colorVisionDefects ?? null,
           colorVisionDefectsDetails: data.colorVisionDefectsDetails || "",
           disabilityAdjustmentNeeds: data.disabilityAdjustmentNeeds || "",
-          agreementCertification: data.agreementCertification ?? false,
-          agreementToReportInfection: data.agreementToReportInfection ?? false,
+          agreementCertification: data.agreementCertification ?? null,
+          agreementToReportInfection: data.agreementToReportInfection ?? null,
           //   attempted: data.attempted ?? false,
         });
 
@@ -263,7 +263,7 @@ const QuestionWithDetails = ({
     <div className="flex gap-4">
       <label>
         <input
-          type="radio"
+          type="checkbox"
           className="accent-[#247A84] rounded-md mr-2"
           name={field}
           value={true}
@@ -274,7 +274,7 @@ const QuestionWithDetails = ({
       </label>
       <label>
         <input
-          type="radio"
+          type="checkbox"
           className="accent-[#247A84] rounded-md mr-2"
           name={field}
           value={formState[field]}

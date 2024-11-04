@@ -11,17 +11,8 @@ const FoodSafetyQuestionnaire = ({ onChange }) => {
 
   const [formState, setFormState] = useState({
     cleaningRawMeatUtensilsRequired: "",
-    foodSafetyAct1990Description: "",
-    cleaningRequirement: "",
-    contaminatedFoodCharacteristics: "",
-    bacteriaFactTrue: "",
-    highRiskFoodStoragePosition: "",
-    temperatureDangerZone: "",
-    handWashingScenarios: [], // Ensure this is initialized as an empty array
-    allergenDefinition: "",
-    highRiskFoodsExamples: "",
-    foodSafetyActOffense: "",
-    licensingRegulationAgreement: false,
+    handWashingScenarios: [],
+    // Add more fields with initial values as needed
   });
 
   const [isMounted, setIsMounted] = useState(false);
@@ -46,8 +37,8 @@ const FoodSafetyQuestionnaire = ({ onChange }) => {
         }
 
         const data = await response.json();
-        setFormState(data);
-        onChange(data); // Notify parent component with fetched data
+        setFormState((prev) => ({ ...prev, ...data })); // Merge with existing state
+        onChange(data);
         setIsLoading(false);
         setHasFetchedData(true);
       } catch (error) {
@@ -61,20 +52,25 @@ const FoodSafetyQuestionnaire = ({ onChange }) => {
 
   const handleChange = (field, value) => {
     const updatedFormState = { ...formState, [field]: value };
+    console.log("Updated Form State:", updatedFormState); // Debug log
     setFormState(updatedFormState);
     onChange(updatedFormState); // Notify parent component
   };
 
-  const handleCheckboxChange = (field, value) => {
-    const newValue = formState[field] === value ? "" : value;
-    handleChange(field, newValue);
+  // Updated handleCheckboxChange function
+  const handleCheckboxChange = (name, value) => {
+    const newValue = formState[name] === value ? "" : value;
+    const updatedFormData = { ...formState, [name]: newValue };
+    console.log("Updated Form Data:", updatedFormData); // Debug log
+    setFormState(updatedFormData);
+    onChange(updatedFormData); // Notify parent component
   };
 
   const handleHandWashingScenariosChange = (value) => {
     setFormState((prevState) => {
       const scenarios = Array.isArray(prevState.handWashingScenarios)
         ? [...prevState.handWashingScenarios]
-        : []; // Fallback to an empty array if not an array
+        : [];
 
       if (scenarios.includes(value)) {
         scenarios.splice(scenarios.indexOf(value), 1); // Remove if already exists
@@ -82,14 +78,12 @@ const FoodSafetyQuestionnaire = ({ onChange }) => {
         scenarios.push(value); // Add new scenario
       }
 
-      return { ...prevState, handWashingScenarios: scenarios };
+      const updatedState = { ...prevState, handWashingScenarios: scenarios };
+      console.log("Updated handWashingScenarios:", updatedState); // Debug log
+      onChange(updatedState); // Notify parent component
+      return updatedState;
     });
   };
-
-  // if (isLoading) {
-  //   return <div>Loading...</div>; // Optional loading state
-  // }
-
   return (
     <>
       {isMounted && (
@@ -432,7 +426,7 @@ const FoodSafetyQuestionnaire = ({ onChange }) => {
             }
           />
           <label htmlFor="licensingRegulationAgreement-true">Yes</label>
-        </div> */}
+        </div>
         <div className="flex items-center gap-3">
           <input
             type="checkbox"
@@ -447,7 +441,7 @@ const FoodSafetyQuestionnaire = ({ onChange }) => {
             }
           />
           <label htmlFor="licensingRegulationAgreement-false">No</label>
-        </div>
+        </div> */}
       </div>
     </>
   );

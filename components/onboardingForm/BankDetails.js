@@ -151,6 +151,7 @@ const BankDetailsForm = ({ onChange }) => {
             Allowance, taxable Incapacity Benefit, State or Occupational
             Pension.
           </label>
+          <label></label>
         </div>
 
         <div className="flex items-center gap-3 text-[14px] text-black my-5">
@@ -166,8 +167,29 @@ const BankDetailsForm = ({ onChange }) => {
           <label htmlFor="employmentStatus-2">
             This is now my only job but since last 6 April I have had another
             job, or received taxable Jobseeker's Allowance, Employment and
-            Support Allowance, taxable Incapacity Benefit. I do not receive a
+            Support Allowance, taxable Incapacity Benefit I do not receive a
             State or Occupational Pension.
+          </label>
+        </div>
+
+        <div className="flex items-center gap-3 text-[14px] text-black my-5">
+          <input
+            type="checkbox"
+            className="accent-appGreen"
+            id="employmentStatus-3"
+            checked={
+              bankDetails.employmentStatusDeclaration === "otherJobOrPension"
+            }
+            onChange={() =>
+              handleCheckboxChange(
+                "employmentStatusDeclaration",
+                "otherJobOrPension"
+              )
+            }
+          />
+          <label htmlFor="employmentStatus-3">
+            As well as my new job, I have another job or receive a State or
+            Occupational Pension.
           </label>
         </div>
 
@@ -179,15 +201,39 @@ const BankDetailsForm = ({ onChange }) => {
           <input
             type="checkbox"
             className="accent-appGreen"
-            id="studentLoanStatus"
-            checked={bankDetails.studentLoanStatus === "otherJobOrPension"}
+            id="studentLoanStatus-1"
+            checked={
+              bankDetails.studentLoanStatus === "type1StudentLoanRepayment"
+            }
             onChange={() =>
-              handleCheckboxChange("studentLoanStatus", "otherJobOrPension")
+              handleCheckboxChange(
+                "studentLoanStatus",
+                "type1StudentLoanRepayment"
+              )
             }
           />
-          <label htmlFor="studentLoanStatus">
-            As well as my new job, I have another job or receive a State or
-            Occupational Pension.
+          <label htmlFor="studentLoanStatus-1">
+            I make Type 1 Student Loan repayments through payrol
+          </label>
+        </div>
+
+        <div className="flex items-center gap-3 text-[14px] text-black mt-10 mb-5">
+          <input
+            type="checkbox"
+            className="accent-appGreen"
+            id="studentLoanStatus-2"
+            checked={
+              bankDetails.studentLoanStatus === "type2StudentLoanRepayment"
+            }
+            onChange={() =>
+              handleCheckboxChange(
+                "studentLoanStatus",
+                "type2StudentLoanRepayment"
+              )
+            }
+          />
+          <label htmlFor="studentLoanStatus-2">
+            I make Type 2 Student Loan repayments through payrol
           </label>
         </div>
 

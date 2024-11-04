@@ -141,6 +141,7 @@ export default function OnboardingLayout() {
 
     console.log("stepName", stepName);
     console.log("camelCaseStepName", camelCaseStepName);
+    console.log("All formData", formData);
 
     // Validate step data
     const { isValid, errors } = validateStepData(currentStep, formData);
@@ -153,7 +154,7 @@ export default function OnboardingLayout() {
       toast.error("Validation failed. Please check your input.");
       return;
     } else {
-      setValidationErrors(""); // Clear previous validation errors
+      setValidationErrors(null); // Clear previous validation errors
     }
 
     const stepData =
@@ -267,7 +268,6 @@ export default function OnboardingLayout() {
     setCurrentStep(prevStep);
   };
 
-  // Handle form changes
   const handleFormChange = (data) => {
     const currentStepName = stepEndpoints[currentStep];
     const camelCaseStepName = currentStepName
@@ -276,50 +276,30 @@ export default function OnboardingLayout() {
         index === 0 ? part : part.charAt(0).toUpperCase() + part.slice(1)
       )
       .join("");
+    console.log("camelCaseStepName", camelCaseStepName);
+    setFormData((prev) => {
+      const currentFormData = prev[camelCaseStepName] || {};
 
-    setFormData((prev) => ({
-      ...prev,
-      [camelCaseStepName]: {
-        ...prev[camelCaseStepName],
-        ...data, // Merge new data with existing form data for this step
-      },
-    }));
+      // Check if applicationNo exists in the current form data
+      if (data.applicationNo && currentFormData.applicationNo) {
+        console.log("ApplicationNo already set");
+        // Do nothing if applicationNo already exists
+        return prev;
+      }
+
+      return {
+        ...prev,
+        [camelCaseStepName]: {
+          ...currentFormData,
+          ...data,
+          // Append applicationNo if it doesn't exist
+          applicationNo: applicationNo || data.applicationNo || null,
+        },
+      };
+    });
 
     console.log("show new data set in camelCaseStepName", formData);
   };
-
-  // const handleFormChange = (data) => {
-  //   const currentStepName = stepEndpoints[currentStep];
-  //   const camelCaseStepName = currentStepName
-  //     .split("-")
-  //     .map((part, index) =>
-  //       index === 0 ? part : part.charAt(0).toUpperCase() + part.slice(1)
-  //     )
-  //     .join("");
-
-  //   setFormData((prev) => {
-  //     const currentFormData = prev[camelCaseStepName] || {};
-
-  //     // Check if applicationNo exists in the current form data
-  //     if (data.applicationNo && currentFormData.applicationNo) {
-  //       console.log("ApplicationNo already set");
-  //       // Do nothing if applicationNo already exists
-  //       return prev;
-  //     }
-
-  //     return {
-  //       ...prev,
-  //       [camelCaseStepName]: {
-  //         ...currentFormData,
-  //         ...data,
-  //         // Append applicationNo if it doesn't exist
-  //         applicationNo: applicationNo || data.applicationNo || null,
-  //       },
-  //     };
-  //   });
-
-  //   console.log("show new data set in camelCaseStepName", formData);
-  // };
 
   return (
     <div className="w-screen h-screen flex md:flex-row flex-col bg-white">
@@ -373,10 +353,9 @@ export default function OnboardingLayout() {
                   disabled={isSaving}
                   className="w-full bg-teal-600 me-4 hover:bg-teal-700 transition duration-500 text-white border border-[#667080] px-4 py-2 rounded-full"
                 >
-                  Save & Next
+                  Next
                 </button>
               ) : (
-                // w-full h-[44px] flex items-center justify-center gap-2 bg-appGreen hover:bg-teal-700 transition duration-500 text-white border border-[#667080] rounded-[100px] md:text-[16px] text-[13px] font-semibold px-[12px]
                 <button
                   onClick={handleSaveAndNext}
                   disabled={isSaving}

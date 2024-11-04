@@ -36,7 +36,7 @@ const LicenseRegulatory = ({ onChange }) => {
         }
 
         const data = await response.json();
-        setChecked(data.agreementToReportInfection || false);
+        setChecked(data.licensingRegulationAgreement || false);
         onChange(data); // Notify parent component with fetched data
         setIsLoading(false);
         setHasFetchedData(true);
@@ -52,7 +52,7 @@ const LicenseRegulatory = ({ onChange }) => {
   const handleChange = (e) => {
     const value = e.target.checked;
     setChecked(value);
-    const updatedFormState = { agreementToReportInfection: value };
+    const updatedFormState = { licensingRegulationAgreement: value };
     onChange(updatedFormState); // Notify parent component
   };
 
