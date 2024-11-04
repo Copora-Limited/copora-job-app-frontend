@@ -258,26 +258,6 @@ export default function OnboardingLayout() {
   };
 
   // Handle form changes
-  const handleFormChange = (data) => {
-    const currentStepName = stepEndpoints[currentStep];
-    const camelCaseStepName = currentStepName
-      .split("-")
-      .map((part, index) =>
-        index === 0 ? part : part.charAt(0).toUpperCase() + part.slice(1)
-      )
-      .join("");
-
-    setFormData((prev) => ({
-      ...prev,
-      [camelCaseStepName]: {
-        ...prev[camelCaseStepName],
-        ...data, // Merge new data with existing form data for this step
-      },
-    }));
-
-    console.log("show new data set in camelCaseStepName", formData);
-  };
-
   // const handleFormChange = (data) => {
   //   const currentStepName = stepEndpoints[currentStep];
   //   const camelCaseStepName = currentStepName
@@ -287,29 +267,49 @@ export default function OnboardingLayout() {
   //     )
   //     .join("");
 
-  //   setFormData((prev) => {
-  //     const currentFormData = prev[camelCaseStepName] || {};
-
-  //     // Check if applicationNo exists in the current form data
-  //     if (data.applicationNo && currentFormData.applicationNo) {
-  //       console.log("ApplicationNo already set");
-  //       // Do nothing if applicationNo already exists
-  //       return prev;
-  //     }
-
-  //     return {
-  //       ...prev,
-  //       [camelCaseStepName]: {
-  //         ...currentFormData,
-  //         ...data,
-  //         // Append applicationNo if it doesn't exist
-  //         applicationNo: applicationNo || data.applicationNo || null,
-  //       },
-  //     };
-  //   });
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     [camelCaseStepName]: {
+  //       ...prev[camelCaseStepName],
+  //       ...data, // Merge new data with existing form data for this step
+  //     },
+  //   }));
 
   //   console.log("show new data set in camelCaseStepName", formData);
   // };
+
+  const handleFormChange = (data) => {
+    const currentStepName = stepEndpoints[currentStep];
+    const camelCaseStepName = currentStepName
+      .split("-")
+      .map((part, index) =>
+        index === 0 ? part : part.charAt(0).toUpperCase() + part.slice(1)
+      )
+      .join("");
+
+    setFormData((prev) => {
+      const currentFormData = prev[camelCaseStepName] || {};
+
+      // Check if applicationNo exists in the current form data
+      if (data.applicationNo && currentFormData.applicationNo) {
+        console.log("ApplicationNo already set");
+        // Do nothing if applicationNo already exists
+        return prev;
+      }
+
+      return {
+        ...prev,
+        [camelCaseStepName]: {
+          ...currentFormData,
+          ...data,
+          // Append applicationNo if it doesn't exist
+          applicationNo: applicationNo || data.applicationNo || null,
+        },
+      };
+    });
+
+    console.log("show new data set in camelCaseStepName", formData);
+  };
 
   return (
     <div className="w-screen h-screen flex md:flex-row flex-col bg-white">
