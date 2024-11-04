@@ -1,10 +1,13 @@
 import React from "react";
 import { useSession, signOut } from "next-auth/react";
+import { useRouter } from "next/router";
 import useOnboardingStore from "@/hooks/Store/useOnboardingStore";
 import Link from "next/link";
 
 export default function OnboardingTopNav() {
   const { data: session } = useSession();
+  const router = useRouter();
+
   const profilePic = useOnboardingStore((state) => state.profilePic); // Uncommented this line
 
   const handleSignOut = async () => {

@@ -12,7 +12,7 @@ import validateStepData from "@/utils/validateStepData";
 
 export default function OnboardingLayout() {
   const [isSaving, setIsSaving] = useState(false); // Added isSaving state
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const { token } = useSessionContext();
   const applicationNo = session?.user?.applicationNo;
   const username = session?.user?.name;
@@ -22,6 +22,16 @@ export default function OnboardingLayout() {
   const [formData, setFormData] = useState({});
   const [error, setError] = useState(null);
   const [validationErrors, setValidationErrors] = useState(null);
+
+  // Check for session and redirect if necessary
+  useEffect(() => {
+    if (status === "loading") return; // Avoid redirecting while loading
+
+    // Redirect to login if the session or token is missing
+    if (!session || !session.user?.token) {
+      router.push("/auth/login");
+    }
+  }, [session, status, router]);
 
   const steps = [
     {
@@ -256,27 +266,6 @@ export default function OnboardingLayout() {
     });
     setCurrentStep(prevStep);
   };
-
-  // Handle form changes
-  // const handleFormChange = (data) => {
-  //   const currentStepName = stepEndpoints[currentStep];
-  //   const camelCaseStepName = currentStepName
-  //     .split("-")
-  //     .map((part, index) =>
-  //       index === 0 ? part : part.charAt(0).toUpperCase() + part.slice(1)
-  //     )
-  //     .join("");
-
-  //   setFormData((prev) => ({
-  //     ...prev,
-  //     [camelCaseStepName]: {
-  //       ...prev[camelCaseStepName],
-  //       ...data, // Merge new data with existing form data for this step
-  //     },
-  //   }));
-
-  //   console.log("show new data set in camelCaseStepName", formData);
-  // };
 
   const handleFormChange = (data) => {
     const currentStepName = stepEndpoints[currentStep];

@@ -7,15 +7,24 @@ import SideNav from "./SideNav";
 import publicRoutes from "@/publicRoute";
 
 const DashboardLayout = ({ children }) => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const router = useRouter();
   const isPublicRoute = publicRoutes.includes(router.pathname);
+
+  // Check if the session is loading or if the user is unauthenticated
+  useEffect(() => {
+    if (
+      status !== "loading" &&
+      !isPublicRoute &&
+      (!session || !session.user.token)
+    ) {
+      // Redirect to the login page if the session or token is not available
+      router.push("/auth/login");
+    }
+  }, [status, session, router, isPublicRoute]);
+
   const userRole = session?.user?.role;
-
-  // console.log(userRole);
   const isApplicant = userRole === "applicant";
-
-  console.log("isApplicant", isApplicant);
 
   const [isSideNavOpen, setIsSideNavOpen] = useState(false);
   const sideNavRef = useRef(null);
@@ -46,6 +55,11 @@ const DashboardLayout = ({ children }) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isSideNavOpen]);
+
+  // Show a loading indicator or placeholder while session is being checked
+  if (status === "loading") {
+    return <div>Loading...</div>; // Replace with a better loading UI if needed
+  }
 
   return (
     <div className="w-screen h-screen flex md:flex-row flex-col bg-[#F7F9FC] overflow-hidden">
