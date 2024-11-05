@@ -55,7 +55,7 @@ const EducationDetails = ({ onChange }) => {
             ];
 
         setEducationRecords(initialData);
-        onChange(initialData);
+        onChange(data);
         setHasFetchedData(true);
       } catch (error) {
         console.error("Error fetching educational details data:", error);
