@@ -32,9 +32,10 @@ const AgreementToReportInfection = ({ onChange }) => {
 
         const data = await response.json();
         const hasData = Object.keys(data).length > 0;
-        console.log("hasData", hasData);
-        setChecked(data.agreementToReportInfection ?? false);
-        onChange(data);
+        // console.log("hasData", hasData);
+        console.log("initial data", data.agreementToReportInfection);
+        setChecked(data.agreementToReportInfection);
+        onChange(data.agreementToReportInfection);
         setIsLoading(false);
         setHasFetchedData(true);
       } catch (error) {

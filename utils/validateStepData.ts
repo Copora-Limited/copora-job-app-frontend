@@ -8,9 +8,9 @@ interface FormData {
     referenceDetails?: any;
     educationalDetails?: any;
     healthDisability?: any;
-    agreementToReport?: any;
+    agreementToReportInfection?: any;
     foodSafetyQuestionnaire?: any;
-    licenseRegulatory?: any;
+    licensingRegulation?: any;
     bankDetails?: any;
     agreementConsent?: any;
   }
@@ -143,6 +143,10 @@ interface FormData {
         break;
 
       case "Agreement to Report Infection":
+        if (!formData.agreementToReportInfection?.agreementToReportInfection || formData.agreementToReportInfection?.agreementToReportInfection == undefined || null) {
+          errors.gpName = "Please certify before you proceed";
+          isValid = false;
+        }
         break;
 
       case "Food Safety Questionnaire":
@@ -153,18 +157,49 @@ interface FormData {
         break;
 
       case "Licensing Regulation":
-          break;
-        
-      case "Bank Details":
-        console.log("Bank", formData)
-        if (formData.bankDetails?.accountNumber == "") {
-          errors.accountNumber = "Account number is required";
+        if (!formData.licensingRegulation?.licensingRegulationAgreement || formData.licensingRegulation?.licensingRegulationAgreement == undefined || null) {
+          errors.gpAddress = "Please certify before you proceed";
           isValid = false;
         }
+        break;
+                
+        
+      case "Bank Details":
+        // console.log("Bank", formData)
         if (formData.bankDetails?.bankName == "") {
           errors.bankName = "Bank name is required";
           isValid = false;
         }
+        if (formData.bankDetails?.accountNumber == "") {
+          errors.accountNumber = "Account number is required";
+          isValid = false;
+        }
+        if (formData.bankDetails?.sortCode == "") {
+          errors.sortCode = "Sort code is required";
+          isValid = false;
+        }
+
+        if (formData.bankDetails?.accountName == "") {
+          errors.accountName = "Account Name is required";
+          isValid = false;
+        }
+        
+        if (!formData.bankDetails?.employmentStatusDeclaration || formData.bankDetails?.employmentStatusDeclaration == "") {
+          errors.employmentStatusDeclaration = "Employment Status Declaration is required";
+          isValid = false;
+        }
+
+        if (!formData.bankDetails?.studentLoanStatus || formData.bankDetails?.studentLoanStatus == "") {
+          errors.studentLoanStatus = "Student loan status is required";
+          isValid = false;
+        }
+
+
+        if (!formData.bankDetails?.p45Attached || formData.bankDetails?.p45Attached == null) {
+          errors.p45Attached = "P45 attached status declaration is required";
+          isValid = false;
+        }
+      
         break;
   
       case "48 Hours Opt-out Agreement":    
@@ -187,7 +222,8 @@ interface FormData {
           isValid = false;
         }
         break;
-  
+        
+
       default:
         break;
     }

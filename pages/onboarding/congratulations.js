@@ -19,6 +19,9 @@ export default function OnboardingLayout() {
         <p className="md:text-[24px] font-normal text-[19px] text-[#475467]">
           Your boarding has been completed
         </p>
+        <p className="md:text-[24px] font-normal text-[19px] text-[#475467]">
+          Our recruitment team will be in touch.
+        </p>
 
         <button
           onClick={handleLogout} // Replace `signOut` with your actual logout function
