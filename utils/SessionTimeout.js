@@ -43,7 +43,7 @@ const SessionTimeout = ({ timeout = 10000 }) => {
 
     for (const event of events) {
       window.addEventListener(event, resetTimeoutHandler);
-      console.log(`Event listener added for ${event}`);
+      // console.log(`Event listener added for ${event}`);
     }
 
     resetTimeout(); // Initialize timeout on component mount
