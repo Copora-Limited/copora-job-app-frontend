@@ -104,7 +104,7 @@ const Login = () => {
     setShowPassword((prev) => !prev);
   };
   return (
-    <div className="flex items-center justify-center min-h-screen bg-primary text-white p-4">
+    <div className="flex items-center justify-center min-h-screen bg-[#032541] text-white p-4">
       <div className="bg-white text-black rounded-lg shadow-lg p-8 max-w-md w-full">
         {/* <h4 className="text-xl font-bold mb-4 text-center uppercase"> */}
         <Link href="/">
