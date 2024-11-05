@@ -40,17 +40,26 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-primary text-white p-4">
+    <div className="flex items-center justify-center min-h-screen bg-[#032541] text-white p-4">
       <div className="bg-white text-black rounded-lg shadow-lg p-8 max-w-md w-full">
         <h4 className="text-xl font-bold mb-4 text-center uppercase">
-          <Link href="/" className="text-secondary">
-            {process.env.NEXT_PUBLIC_APP_NAME}
+          <Link href="/">
+            <img
+              src="/assets/logo.png"
+              alt="logo"
+              className="md:w-[200px] w-[180px] md:h-[50px] h-[40px] mx-auto"
+            />
           </Link>
         </h4>
 
         <>
-          <div className="mb-4 text-2xl font-bold text-gray-600 text-center">
-            Forgot Password
+          <div className="mt-3">
+            <h5 className="md:text-[18px] text-[16px] text-primary font-bold text-center">
+              Forgot Password
+            </h5>
+            <p className="md:text-[14px] text-[12px] text-[#475467] text-center">
+              Kindly enter your credentials to proceed.
+            </p>
           </div>
           <form onSubmit={handleSubmit} className="space-y-4">
             {error && <p className="text-red-500 text-center mb-4">{error}</p>}
@@ -73,17 +82,17 @@ const ForgotPassword = () => {
             <button
               type="submit"
               disabled={loading}
-              className={`w-full p-2 rounded bg-secondary text-white hover:bg-teal-700 transition ${
+              className={`w-full p-2 rounded bg-teal-700 text-white hover:bg-secondary transition ${
                 loading ? "opacity-50 cursor-not-allowed" : ""
               }`}
             >
-              {loading ? "Sending..." : "Send Password Reset Email"}
+              {loading ? "Sending..." : "Send password reset email"}
             </button>
           </form>
           <div className="mt-4 text-center">
             <p>
               Back to{" "}
-              <Link href="/auth/login" className="text-secondary">
+              <Link href="/auth/login" className="text-teal-700">
                 login
               </Link>
               <span className="px-2">or</span>
