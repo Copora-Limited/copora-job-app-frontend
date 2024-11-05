@@ -12,7 +12,7 @@ const TopNav = ({ onMenuClick }) => {
   const [sideNavOpen, setSideNavOpen] = useState(false);
   const { data: session } = useSession();
   const profilePicture = session?.user?.profilePicture;
-
+  console.log("session?.user", session?.user);
   const handleLogout = async () => {
     await signOut({ redirect: false });
     router.push("/auth/login");
@@ -72,7 +72,11 @@ const TopNav = ({ onMenuClick }) => {
           /> */}
 
           <img
-            src={profilePicture ? profilePicture : "/assets/default_user.png"}
+            src={
+              profilePicture && profilePicture !== "null"
+                ? profilePicture
+                : "/assets/default_user.png"
+            }
             alt="User avatar"
             className="w-full h-full rounded-full"
           />
