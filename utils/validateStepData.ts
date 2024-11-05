@@ -28,7 +28,7 @@ interface FormData {
       { label: "Food Safety Questionnaire" },
       { label: "Licensing Regulation"},
       { label: "Bank Details" },
-      { label: "48 Hours Opt-out Agreement" },
+      { label: "Terms of Engagement" },
     ];
   
     const currentStepData = steps[currentStep]; // Get the current step object
@@ -189,10 +189,10 @@ interface FormData {
           isValid = false;
         }
 
-        if (!formData.bankDetails?.studentLoanStatus || formData.bankDetails?.studentLoanStatus == "") {
-          errors.studentLoanStatus = "Student loan status is required";
-          isValid = false;
-        }
+        // if (!formData.bankDetails?.studentLoanStatus || formData.bankDetails?.studentLoanStatus == "") {
+        //   errors.studentLoanStatus = "Student loan status is required";
+        //   isValid = false;
+        // }
 
 
         if (!formData.bankDetails?.p45Attached || formData.bankDetails?.p45Attached == null) {
@@ -202,8 +202,8 @@ interface FormData {
       
         break;
   
-      case "48 Hours Opt-out Agreement":    
-      console.log("validate", formData.agreementConsent);    
+      case "Terms of Agreement":    
+      // console.log("validate", formData.agreementConsent);    
         if (formData.agreementConsent?.firstName == "") {
           errors.firstName = "First name is required";
           isValid = false;

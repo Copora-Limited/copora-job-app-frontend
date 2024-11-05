@@ -103,7 +103,7 @@ const OnboardingStepContent = ({
             // formData={formData.bankDetails}
           />
         );
-      case "48 Hours Opt-out Agreement":
+      case "Terms of Engagement":
         return (
           <AgreementConsent
             onChange={handleFormChange}

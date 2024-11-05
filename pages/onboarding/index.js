@@ -101,10 +101,9 @@ export default function OnboardingLayout() {
         "Fill in your bank name, account number, and sort code for payroll processing.",
     },
     {
-      label: "48 Hours Opt-out Agreement",
-      message: "Review and consider the 48-hour workweek opt-out.",
-      description:
-        "Indicate whether you consent to work more than 48 hours per week.",
+      label: "Terms of Engagement",
+      message: "",
+      description: "",
     },
   ];
 
