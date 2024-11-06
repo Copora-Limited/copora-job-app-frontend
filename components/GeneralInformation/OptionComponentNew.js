@@ -13,7 +13,10 @@ const OptionsComponent = ({
       <p className="md:text-[14px] text-[12px] text-[#667085]">{title}</p>
 
       <div className="flex items-start gap-4">
-        <label htmlFor={idLeft} className="flex items-center cursor-pointer">
+        <label
+          htmlFor={idLeft}
+          className="flex items-center cursor-pointer block text-[14px] text-gray-900 font-bold"
+        >
           <input
             type="checkbox"
             id={idLeft}
@@ -25,7 +28,10 @@ const OptionsComponent = ({
           Yes
         </label>
 
-        <label htmlFor={idRight} className="flex items-center cursor-pointer">
+        <label
+          htmlFor={idRight}
+          className="flex items-center cursor-pointer block text-[14px] text-gray-900 font-bold"
+        >
           <input
             type="checkbox"
             id={idRight}

@@ -111,7 +111,7 @@ const AgreementToReportInfection = ({ onChange }) => {
 
         <div>
           I am aware that I must remain off work for at least 48 hours after any
-          symptoms of diarrhea and vomiting have stopped
+          symptoms of diarrhoea and vomiting have stopped
         </div>
 
         <div>

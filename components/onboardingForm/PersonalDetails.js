@@ -164,7 +164,7 @@ const PersonalDetails = ({ onChange }) => {
           >
             <UploadIcon />
             <div>
-              <p className="text-[12px] text-primary font-medium">{`Upload ${title}`}</p>
+              <p className="text-[12px] text-primary font-bold">{`Upload ${title}`}</p>
               <p className="text-[12px] text-[#98A2B3]">
                 PDF, DOCX, DOC, PNG, JPG, JPEG | 2MB max.
               </p>
@@ -251,7 +251,7 @@ const PersonalDetails = ({ onChange }) => {
         <div>
           <label
             htmlFor="dateOfBirth"
-            className="block text-sm font-medium text-gray-700"
+            className="text-[14px] text-gray-900 font-bold"
           >
             Date of Birth
           </label>
@@ -272,7 +272,7 @@ const PersonalDetails = ({ onChange }) => {
         <div>
           <label
             htmlFor="gender"
-            className="block text-sm font-medium text-gray-700"
+            className="text-[14px] text-gray-900 font-bold"
           >
             Gender
           </label>
@@ -293,7 +293,7 @@ const PersonalDetails = ({ onChange }) => {
         <div>
           <label
             htmlFor="nationalInsuranceNumber"
-            className="block text-sm font-medium text-gray-700"
+            className="text-[14px] text-gray-900 font-bold"
           >
             National Insurance Number
           </label>
@@ -324,7 +324,7 @@ const PersonalDetails = ({ onChange }) => {
         <div className="">
           <label
             htmlFor="passport"
-            className="block text-sm font-medium text-gray-700"
+            className="text-[14px] text-gray-900 font-bold"
           >
             Proof of National Insurance Number
           </label>
@@ -340,7 +340,7 @@ const PersonalDetails = ({ onChange }) => {
       <div className="">
         <label
           htmlFor="addressProof"
-          className="block text-sm font-medium text-gray-700"
+          className="text-[14px] text-gray-900 font-bold"
         >
           Proof of address
         </label>
@@ -358,7 +358,7 @@ const PersonalDetails = ({ onChange }) => {
         </div>
       </div>
 
-      <div className="w-full flex items-center gap-3 my-10 ">
+      <div className="w-full flex items-center gap-3 my-10  ">
         <OptionsComponent
           title="Do you require a work visa to work in the resident country?"
           isCheckedLeft={localFormData.requireWorkVisa === "true"}
@@ -381,7 +381,7 @@ const PersonalDetails = ({ onChange }) => {
           <div className="">
             <label
               htmlFor="visaDocument"
-              className="block text-sm font-medium text-gray-700"
+              className="text-[14px] text-gray-900 font-bold"
             >
               Visa Document
             </label>
@@ -401,7 +401,7 @@ const PersonalDetails = ({ onChange }) => {
           <div className="">
             <label
               htmlFor="internationalPassport"
-              className="block text-sm font-medium text-gray-700"
+              className="text-[14px] text-gray-900 font-bold"
             >
               Passport
             </label>

@@ -321,7 +321,7 @@ export default function OnboardingLayout() {
   // };
 
   return (
-    <div className="w-screen h-screen flex md:flex-row flex-col bg-white">
+    <div className="w-screen h-screen flex md:flex-row flex-col bg-white ">
       <AsideLeft
         steps={steps.map((step) => step.label)}
         stepMessages={steps.map((step) => step.message)}
@@ -331,7 +331,7 @@ export default function OnboardingLayout() {
 
       <div className="md:w-3/4 w-screen h-full">
         <OnboardingTopNav />
-        <div className="w-full h-[92vh] mt-[9vh] overflow-y-auto scroller">
+        <div className="w-full h-[92vh] mt-[9vh] overflow-y-auto scroller ">
           <div className="md:w-4/5 w-[90%] mx-auto">
             <div className="w-full my-5">
               <h4 className="md:text-[18px] text-[16px] font-medium my-3 capitalize">
@@ -345,13 +345,15 @@ export default function OnboardingLayout() {
                 {steps[currentStep]?.description}
               </p>
             </div>
-
-            <OnboardingStepContent
-              currentStep={currentStep}
-              formData={formData}
-              handleFormChange={handleFormChange}
-              steps={steps}
-            />
+            {/*  */}
+            <div className="font-azoSansLight">
+              <OnboardingStepContent
+                currentStep={currentStep}
+                formData={formData}
+                handleFormChange={handleFormChange}
+                steps={steps}
+              />
+            </div>
             {error && <Alert message={error} />}
             {validationErrors && <Alert message={validationErrors} />}
             <div className="flex justify-between  my-10">

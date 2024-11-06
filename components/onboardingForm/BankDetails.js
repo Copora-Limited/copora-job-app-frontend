@@ -131,7 +131,7 @@ const BankDetailsForm = ({ onChange }) => {
 
       {/* Employment Status Declaration */}
       <div className="mt-6">
-        <h6 className="text-[14px] text-black font-medium">
+        <h6 className="text-[14px] text-gray-900 font-bold">
           Tick one of the following three statements:
         </h6>
 
@@ -175,7 +175,7 @@ const BankDetailsForm = ({ onChange }) => {
           </div>
         ))}
 
-        <h6 className="text-[14px] text-black font-medium">
+        <h6 className="text-[14px] text-gray-900 font-bold">
           Student Loan Status:
         </h6>
 
@@ -209,7 +209,7 @@ const BankDetailsForm = ({ onChange }) => {
           </div>
         ))}
 
-        {/* <h6 className="text-[14px] text-black font-medium">P45:</h6>
+        {/* <h6 className="text-[14px] text-gray-900 font-bold">P45:</h6>
 
         <div className="flex items-center gap-3 text-[14px] text-black my-5">
           <input
