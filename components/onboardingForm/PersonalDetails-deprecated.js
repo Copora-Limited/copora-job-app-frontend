@@ -85,8 +85,12 @@ const PersonalDetails = ({ onChange }) => {
     }
   };
 
+  // const handleClick = () => {
+  //   fileRef.current?.click();
+  // };
+
   const handleClick = () => {
-    fileRef.current?.click();
+    if (fileRef.current) fileRef.current.click();
   };
 
   const handleNinChange = (index, e) => {
@@ -225,7 +229,9 @@ const PersonalDetails = ({ onChange }) => {
         </div>
 
         <div className="">
-          <UploadBtn text="Upload Passport" onClick={handleClick(fileRef)} />
+          {/* <UploadBtn text="Upload Passport" onClick={handleClick(fileRef)} /> */}
+          <UploadBtn text="Upload Passport" onClick={handleClick} />
+
           <div className="text-[12px] font-azoSansRegular my-2">
             {" "}
             Submit a recent, passport-style headshot or a selfie featuring a
