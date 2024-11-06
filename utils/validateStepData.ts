@@ -51,31 +51,31 @@ interface FormData {
           isValid = false;
         }
 
-        if (!formData.personalDetails?.ninProof) {
-          errors.ninProof = "Please Upload Proof of National Insurance Number";
-          isValid = false;
-        }
+        // if (!formData.personalDetails?.ninProof) {
+        //   errors.ninProof = "Please Upload Proof of National Insurance Number";
+        //   isValid = false;
+        // }
 
-        if (!formData.personalDetails?.addressProof) {
-          errors.addressProof = "Please upload proof of address?";
-          isValid = false;
-        }
+        // if (!formData.personalDetails?.addressProof) {
+        //   errors.addressProof = "Please upload proof of address?";
+        //   isValid = false;
+        // }
 
 
-        if (formData.personalDetails?.requireWorkVisa === null) {
-          errors.requireWorkVisa = "Select Yes or No if require a work visa to work in the resident country ?";
-          isValid = false;
-        }
+        // if (formData.personalDetails?.requireWorkVisa === null) {
+        //   errors.requireWorkVisa = "Select Yes or No if require a work visa to work in the resident country ?";
+        //   isValid = false;
+        // }
 
-        if (formData.personalDetails?.requireWorkVisa && !formData.personalDetails?.visaDocument) {
-          errors.visaDocument = "Please upload visa docuement for verification ?";
-          isValid = false;
-        }
+        // if (formData.personalDetails?.requireWorkVisa && !formData.personalDetails?.visaDocument) {
+        //   errors.visaDocument = "Please upload visa docuement for verification ?";
+        //   isValid = false;
+        // }
 
-        if (formData.personalDetails?.requireWorkVisa && !formData.personalDetails?.internationalPassport) {
-          errors.internationalPassport = "Please upload International Passport ?";
-          isValid = false;
-        }
+        // if (formData.personalDetails?.requireWorkVisa && !formData.personalDetails?.internationalPassport) {
+        //   errors.internationalPassport = "Please upload International Passport ?";
+        //   isValid = false;
+        // }
 
       
 
