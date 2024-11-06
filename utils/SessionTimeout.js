@@ -21,7 +21,8 @@ const SessionTimeout = ({ timeout = 10000 }) => {
       timeoutRef.current = setTimeout(() => {
         console.log("User inactive. Signing out due to inactivity.");
         localStorage.setItem("message", "timeout");
-        signOut({ callbackUrl: "/auth/login" });
+        signOut({ redirect: false });
+        router.push("/auth/login");
       }, timeout);
       console.log(`New timeout set for ${timeout / 1000} seconds.`);
     } else {
