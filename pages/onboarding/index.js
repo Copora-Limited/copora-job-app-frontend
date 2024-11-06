@@ -346,7 +346,7 @@ export default function OnboardingLayout() {
               </p>
             </div>
             {/*  */}
-            <div className="font-azoSansLight">
+            <div className="font-azoSansRegular">
               <OnboardingStepContent
                 currentStep={currentStep}
                 formData={formData}

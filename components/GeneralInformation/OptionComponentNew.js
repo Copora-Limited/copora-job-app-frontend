@@ -15,7 +15,7 @@ const OptionsComponent = ({
       <div className="flex items-start gap-4">
         <label
           htmlFor={idLeft}
-          className="flex items-center cursor-pointer block text-[14px] text-gray-900 font-bold"
+          className="flex items-center cursor-pointer block text-[14px] text-gray-900 font-mediun"
         >
           <input
             type="checkbox"
@@ -30,7 +30,7 @@ const OptionsComponent = ({
 
         <label
           htmlFor={idRight}
-          className="flex items-center cursor-pointer block text-[14px] text-gray-900 font-bold"
+          className="flex items-center cursor-pointer block text-[14px] text-gray-900 font-mediun"
         >
           <input
             type="checkbox"

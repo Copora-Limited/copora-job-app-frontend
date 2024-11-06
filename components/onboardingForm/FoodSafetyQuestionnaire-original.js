@@ -94,7 +94,7 @@ const FoodSafetyQuestionnaire = ({ onChange }) => {
       )}
       <div className="w-full flex flex-col gap-5 mt-5">
         {/* Question 1: cleaningRawMeatUtensilsRequired */}
-        <h6 className="text-[14px] text-gray-900 font-bold">
+        <h6 className="text-[14px] text-gray-900 font-mediun">
           It is important to clean chopping boards/utensils after using them for
           raw meat.
         </h6>
@@ -126,7 +126,7 @@ const FoodSafetyQuestionnaire = ({ onChange }) => {
         </div>
 
         {/* Question 3: Cleaning Requirement */}
-        <h6 className="text-[14px] text-gray-900 font-bold">
+        <h6 className="text-[14px] text-gray-900 font-mediun">
           You only need to clean hands and kitchen surfaces when they look
           dirty.
         </h6>
@@ -156,7 +156,7 @@ const FoodSafetyQuestionnaire = ({ onChange }) => {
         </div>
 
         {/* Question 4: Contaminated Food Characteristics */}
-        <h6 className="text-[14px] text-gray-900 font-bold">
+        <h6 className="text-[14px] text-gray-900 font-mediun">
           Food contaminated with food poisoning bacteria would: (please select
           one answer)
         </h6>
@@ -181,7 +181,7 @@ const FoodSafetyQuestionnaire = ({ onChange }) => {
         ))}
 
         {/* Question 5: Bacteria Fact True */}
-        <h6 className="text-[14px] text-gray-900 font-bold">
+        <h6 className="text-[14px] text-gray-900 font-mediun">
           Which one of these statements about bacteria is true?
         </h6>
         {[
@@ -203,7 +203,7 @@ const FoodSafetyQuestionnaire = ({ onChange }) => {
         ))}
 
         {/* Question 6: High Risk Food Storage Position */}
-        <h6 className="text-[14px] text-gray-900 font-bold">
+        <h6 className="text-[14px] text-gray-900 font-mediun">
           Where should High Risk Food be stored in a refrigerator?
         </h6>
         <div className="flex items-center gap-3">
@@ -232,7 +232,7 @@ const FoodSafetyQuestionnaire = ({ onChange }) => {
         </div>
 
         {/* Question 7: Temperature Danger Zone */}
-        <h6 className="text-[14px] text-gray-900 font-bold">
+        <h6 className="text-[14px] text-gray-900 font-mediun">
           What is the temperature danger zone for food safety?
         </h6>
         <div className="flex items-center gap-3">
@@ -277,7 +277,7 @@ const FoodSafetyQuestionnaire = ({ onChange }) => {
         </div>
 
         {/* Question 8: Hand Washing Scenarios */}
-        <h6 className="text-[14px] text-gray-900 font-bold">
+        <h6 className="text-[14px] text-gray-900 font-mediun">
           Please give three scenarios of when you should wash your hands at work
           (Select all that apply)
         </h6>
@@ -301,7 +301,7 @@ const FoodSafetyQuestionnaire = ({ onChange }) => {
         ))}
 
         {/* Question 9: Allergen Definition */}
-        <h6 className="text-[14px] text-gray-900 font-bold">
+        <h6 className="text-[14px] text-gray-900 font-mediun">
           What is an allergen ?
         </h6>
         <div className="flex items-center gap-3">
@@ -352,7 +352,7 @@ const FoodSafetyQuestionnaire = ({ onChange }) => {
         </div>
 
         {/* Question 10: High Risk Foods Examples */}
-        <h6 className="text-[14px] text-gray-900 font-bold">
+        <h6 className="text-[14px] text-gray-900 font-mediun">
           Which of the following are high-risk foods? (Select all that apply)
         </h6>
         {["A chocolate bar", "Cooked meat and fish", "Apple", "Shellfish"].map(
@@ -371,7 +371,7 @@ const FoodSafetyQuestionnaire = ({ onChange }) => {
         )}
 
         {/* Question 11: Food Safety Act Offense */}
-        <h6 className="text-[14px] text-gray-900 font-bold">
+        <h6 className="text-[14px] text-gray-900 font-mediun">
           A business owner could be prosecuted for a Food Safety Act offense if:
         </h6>
         <div className="flex items-center gap-3">

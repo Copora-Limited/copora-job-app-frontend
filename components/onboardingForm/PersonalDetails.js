@@ -251,7 +251,7 @@ const PersonalDetails = ({ onChange }) => {
         <div>
           <label
             htmlFor="dateOfBirth"
-            className="text-[14px] text-gray-900 font-bold"
+            className="text-[14px] text-gray-900 font-mediun"
           >
             Date of Birth
           </label>
@@ -272,7 +272,7 @@ const PersonalDetails = ({ onChange }) => {
         <div>
           <label
             htmlFor="gender"
-            className="text-[14px] text-gray-900 font-bold"
+            className="text-[14px] text-gray-900 font-mediun"
           >
             Gender
           </label>
@@ -293,7 +293,7 @@ const PersonalDetails = ({ onChange }) => {
         <div>
           <label
             htmlFor="nationalInsuranceNumber"
-            className="text-[14px] text-gray-900 font-bold"
+            className="text-[14px] text-gray-900 font-mediun"
           >
             National Insurance Number
           </label>
@@ -324,7 +324,7 @@ const PersonalDetails = ({ onChange }) => {
         <div className="">
           <label
             htmlFor="passport"
-            className="text-[14px] text-gray-900 font-bold"
+            className="text-[14px] text-gray-900 font-mediun"
           >
             Proof of National Insurance Number
           </label>
@@ -340,7 +340,7 @@ const PersonalDetails = ({ onChange }) => {
       <div className="">
         <label
           htmlFor="addressProof"
-          className="text-[14px] text-gray-900 font-bold"
+          className="text-[14px] text-gray-900 font-mediun"
         >
           Proof of address
         </label>
@@ -381,7 +381,7 @@ const PersonalDetails = ({ onChange }) => {
           <div className="">
             <label
               htmlFor="visaDocument"
-              className="text-[14px] text-gray-900 font-bold"
+              className="text-[14px] text-gray-900 font-mediun"
             >
               Visa Document
             </label>
@@ -401,7 +401,7 @@ const PersonalDetails = ({ onChange }) => {
           <div className="">
             <label
               htmlFor="internationalPassport"
-              className="text-[14px] text-gray-900 font-bold"
+              className="text-[14px] text-gray-900 font-mediun"
             >
               Passport
             </label>

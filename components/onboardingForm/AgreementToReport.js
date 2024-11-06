@@ -66,7 +66,7 @@ const AgreementToReportInfection = ({ onChange }) => {
           overlayColor="rgba(0,153,255,0.2)"
         />
       )}
-      <div className="w-full col-span-2 flex flex-col gap-3 md:text-[14px] text-[12px] text-[#475467] font-azoSansMedium">
+      <div className="w-full col-span-2 flex flex-col gap-3 md:text-[14px] text-[12px] text-[#475467] font-azoSansLight">
         <p className="mt-3">
           I agree to report to my immediate manager or supervisor as soon as
           possible, by telephone if necessary, in any of the following

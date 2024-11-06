@@ -97,8 +97,8 @@ body {
     animation: clickEffect 0.4s ease-out;
   }
   .form-control{
-    color: #000 !important;
-    font-weight: bolder !important;
+    color: #292828 !important;
+    font-weight: lighter !important;
   }
 
   .accent-appGreen {
