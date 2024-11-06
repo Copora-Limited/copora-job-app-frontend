@@ -189,10 +189,16 @@ const PersonalDetails = ({ onChange }) => {
     const updatedFormData = { ...localFormData, [name]: value };
     setLocalFormData(updatedFormData);
     onChange(updatedFormData);
-    if (name === "requireWorkVisa") {
-      setRequireWorkVisa(value); // Set the requireWorkVisa state
-    }
   };
+
+  // const handleCheckboxChange = (name, value) => {
+  //   const updatedFormData = { ...localFormData, [name]: value };
+  //   setLocalFormData(updatedFormData);
+  //   onChange(updatedFormData);
+  //   if (name === "requireWorkVisa") {
+  //     setRequireWorkVisa(value); // Set the requireWorkVisa state
+  //   }
+  // };
   return (
     <>
       {isMounted && (
@@ -368,7 +374,9 @@ const PersonalDetails = ({ onChange }) => {
         />
       </div>
 
-      {requireWorkVisa === "true" && (
+      {/* localFormData.requireWorkVisa */}
+
+      {localFormData.requireWorkVisa === "true" && (
         <div className=" grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="">
             <label
@@ -395,14 +403,14 @@ const PersonalDetails = ({ onChange }) => {
               htmlFor="internationalPassport"
               className="block text-sm font-medium text-gray-700"
             >
-              International Passport
+              Passport
             </label>
             <p className="text-[12px] font-azoSansRegular">
-              Upload Data page of your International Passport
+              Upload Data page of your Passport
             </p>
             {renderUploadSection(
               "internationalPassport",
-              "International Passport",
+              "Passport",
               "fileInputPassPort"
             )}
           </div>

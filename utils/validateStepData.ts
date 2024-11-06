@@ -37,6 +37,7 @@ interface FormData {
   
     switch (currentStepData.label) {
       case "Personal Details":
+        console.log("requireWorkVisa",formData.personalDetails)
         if (!formData.personalDetails?.dateOfBirth) {
           errors.dateOfBirth = "Date of Birth is required";
           isValid = false;
@@ -62,25 +63,23 @@ interface FormData {
         }
 
 
-        if (formData.personalDetails?.requireWorkVisa === null) {
+        if (!formData.personalDetails?.requireWorkVisa) {
+          
           errors.requireWorkVisa = "Select Yes or No if require a work visa to work in the resident country ?";
           isValid = false;
         }
 
-        if (formData.personalDetails?.requireWorkVisa && !formData.personalDetails?.visaDocument) {
-          errors.visaDocument = "Please upload visa docuement for verification ?";
-          isValid = false;
-        }
-
-        if (formData.personalDetails?.requireWorkVisa && !formData.personalDetails?.internationalPassport) {
-          errors.internationalPassport = "Please upload International Passport ?";
-          isValid = false;
-        }
-
+        if (formData.personalDetails?.requireWorkVisa === "true") {
+          if (!formData.personalDetails?.visaDocument) {
+              errors.visaDocument = "Please upload visa document for verification.";
+              isValid = false;
+          }
+          if (!formData.personalDetails?.internationalPassport) {
+              errors.internationalPassport = "Please upload Passport.";
+              isValid = false;
+          }
+      }
       
-
-   
-
         
         break;
   
