@@ -51,11 +51,12 @@ const PersonalDetails = ({ onChange }) => {
         }
 
         const data = await response.json();
+        onChange(data);
         setLocalFormData(data);
         setProfilePic(data.passportPhoto || "");
 
         setNin(data.nationalInsuranceNumber?.split("") || Array(9).fill("")); // Split NIN into digits
-        onChange(data);
+
         setRequireWorkVisa(data.requireWorkVisa);
         setHasFetchedData(true); // Only set data once
         setIsLoading(false);
