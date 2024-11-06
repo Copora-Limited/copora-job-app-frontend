@@ -1,7 +1,6 @@
 // components/SideBarNav.tsx
-import { FC } from "react";
+import { FC, Dispatch, SetStateAction } from "react";
 import { useRouter } from "next/router";
-import { Dispatch, SetStateAction } from "react";
 import Logo from "@/components/Logo";
 import Link from "next/link";
 
@@ -14,10 +13,13 @@ const OnboardingAsideLeft = ({
   const router = useRouter();
 
   const handleNavigation = (index) => {
-    router.push(`/onboarding?step=${index + 1}`, undefined, {
-      shallow: true,
-    });
-    setCurrentStep(index);
+    // Allow navigation only to current or previous steps
+    if (index <= currentStep) {
+      router.push(`/onboarding?step=${index + 1}`, undefined, {
+        shallow: true,
+      });
+      setCurrentStep(index);
+    }
   };
 
   return (
@@ -32,7 +34,7 @@ const OnboardingAsideLeft = ({
             className={`cursor-pointer flex items-center gap-5 transition-all duration-500 hover:bg-[#000] py-1 pl-4 ${
               currentStep === index
                 ? "bg-blue-100 text-[#032541]"
-                : " text-white"
+                : "text-white"
             }`}
             onClick={() => handleNavigation(index)}
           >
@@ -73,7 +75,6 @@ const OnboardingAsideLeft = ({
                 {stepMessages[index]}
               </p>
             </div>
-            {/* </div> */}
           </li>
         ))}
       </ul>
