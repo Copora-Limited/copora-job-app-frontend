@@ -1,5 +1,5 @@
-// components/SideBarNav.tsx
-import { FC, Dispatch, SetStateAction } from "react";
+// components/SideBarNav.js
+import { useEffect } from "react";
 import { useRouter } from "next/router";
 import Logo from "@/components/Logo";
 import Link from "next/link";
@@ -12,9 +12,21 @@ const OnboardingAsideLeft = ({
 }) => {
   const router = useRouter();
 
+  // Load the last completed step from localStorage, or initialize to 0
+  const lastCompletedStep = Number(
+    localStorage.getItem("lastCompletedStep") || 0
+  );
+
+  useEffect(() => {
+    // Update last completed step in localStorage when currentStep is higher
+    if (currentStep > lastCompletedStep) {
+      localStorage.setItem("lastCompletedStep", String(currentStep));
+    }
+  }, [currentStep, lastCompletedStep]);
+
   const handleNavigation = (index) => {
-    // Allow navigation only to current or previous steps
-    if (index <= currentStep) {
+    // Allow navigation only if the step is within the last completed step
+    if (index <= lastCompletedStep) {
       router.push(`/onboarding?step=${index + 1}`, undefined, {
         shallow: true,
       });
@@ -35,6 +47,8 @@ const OnboardingAsideLeft = ({
               currentStep === index
                 ? "bg-blue-100 text-[#032541]"
                 : "text-white"
+            } ${
+              index > lastCompletedStep ? "cursor-not-allowed opacity-50" : ""
             }`}
             onClick={() => handleNavigation(index)}
           >
