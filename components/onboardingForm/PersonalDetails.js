@@ -3,6 +3,10 @@ import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { useSessionContext } from "@/context/SessionContext";
 import UploadBtn from "@/components/Custom/Buttons/UploadBtn";
+import { UploadIcon } from "@/components/Icon";
+import UploadedFile from "@/components/Custom/UploadedFile";
+import OptionsComponent from "@/components/GeneralInformation/OptionComponentNew";
+
 import { CircleSpinnerOverlay } from "react-spinner-overlay";
 
 const PersonalDetails = ({ onChange }) => {
@@ -16,7 +20,14 @@ const PersonalDetails = ({ onChange }) => {
   const [hasFetchedData, setHasFetchedData] = useState(false);
   const [profilePic, setProfilePic] = useState("");
   const fileRef = useRef(null);
+  const fileRefs = {
+    passport: useRef(null),
+    ninProof: useRef(null),
+    addressProof: useRef(null),
+    photo: useRef(null),
+  };
   const [nin, setNin] = useState(Array(9).fill("")); // Initialize NIN array with 9 empty strings
+  const [requireWorkVisa, setRequireWorkVisa] = useState("false");
 
   useEffect(() => {
     setIsMounted(true);
@@ -45,6 +56,7 @@ const PersonalDetails = ({ onChange }) => {
 
         setNin(data.nationalInsuranceNumber?.split("") || Array(9).fill("")); // Split NIN into digits
         onChange(data);
+        setRequireWorkVisa(data.requireWorkVisa);
         setHasFetchedData(true); // Only set data once
         setIsLoading(false);
       } catch (error) {
@@ -99,6 +111,83 @@ const PersonalDetails = ({ onChange }) => {
     }
   };
 
+  const handleUploadClick = (inputId) => {
+    document.getElementById(inputId).click();
+  };
+
+  const handleUploadFileChange = (event, fileType) => {
+    const file = event.target.files[0];
+    if (file) {
+      const updatedFormData = { ...localFormData, [fileType]: file };
+      setLocalFormData(updatedFormData);
+      onChange(updatedFormData);
+    }
+  };
+
+  const renderUploadSection = (fileType, title, id) => {
+    const file = localFormData[fileType]; // This should either be a URL string or a File object
+    let fileName = null;
+
+    // Check if the file is a string (URL) or a File object
+    if (typeof file === "string") {
+      // If it's a string (existing file URL), get the name from the URL
+      fileName = file.split("/").pop();
+    } else if (file && typeof file === "object") {
+      // If it's a File object (newly uploaded), get the name from the File object
+      fileName = file.name;
+    }
+
+    const handleDeleteFile = () => {
+      const updatedFormData = { ...localFormData, [fileType]: null }; // Clear the uploaded file
+      setLocalFormData(updatedFormData); // Update local form data
+      onChange(updatedFormData); // Call onChange to update parent state
+    };
+
+    return (
+      <div className="w-full md:h-[75px] h-[60px]">
+        {file ? ( // If a file exists, show the UploadedFile component
+          <UploadedFile
+            fileName={fileName} // Show the name of the uploaded file
+            onDelete={handleDeleteFile} // Provide delete functionality
+            type=".pdf"
+          />
+        ) : (
+          // If no file exists, show the upload area
+          <div
+            className="w-full md:h-[75px] h-[60px] border-dashed border border-[#D0D5DD] rounded-[10px] px-5 mt-3 flex items-center justify-between gap-3 transition-all duration-500 hover:border-appGreen cursor-pointer"
+            onClick={() => handleUploadClick(id)} // Trigger file input click
+          >
+            <UploadIcon />
+            <div>
+              <p className="text-[12px] text-primary font-medium">{`Upload ${title}`}</p>
+              <p className="text-[12px] text-[#98A2B3]">
+                PDF, DOCX, DOC, PNG, JPG, JPEG | 2MB max.
+              </p>
+            </div>
+            <div className="w-[80px] h-[36px] flex items-center justify-center bg-teal-700 text-white text-[14px] rounded-[6px]">
+              Upload
+            </div>
+            <input
+              type="file"
+              id={id}
+              className="hidden"
+              onChange={(event) => handleUploadFileChange(event, fileType)} // Handle file change
+              accept=".pdf, docx, .doc, .png, .jpg, .jpeg"
+            />
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  const handleCheckboxChange = (name, value) => {
+    const updatedFormData = { ...localFormData, [name]: value };
+    setLocalFormData(updatedFormData);
+    onChange(updatedFormData);
+    if (name === "requireWorkVisa") {
+      setRequireWorkVisa(value); // Set the requireWorkVisa state
+    }
+  };
   return (
     <>
       {isMounted && (
@@ -107,6 +196,7 @@ const PersonalDetails = ({ onChange }) => {
           overlayColor="rgba(0,153,255,0.2)"
         />
       )}
+
       <div className="w-full flex items-center gap-3 mt-8">
         <input
           type="file"
@@ -134,7 +224,14 @@ const PersonalDetails = ({ onChange }) => {
           />
         </div>
 
-        <UploadBtn text="Upload profile" onClick={handleClick} />
+        <div className="">
+          <UploadBtn text="Upload Passport" onClick={handleClick(fileRef)} />
+          <div className="text-[12px] font-azoSansRegular my-2">
+            {" "}
+            Submit a recent, passport-style headshot or a selfie featuring a
+            professional smile.
+          </div>
+        </div>
       </div>
 
       <div className="my-10 grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -187,7 +284,7 @@ const PersonalDetails = ({ onChange }) => {
           >
             National Insurance Number
           </label>
-          {/* <label className="flex justify-left items-center">National Insurance Number <FaAsterisk size={6} color="red" /> </label> */}
+
           <p className="text-[12px] font-azoSansRegular">
             This will be in you National Insurance letter, payslip or P60. For
             example, 'QQ 12 34 56 C'
@@ -210,7 +307,100 @@ const PersonalDetails = ({ onChange }) => {
             ))}
           </div>
         </div>
+
+        <div className="">
+          <label
+            htmlFor="passport"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Proof of National Insurance Number
+          </label>
+          {renderUploadSection(
+            "ninProof",
+            "Proof of National Insurance Number",
+            "fileInputninproof"
+          )}
+        </div>
       </div>
+
+      {/* Proof of Address Section */}
+      <div className="">
+        <label
+          htmlFor="addressProof"
+          className="block text-sm font-medium text-gray-700"
+        >
+          Proof of address
+        </label>
+        <p className="text-[12px] font-azoSansRegular">
+          Provide either a recent bank statement or an official
+          government-issued letter.
+        </p>
+
+        <div className="w-full grid md:grid-cols-2 grid-cols-1 gap-4">
+          {renderUploadSection(
+            "addressProof",
+            "Proof of Address",
+            "fileInputAddressProof"
+          )}
+        </div>
+      </div>
+
+      <div className="w-full flex items-center gap-3 my-10 ">
+        <OptionsComponent
+          title="Do you require a work visa to work in the resident country?"
+          isCheckedLeft={localFormData.requireWorkVisa === "true"}
+          setIsCheckedLeft={() =>
+            handleCheckboxChange("requireWorkVisa", "true")
+          }
+          isCheckedRight={localFormData.requireWorkVisa === "false"}
+          setIsCheckedRight={() =>
+            handleCheckboxChange("requireWorkVisa", "false")
+          }
+          idLeft="RequireVisaYes"
+          idRight="RequireVisaNo"
+        />
+      </div>
+
+      {requireWorkVisa === "true" && (
+        <div className=" grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="">
+            <label
+              htmlFor="visaDocument"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Visa Document
+            </label>
+            <p className="text-[12px] font-azoSansRegular">
+              Upload your visa document for verification
+            </p>
+
+            <div className="">
+              {renderUploadSection(
+                "visaDocument",
+                "Visa Document",
+                "fileInputvisa"
+              )}
+            </div>
+          </div>
+
+          <div className="">
+            <label
+              htmlFor="internationalPassport"
+              className="block text-sm font-medium text-gray-700"
+            >
+              International Passport
+            </label>
+            <p className="text-[12px] font-azoSansRegular">
+              Upload Data page of your International Passport
+            </p>
+            {renderUploadSection(
+              "internationalPassport",
+              "International Passport",
+              "fileInputPassPort"
+            )}
+          </div>
+        </div>
+      )}
     </>
   );
 };
