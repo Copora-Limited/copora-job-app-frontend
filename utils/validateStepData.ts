@@ -232,10 +232,10 @@ interface FormData {
         // }
 
 
-        if (!formData.bankDetails?.p45Attached || formData.bankDetails?.p45Attached == null) {
-          errors.p45Attached = "P45 attached status declaration is required";
-          isValid = false;
-        }
+        // if (!formData.bankDetails?.p45Attached || formData.bankDetails?.p45Attached == null) {
+        //   errors.p45Attached = "P45 attached status declaration is required";
+        //   isValid = false;
+        // }
       
         break;
   

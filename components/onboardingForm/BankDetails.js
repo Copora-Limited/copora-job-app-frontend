@@ -21,7 +21,7 @@ const BankDetailsForm = ({ onChange }) => {
     accountName: "",
     employmentStatusDeclaration: "",
     studentLoanStatus: "",
-    p45Attached: false,
+    // p45Attached: false,
     attempted: false,
   });
 
@@ -209,7 +209,7 @@ const BankDetailsForm = ({ onChange }) => {
           </div>
         ))}
 
-        <h6 className="text-[14px] text-black font-medium">P45:</h6>
+        {/* <h6 className="text-[14px] text-black font-medium">P45:</h6>
 
         <div className="flex items-center gap-3 text-[14px] text-black my-5">
           <input
@@ -222,7 +222,7 @@ const BankDetailsForm = ({ onChange }) => {
           <label htmlFor="p45Attached">
             I attach a copy of the P45 from my previous employer.
           </label>
-        </div>
+        </div> */}
 
         {/* {[
           {
