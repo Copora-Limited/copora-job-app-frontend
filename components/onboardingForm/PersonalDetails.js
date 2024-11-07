@@ -7,6 +7,7 @@ import { UploadIcon } from "@/components/Icon";
 import UploadedFile from "@/components/Custom/UploadedFile";
 import { CircleSpinnerOverlay } from "react-spinner-overlay";
 import OptionsComponent from "@/components/GeneralInformation/OptionComponentNew";
+import CheckOption from "@/components/GeneralInformation/CheckOption";
 
 const PersonalDetails = ({ onChange }) => {
   const { data: session } = useSession();
@@ -58,7 +59,7 @@ const PersonalDetails = ({ onChange }) => {
         onChange(data);
         setHasFetchedData(true);
         console.log("data.declarationAccepted", data.declarationAccepted);
-        setDeclarationAccepted(data.declarationAccepted);
+        setDeclarationAccepted(data.declarationAccepted || false);
 
         setIsLoading(false);
       } catch (error) {
@@ -118,16 +119,10 @@ const PersonalDetails = ({ onChange }) => {
   };
 
   const handleDeclarationChange = (e) => {
-    const updatedDeclarationAccepted = e.target.checked;
-    setDeclarationAccepted(updatedDeclarationAccepted);
-
-    // Optionally update the local form data
-    const updatedFormData = {
-      ...localFormData,
-      declarationAccepted: updatedDeclarationAccepted,
-    };
-    setLocalFormData(updatedFormData);
-    onChange(updatedFormData); // Pass updated data to the parent
+    const value = e.target.checked;
+    setDeclarationAccepted(value);
+    const updatedFormState = { declarationAccepted: value };
+    onChange(updatedFormState); // Notify parent component
   };
 
   const renderUploadSection = (fileType, title, id) => {
@@ -398,7 +393,7 @@ const PersonalDetails = ({ onChange }) => {
       )}
 
       {/* Declaration Agreement Toggle */}
-      <div className="my-5">
+      {/* <div className="my-5">
         <label className="block text-sm font-medium text-gray-700">
           Do you accept the declaration?
         </label>
@@ -412,16 +407,23 @@ const PersonalDetails = ({ onChange }) => {
             className="w-5 h-5 accent-appGreen"
           />
 
-          <label htmlFor="agreement" className="text-sm text-gray-600">
-            I hereby confirm that the information provided is accurate,
+          <label htmlFor="agreement" className="text-sm text-gray-600"></label>
+        </div>
+      </div> */}
+
+      <div className="w-full mt-4 font-azoSansLight">
+        <CheckOption
+          checked={declarationAccepted}
+          text="I hereby confirm that the information provided is accurate,
             complete, and truthful. I affirm that all documents submitted along
             with this form are genuine and unaltered. I agree to promptly inform
             Copora Ltd. in writing of any changes to the information provided,
             and I commit to updating my information as requested by Copora Ltd.
             I understand that this declaration is final, binding, and cannot be
-            revoked or modified.
-          </label>
-        </div>
+            revoked or modified."
+          id="licensing"
+          onChange={handleDeclarationChange}
+        />
       </div>
 
       {/* <div className="w-full flex items-center gap-3 col-span-2">
