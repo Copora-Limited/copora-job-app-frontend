@@ -112,6 +112,10 @@ const PersonalDetails = ({ onChange }) => {
     ref.current?.click();
   };
 
+  const handleUploadClick = (inputId) => {
+    document.getElementById(inputId).click();
+  };
+
   const handleCheckboxChange = (name, value) => {
     const updatedFormData = { ...localFormData, [name]: value };
     setLocalFormData(updatedFormData);
@@ -220,8 +224,8 @@ const PersonalDetails = ({ onChange }) => {
         <div>
           <UploadBtn text="Upload" onClick={handleClick(fileRef)} />
           <label className="block text-[12px] font-azoSansRegular my-2">
-            Submit a recent, passport-style headshot or a selfie featuring a
-            professional smile.
+            Current Photo: A recent, passport-style headshot or
+            professional-quality selfie.
           </label>
         </div>
       </div>
@@ -381,7 +385,7 @@ const PersonalDetails = ({ onChange }) => {
               Visa Document
             </label>
             <p className="text-[12px] font-azoSansRegular">
-              Upload your visa document for verification
+              Include a copy of your valid visa document.
             </p>
             {renderUploadSection(
               "visaDocument",
@@ -393,23 +397,6 @@ const PersonalDetails = ({ onChange }) => {
       )}
 
       {/* Declaration Agreement Toggle */}
-      {/* <div className="my-5">
-        <label className="block text-sm font-medium text-gray-700">
-          Do you accept the declaration?
-        </label>
-        <div className="flex items-center gap-2 mt-2">
-          <input
-            type="checkbox"
-            name="declarationAccepted"
-            id="agreement"
-            checked={declarationAccepted}
-            onChange={handleDeclarationChange} // Pass the handler here
-            className="w-5 h-5 accent-appGreen"
-          />
-
-          <label htmlFor="agreement" className="text-sm text-gray-600"></label>
-        </div>
-      </div> */}
 
       <div className="w-full mt-4 font-azoSansLight">
         <p htmlFor="agrrement" className="mb-4">
@@ -428,21 +415,6 @@ const PersonalDetails = ({ onChange }) => {
           onChange={handleDeclarationChange}
         />
       </div>
-
-      {/* <div className="w-full flex items-center gap-3 col-span-2">
-        <input type="checkbox" id="declarationAccepted" className="mr-2" />
-        <label
-          htmlFor="declarationAccepted"
-          className="text-gray-900 font-medium"
-        >
-          I hereby confirm that the information provided is accurate, complete,
-          and truthful. I affirm that all documents submitted along with this
-          form are genuine and unaltered. I agree to promptly inform Copora Ltd.
-          in writing of any changes to the information provided, and I commit to
-          updating my information as requested by Copora Ltd. I understand that
-          this declaration is final, binding, and cannot be revoked or modified.
-        </label>
-      </div> */}
     </>
   );
 };
