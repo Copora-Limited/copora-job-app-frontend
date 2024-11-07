@@ -35,6 +35,11 @@ export default function OnboardingLayout() {
 
   const steps = [
     {
+      label: "Welcome",
+      message: "",
+      description: "",
+    },
+    {
       label: "Personal Details",
       message: "Enter your personal information accurately.",
       description:
@@ -334,9 +339,9 @@ export default function OnboardingLayout() {
         <div className="w-full h-[92vh] mt-[9vh] overflow-y-auto scroller ">
           <div className="md:w-4/5 w-[90%] mx-auto">
             <div className="w-full my-5">
-              <h4 className="md:text-[18px] text-[16px] font-medium my-3 capitalize">
-                Welcome {username}
-              </h4>
+              {/* <h4 className="md:text-[18px] text-[16px] font-medium my-3 capitalize">
+                {username}
+              </h4> */}
 
               <h5 className="md:text-[18px] text-[16px] font-medium text-[#101828]">
                 {steps[currentStep]?.label}
@@ -368,13 +373,13 @@ export default function OnboardingLayout() {
               {/* </div> */}
 
               {/* <div> */}
-              {[14].includes(currentStep) ? ( // Check if current step is Health and Disability
+              {[0].includes(currentStep) ? ( // Check if current step is Health and Disability
                 <button
                   onClick={handleNext}
                   disabled={isSaving}
                   className="w-full bg-teal-600 me-4 hover:bg-teal-700 transition duration-500 text-white border border-[#667080] px-4 py-2 rounded-full"
                 >
-                  Save & Next
+                  I Agree
                 </button>
               ) : (
                 // w-full h-[44px] flex items-center justify-center gap-2 bg-appGreen hover:bg-teal-700 transition duration-500 text-white border border-[#667080] rounded-[100px] md:text-[16px] text-[13px] font-semibold px-[12px]

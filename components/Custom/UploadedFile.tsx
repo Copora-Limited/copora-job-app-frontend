@@ -13,7 +13,9 @@ export default function UploadedFile({ onDelete, type, fileName }: Props) {
         {type === ".pdf" && <Pdf />}
         {type === ".png" && <Png />}
 
-        <h5 className="text-[14px] font-medium text-[#1D2739]">{fileName}</h5>
+        <h5 className="text-[10px] sm:text-[12px] font-medium text-[#1D2739]">
+          {fileName}
+        </h5>
       </div>
       <svg
         width="24"

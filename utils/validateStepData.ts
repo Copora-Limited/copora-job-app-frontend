@@ -80,11 +80,11 @@ interface FormData {
           }
           
         }
-
-        if (!formData.personalDetails?.declarationAccepted || formData.personalDetails?.declarationAccepted == undefined || null) {
-          errors.gpName = "Please accept declaration before you proceed";
+        if (!formData.personalDetails?.declarationAccepted) {
+          errors.declarationAccepted = "Please accept declaration before you proceed";
           isValid = false;
         }
+        
       
         
         break;

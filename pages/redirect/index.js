@@ -32,7 +32,7 @@ const Redirect = () => {
     if (status === "authenticated" && session?.user) {
       const { role, onboardingStep } = session.user;
       if (role === "applicant") {
-        if (onboardingStep < 11) {
+        if (onboardingStep < 12) {
           router.push(`/onboarding?step=${onboardingStep}`);
         } else {
           router.push("/onboarding/congratulations");
