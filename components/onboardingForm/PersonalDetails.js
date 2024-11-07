@@ -249,7 +249,7 @@ const PersonalDetails = ({ onChange }) => {
           <div>
             <label
               htmlFor="dateOfBirth"
-              className="text-[14px] text-gray-900 font-medium"
+              className="block text-[14px] text-gray-900 font-medium"
             >
               Date of Birth
             </label>
@@ -273,7 +273,7 @@ const PersonalDetails = ({ onChange }) => {
           <div>
             <label
               htmlFor="gender"
-              className="text-[14px] text-gray-900 font-medium"
+              className="block text-[14px] text-gray-900 font-medium"
             >
               Gender
             </label>
@@ -295,7 +295,7 @@ const PersonalDetails = ({ onChange }) => {
           <div>
             <label
               htmlFor="nationalInsuranceNumber"
-              className="text-[14px] text-gray-900 font-medium"
+              className="block text-[14px] text-gray-900 font-medium"
             >
               National Insurance Number
             </label>
@@ -325,7 +325,7 @@ const PersonalDetails = ({ onChange }) => {
           <div>
             <label
               htmlFor="passport"
-              className="text-[14px] text-gray-900 font-medium"
+              className="block text-[14px] text-gray-900 font-medium"
             >
               Proof of National Insurance Number
             </label>
@@ -340,7 +340,7 @@ const PersonalDetails = ({ onChange }) => {
           <div>
             <label
               htmlFor="addressProof"
-              className="text-[14px] text-gray-900 font-medium"
+              className="block text-[14px] text-gray-900 font-medium"
             >
               Proof of Address
             </label>
@@ -360,7 +360,7 @@ const PersonalDetails = ({ onChange }) => {
           <div>
             <label
               htmlFor="internationalPassport"
-              className="text-[14px] text-gray-900 font-medium"
+              className="block text-[14px] text-gray-900 font-medium"
             >
               Passport / Driver's license
             </label>
@@ -397,7 +397,7 @@ const PersonalDetails = ({ onChange }) => {
             <div>
               <label
                 htmlFor="visaDocument"
-                className="text-[14px] text-gray-900 font-medium"
+                className="block text-[14px] text-gray-900 font-medium"
               >
                 Visa Document
               </label>
