@@ -19,6 +19,8 @@ const PersonalDetails = ({ onChange }) => {
   const [localFormData, setLocalFormData] = useState({});
   const [hasFetchedData, setHasFetchedData] = useState(false);
   const [profilePic, setProfilePic] = useState("");
+  const [requireWorkVisa, setRequireWorkVisa] = useState("false");
+
   const fileRef = useRef(null);
   const fileRefs = {
     passport: useRef(null),
@@ -27,13 +29,13 @@ const PersonalDetails = ({ onChange }) => {
     photo: useRef(null),
   };
   const [nin, setNin] = useState(Array(9).fill("")); // Initialize NIN array with 9 empty strings
-  const [requireWorkVisa, setRequireWorkVisa] = useState("false");
+  const hasFetchedDataRef = useRef(false); // Track if data has been fetched
 
   useEffect(() => {
-    setIsMounted(true);
+    if (hasFetchedDataRef.current || !token || !applicationNo) return; // Prevent re-fetching if data is already fetched
 
     const fetchApplicantData = async () => {
-      if (!token || !applicationNo || hasFetchedData) return;
+      setIsLoading(true);
 
       try {
         const response = await fetch(
@@ -54,11 +56,10 @@ const PersonalDetails = ({ onChange }) => {
         onChange(data);
         setLocalFormData(data);
         setProfilePic(data.passportPhoto || "");
-
         setNin(data.nationalInsuranceNumber?.split("") || Array(9).fill("")); // Split NIN into digits
-
         setRequireWorkVisa(data.requireWorkVisa);
-        setHasFetchedData(true); // Only set data once
+
+        hasFetchedDataRef.current = true; // Set ref to true after fetching
         setIsLoading(false);
       } catch (error) {
         console.error("Error fetching applicant data:", error);
@@ -67,13 +68,11 @@ const PersonalDetails = ({ onChange }) => {
     };
 
     fetchApplicantData();
-  }, [token, applicationNo, hasFetchedData, onChange]);
+  }, [token, applicationNo, onChange]); // Remove hasFetchedData from dependencies
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    const updatedFormData = { ...localFormData, [name]: value };
-    setLocalFormData(updatedFormData);
-    onChange(updatedFormData);
+  const handleChange = (field, value) => {
+    const updatedFormData = { ...localFormData, [field]: value };
+    onChange(updatedFormData); // Notify parent component
   };
 
   const handleFileChange = (e) => {
@@ -191,14 +190,6 @@ const PersonalDetails = ({ onChange }) => {
     onChange(updatedFormData);
   };
 
-  // const handleCheckboxChange = (name, value) => {
-  //   const updatedFormData = { ...localFormData, [name]: value };
-  //   setLocalFormData(updatedFormData);
-  //   onChange(updatedFormData);
-  //   if (name === "requireWorkVisa") {
-  //     setRequireWorkVisa(value); // Set the requireWorkVisa state
-  //   }
-  // };
   return (
     <>
       {isMounted && (
@@ -264,7 +255,7 @@ const PersonalDetails = ({ onChange }) => {
                 ? new Date(localFormData.dateOfBirth).toISOString().slice(0, 10)
                 : ""
             }
-            onChange={handleChange}
+            onChange={(e) => handleChange("dateOfBirth", e.target.checked)}
             className="w-full p-2 border border-gray-300 rounded mt-1"
           />
         </div>
@@ -280,7 +271,7 @@ const PersonalDetails = ({ onChange }) => {
             required
             name="gender"
             value={localFormData.gender || ""}
-            onChange={handleChange}
+            onChange={(e) => handleChange("gender", e.target.checked)}
             className="w-full p-2 border border-gray-300 rounded mt-1"
           >
             <option value="">Select Gender</option>
@@ -416,6 +407,32 @@ const PersonalDetails = ({ onChange }) => {
           </div>
         </div>
       )}
+
+      {/* Declaration Section */}
+      <div className="mt-6">
+        <label className="flex items-center">
+          <input
+            type="checkbox"
+            // checked={declarationAccepted}
+            // onChange={() => setDeclarationAccepted(!declarationAccepted)}
+
+            checked={localFormData.declarationAccepted}
+            onChange={(e) =>
+              handleChange("declarationAccepted", e.target.checked)
+            }
+            className="mr-2"
+          />
+          <span className="text-sm font-medium text-gray-700">
+            “I hereby confirm that the information provided is accurate,
+            complete, and truthful. I affirm that all documents submitted along
+            with this form are genuine and unaltered. I agree to promptly inform
+            Copora Ltd in writing of any changes to the information provided,
+            and I commit to updating my information as requested by Copora Ltd.
+            I understand that this declaration is final, binding, and cannot be
+            revoked or modified.”
+          </span>
+        </label>
+      </div>
     </>
   );
 };

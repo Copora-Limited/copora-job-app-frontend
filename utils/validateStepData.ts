@@ -37,7 +37,7 @@ interface FormData {
   
     switch (currentStepData.label) {
       case "Personal Details":
-        console.log("requireWorkVisa",formData.personalDetails)
+        console.log("personalDetails Data",formData.personalDetails)
         if (!formData.personalDetails?.dateOfBirth) {
           errors.dateOfBirth = "Date of Birth is required";
           isValid = false;
@@ -78,7 +78,12 @@ interface FormData {
               errors.internationalPassport = "Please upload Passport.";
               isValid = false;
           }
-      }
+        }
+
+        if (!formData.personalDetails?.declarationAccepted || formData.personalDetails?.declarationAccepted == undefined || null) {
+          errors.gpName = "Please accept declaration before you proceed";
+          isValid = false;
+        }
       
         
         break;
