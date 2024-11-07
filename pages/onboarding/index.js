@@ -361,7 +361,7 @@ export default function OnboardingLayout() {
   // };
 
   return (
-    <div className="w-screen h-screen flex md:flex-row flex-col bg-[#F7F9FC] overflow-hidden">
+    <div className="flex md:flex-row flex-col bg-[#F7F9FC] ">
       <OnboardingTopNav onMenuClick={toggleSideNav} />
       <div className="flex w-full h-full">
         <AsideLeft
