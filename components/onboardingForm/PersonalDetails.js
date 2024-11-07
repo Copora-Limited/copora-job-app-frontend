@@ -157,12 +157,12 @@ const PersonalDetails = ({ onChange }) => {
           >
             <UploadIcon />
             <div>
-              {/* <p className="text-[10px] sm:text-[12px] text-primary font-bold">{`Upload ${title}`}</p> */}
-              <p className="text-[10px] sm:text-[12px] text-[#98A2B3]">
+              {/* <p className="text-[10px] sm: text-primary font-bold">{`Upload ${title}`}</p> */}
+              <p className="text-[10px] sm: text-[#98A2B3]">
                 PDF, DOCX, DOC, PNG, JPG, JPEG | 2MB max.
               </p>
             </div>
-            <div className="w-[80px] h-[36px] flex items-center justify-center bg-teal-700 text-white text-[14px] rounded-[6px]">
+            <div className="w-[80px] h-[36px] flex items-center justify-center bg-teal-700 text-white  rounded-[6px]">
               Upload
             </div>
             <input
@@ -202,223 +202,228 @@ const PersonalDetails = ({ onChange }) => {
       {/* <div className="mt-8">
         
       </div> */}
-      <div className="w-full flex items-center gap-3">
-        <input
-          type="file"
-          hidden
-          ref={fileRef}
-          onChange={handleFileChange}
-          accept="image/*"
-        />
-        <div className="relative w-[60px] h-[60px] rounded-full">
-          <Image
-            src={profilePic || "/assets/img/user-avatar.svg"}
-            alt="user"
-            fill
-            className="rounded-full object-cover"
-          />
-          <Image
-            src="/assets/img/verified_tick.svg"
-            alt="verified tick"
-            width={19}
-            height={19}
-            className="absolute bottom-0 right-0"
-          />
-        </div>
-        <div>
-          <UploadBtn text="Upload" onClick={() => fileRef.current.click()} />
-          <p className="text-[12px] font-azoSansRegular">
-            Current Photo: A recent, passport-style headshot or
-            professional-quality selfie.
-          </p>
-        </div>
-      </div>
-
-      <div className="my-10 grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label
-            htmlFor="dateOfBirth"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Date of Birth
-          </label>
+      <content className="text-[14px]">
+        <div className="w-full flex items-center gap-3">
           <input
-            required
-            type="date"
-            name="dateOfBirth"
-            value={
-              localFormData.dateOfBirth
-                ? new Date(localFormData.dateOfBirth).toISOString().slice(0, 10)
-                : ""
-            }
-            onChange={handleChange}
-            className="w-full p-2 border border-gray-300 rounded mt-1"
+            type="file"
+            hidden
+            ref={fileRef}
+            onChange={handleFileChange}
+            accept="image/*"
           />
-        </div>
-
-        <div>
-          <label
-            htmlFor="gender"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Gender
-          </label>
-          <select
-            required
-            name="gender"
-            value={localFormData.gender || ""}
-            onChange={handleChange}
-            className="w-full px-2 pt-3 pb-2 border border-gray-300 rounded mt-1"
-          >
-            <option value="">Select Gender</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-            <option value="Other">Other</option>
-          </select>
-        </div>
-
-        <div>
-          <label
-            htmlFor="nationalInsuranceNumber"
-            className="block text-sm font-medium text-gray-700"
-          >
-            National Insurance Number
-          </label>
-          <p className="text-[12px] font-azoSansRegular">
-            This will be in your National Insurance letter, payslip, or P60. For
-            example, 'QQ 12 34 56 C'
-          </p>
-          <div className="grid grid-cols-9 gap-2 mt-2">
-            {nin.map((digit, index) => (
-              <input
-                key={index}
-                id={`nin-${index}`}
-                type="text"
-                maxLength={1}
-                value={digit}
-                onChange={(e) => handleNinChange(index, e)}
-                placeholder={index < 2 ? "A" : index < 8 ? "0" : "A"}
-                className="w-10 h-10 text-center border rounded"
-              />
-            ))}
+          <div className="relative w-[60px] h-[60px] rounded-full">
+            <Image
+              src={profilePic || "/assets/img/user-avatar.svg"}
+              alt="user"
+              fill
+              className="rounded-full object-cover"
+            />
+            <Image
+              src="/assets/img/verified_tick.svg"
+              alt="verified tick"
+              width={19}
+              height={19}
+              className="absolute bottom-0 right-0"
+            />
+          </div>
+          <div>
+            <UploadBtn text="Upload" onClick={() => fileRef.current.click()} />
+            <p className=" font-azoSansRegular">
+              Current Photo: A recent, passport-style headshot or
+              professional-quality selfie.
+            </p>
           </div>
         </div>
-      </div>
 
-      <div className="">
-        <div className="my-5">
-          <label
-            htmlFor="passport"
-            className="block text-[14px] text-gray-900 font-medium"
-          >
-            Proof of National Insurance Number
-          </label>
-          <p className="text-[12px] font-azoSansRegular">
-            An HMRC letter, payslip, or income support letter showing your
-            National Insurance Number.
-          </p>
-          {renderUploadSection(
-            "ninProof",
-            "Proof of National Insurance Number",
-            "fileInputninproof"
-          )}
-        </div>
-
-        <div className="my-5">
-          <label
-            htmlFor="addressProof"
-            className="block text-[14px] text-gray-900 font-medium"
-          >
-            Proof of Address
-          </label>
-          <p className="text-[12px] font-azoSansRegular">
-            A recent bank statement, government letter, or utility bill with
-            your current address.
-          </p>
-
-          {renderUploadSection(
-            "addressProof",
-            "Proof of Address",
-            "fileInputAddressProof"
-          )}
-        </div>
-
-        {/* Passport / Driver's License */}
-        <div className="my-5">
-          <label
-            htmlFor="internationalPassport"
-            className="block text-[14px] text-gray-900 font-medium"
-          >
-            Photo ID
-          </label>
-          <p className="text-[12px] font-azoSansRegular">
-            A valid passport or driver's license.
-          </p>
-          {renderUploadSection(
-            "internationalPassport",
-            "Passport or Driver's license",
-            "fileInputPassPort"
-          )}
-        </div>
-      </div>
-
-      <div className="w-full flex items-center gap-3 my-10">
-        <OptionsComponent
-          title="Do you require a work visa to work in the resident country?"
-          isCheckedLeft={localFormData.requireWorkVisa === "true"}
-          setIsCheckedLeft={() =>
-            handleCheckboxChange("requireWorkVisa", "true")
-          }
-          isCheckedRight={localFormData.requireWorkVisa === "false"}
-          setIsCheckedRight={() =>
-            handleCheckboxChange("requireWorkVisa", "false")
-          }
-          idLeft="RequireVisaYes"
-          idRight="RequireVisaNo"
-        />
-      </div>
-
-      {localFormData.requireWorkVisa === "true" && (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Visa Document */}
+        <div className="my-10 grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label
-              htmlFor="visaDocument"
-              className="block text-[14px] text-gray-900 font-medium"
+              htmlFor="dateOfBirth"
+              className="block text-sm font-medium text-gray-700"
             >
-              Visa Document
+              Date of Birth
             </label>
-            <p className="text-[12px] font-azoSansRegular">
-              Include a copy of your valid visa document.
+            <input
+              required
+              type="date"
+              name="dateOfBirth"
+              value={
+                localFormData.dateOfBirth
+                  ? new Date(localFormData.dateOfBirth)
+                      .toISOString()
+                      .slice(0, 10)
+                  : ""
+              }
+              onChange={handleChange}
+              className="w-full p-2 border border-gray-300 rounded mt-1"
+            />
+          </div>
+
+          <div>
+            <label
+              htmlFor="gender"
+              className="block text-sm font-medium text-gray-700"
+            >
+              Gender
+            </label>
+            <select
+              required
+              name="gender"
+              value={localFormData.gender || ""}
+              onChange={handleChange}
+              className="w-full px-2 pt-3 pb-2 border border-gray-300 rounded mt-1"
+            >
+              <option value="">Select Gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div>
+            <label
+              htmlFor="nationalInsuranceNumber"
+              className="block text-sm font-medium text-gray-700"
+            >
+              National Insurance Number
+            </label>
+            <p className=" font-azoSansRegular">
+              This will be in your National Insurance letter, payslip, or P60.
+              For example, 'QQ 12 34 56 C'
+            </p>
+            <div className="grid grid-cols-9 gap-2 mt-2">
+              {nin.map((digit, index) => (
+                <input
+                  key={index}
+                  id={`nin-${index}`}
+                  type="text"
+                  maxLength={1}
+                  value={digit}
+                  onChange={(e) => handleNinChange(index, e)}
+                  placeholder={index < 2 ? "A" : index < 8 ? "0" : "A"}
+                  className="w-10 h-10 text-center border rounded"
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="">
+          <div className="my-5">
+            <label
+              htmlFor="passport"
+              className="block  text-gray-900 font-medium"
+            >
+              Proof of National Insurance Number
+            </label>
+            <p className=" font-azoSansRegular">
+              An HMRC letter, payslip, or income support letter showing your
+              National Insurance Number.
             </p>
             {renderUploadSection(
-              "visaDocument",
-              "Visa Document",
-              "fileInputvisa"
+              "ninProof",
+              "Proof of National Insurance Number",
+              "fileInputninproof"
+            )}
+          </div>
+
+          <div className="my-5">
+            <label
+              htmlFor="addressProof"
+              className="block  text-gray-900 font-medium"
+            >
+              Proof of Address
+            </label>
+            <p className=" font-azoSansRegular">
+              A recent bank statement, government letter, or utility bill with
+              your current address.
+            </p>
+
+            {renderUploadSection(
+              "addressProof",
+              "Proof of Address",
+              "fileInputAddressProof"
+            )}
+          </div>
+
+          {/* Passport / Driver's License */}
+          <div className="my-5">
+            <label
+              htmlFor="internationalPassport"
+              className="block  text-gray-900 font-medium"
+            >
+              Photo ID
+            </label>
+            <p className=" font-azoSansRegular">
+              A valid passport or driver's license.
+            </p>
+            {renderUploadSection(
+              "internationalPassport",
+              "Passport or Driver's license",
+              "fileInputPassPort"
             )}
           </div>
         </div>
-      )}
 
-      {/* Declaration Agreement Toggle */}
+        <div className="w-full flex items-center gap-3 my-10">
+          <OptionsComponent
+            title="Do you require a work visa to work in the resident country?"
+            isCheckedLeft={localFormData.requireWorkVisa === "true"}
+            setIsCheckedLeft={() =>
+              handleCheckboxChange("requireWorkVisa", "true")
+            }
+            isCheckedRight={localFormData.requireWorkVisa === "false"}
+            setIsCheckedRight={() =>
+              handleCheckboxChange("requireWorkVisa", "false")
+            }
+            idLeft="RequireVisaYes"
+            idRight="RequireVisaNo"
+          />
+        </div>
 
-      <div className="w-full mt-4 font-azoSansLight">
-        <p htmlFor="agrrement" className="mb-4">
-          I hereby confirm that the information provided is accurate, complete,
-          and truthful. I affirm that all documents submitted along with this
-          form are genuine and unaltered. I agree to promptly inform Copora Ltd.
-          in writing of any changes to the information provided, and I commit to
-          updating my information as requested by Copora Ltd. I understand that
-          this declaration is final, binding, and cannot be revoked or modified.
-        </p>
+        {localFormData.requireWorkVisa === "true" && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Visa Document */}
+            <div>
+              <label
+                htmlFor="visaDocument"
+                className="block  text-gray-900 font-medium"
+              >
+                Visa Document
+              </label>
+              <p className=" font-azoSansRegular">
+                Include a copy of your valid visa document.
+              </p>
+              {renderUploadSection(
+                "visaDocument",
+                "Visa Document",
+                "fileInputvisa"
+              )}
+            </div>
+          </div>
+        )}
 
-        <CheckOption
-          checked={declarationAccepted}
-          text="I accept the declaration"
-          id="agrrement"
-          onChange={handleDeclarationChange}
-        />
-      </div>
+        {/* Declaration Agreement Toggle */}
+
+        <div className="w-full mt-4 font-azoSansLight">
+          <p htmlFor="agrrement" className="mb-4">
+            I hereby confirm that the information provided is accurate,
+            complete, and truthful. I affirm that all documents submitted along
+            with this form are genuine and unaltered. I agree to promptly inform
+            Copora Ltd. in writing of any changes to the information provided,
+            and I commit to updating my information as requested by Copora Ltd.
+            I understand that this declaration is final, binding, and cannot be
+            revoked or modified.
+          </p>
+
+          <CheckOption
+            checked={declarationAccepted}
+            text="I accept the declaration"
+            id="agrrement"
+            onChange={handleDeclarationChange}
+          />
+        </div>
+      </content>
     </>
   );
 };

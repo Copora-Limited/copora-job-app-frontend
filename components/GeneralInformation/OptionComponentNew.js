@@ -10,9 +10,7 @@ const OptionsComponent = ({
 }) => {
   return (
     <div className="flex flex-col gap-4">
-      <p className="text-[12px] sm:text-[13px] md:text-[14px] lg:text-[16px] xl:text-[18px] text-gray-900">
-        {title}
-      </p>
+      <p className="text-[14px]  text-gray-900">{title}</p>
 
       <div className="flex items-start gap-4">
         <label
