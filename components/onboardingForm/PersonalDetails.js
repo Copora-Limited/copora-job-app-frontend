@@ -79,11 +79,11 @@ const PersonalDetails = ({ onChange }) => {
     onChange(updatedFormData);
   };
 
- const handleFileChange = (e) => {
+  const handleFileChange = (e) => {
     const file = e.target.files?.[0];
     if (file) {
       setProfilePic(URL.createObjectURL(file));
-      setLocalFormData(prevState => ({ ...prevState, passportPhoto: file }));
+      setLocalFormData((prevState) => ({ ...prevState, passportPhoto: file }));
       onChange(localFormData);
     }
   };
@@ -108,8 +108,6 @@ const PersonalDetails = ({ onChange }) => {
       }
     }
   };
-
-
 
   const handleUploadClick = (inputId) => {
     document.getElementById(inputId).click();
@@ -227,7 +225,13 @@ const PersonalDetails = ({ onChange }) => {
             className="absolute bottom-0 right-0"
           />
         </div>
-        <UploadBtn text="Upload" onClick={() => fileRef.current.click()} />
+        <div>
+          <UploadBtn text="Upload" onClick={() => fileRef.current.click()} />
+          <p className="text-[12px] font-azoSansRegular">
+            Current Photo: A recent, passport-style headshot or
+            professional-quality selfie.
+          </p>
+        </div>
       </div>
 
       <div className="my-10 grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -264,7 +268,7 @@ const PersonalDetails = ({ onChange }) => {
             name="gender"
             value={localFormData.gender || ""}
             onChange={handleChange}
-            className="w-full p-2 border border-gray-300 rounded mt-1"
+            className="w-full px-2 pt-3 pb-2 border border-gray-300 rounded mt-1"
           >
             <option value="">Select Gender</option>
             <option value="Male">Male</option>
