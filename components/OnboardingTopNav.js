@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 import useOnboardingStore from "@/hooks/Store/useOnboardingStore";
 import Link from "next/link";
+import { OpenSideNav } from "./Icon";
 
-export default function OnboardingTopNav() {
+export default function OnboardingTopNav({ onMenuClick }) {
   const { data: session } = useSession();
   const router = useRouter();
 
@@ -18,6 +19,9 @@ export default function OnboardingTopNav() {
   return (
     <nav className="bg-white shadow text-black p-4 flex justify-between md:justify-end items-center h-[8vh] fixed top-0 right-0 z-50 md:w-3/4 w-screen px-4">
       <div className="flex items-center gap-4">
+        <button onClick={onMenuClick} className="md:hidden p-2">
+          <OpenSideNav />
+        </button>
         <div className="w-[40px] h-[40px] rounded-full">
           <img
             src={profilePic || "/assets/user-avatar.svg"} // Fallback to default avatar if profilePic is missing
