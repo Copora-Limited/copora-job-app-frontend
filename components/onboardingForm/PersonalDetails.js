@@ -412,16 +412,19 @@ const PersonalDetails = ({ onChange }) => {
       </div> */}
 
       <div className="w-full mt-4 font-azoSansLight">
+        <p htmlFor="agrrement" className="mb-4">
+          I hereby confirm that the information provided is accurate, complete,
+          and truthful. I affirm that all documents submitted along with this
+          form are genuine and unaltered. I agree to promptly inform Copora Ltd.
+          in writing of any changes to the information provided, and I commit to
+          updating my information as requested by Copora Ltd. I understand that
+          this declaration is final, binding, and cannot be revoked or modified.
+        </p>
+
         <CheckOption
           checked={declarationAccepted}
-          text="I hereby confirm that the information provided is accurate,
-            complete, and truthful. I affirm that all documents submitted along
-            with this form are genuine and unaltered. I agree to promptly inform
-            Copora Ltd. in writing of any changes to the information provided,
-            and I commit to updating my information as requested by Copora Ltd.
-            I understand that this declaration is final, binding, and cannot be
-            revoked or modified."
-          id="licensing"
+          text="I accept the declaration"
+          id="agrrement"
           onChange={handleDeclarationChange}
         />
       </div>

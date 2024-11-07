@@ -37,7 +37,7 @@ interface FormData {
   
     switch (currentStepData.label) {
       case "Personal Details":
-        console.log("personalDetails Data",formData.personalDetails)
+        console.log("personalDetails Data",formData.personalDetails.declarationAccepted)
         if (!formData.personalDetails?.dateOfBirth) {
           errors.dateOfBirth = "Date of Birth is required";
           isValid = false;
