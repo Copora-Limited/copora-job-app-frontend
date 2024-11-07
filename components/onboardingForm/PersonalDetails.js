@@ -244,12 +244,11 @@ const PersonalDetails = ({ onChange }) => {
           </div>
         </div>
 
-        <div className="my-10 grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Date of Birth */}
+        <div className="my-10 grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label
               htmlFor="dateOfBirth"
-              className="block text-[14px] text-gray-900 font-medium"
+              className="block text-sm font-medium text-gray-700"
             >
               Date of Birth
             </label>
@@ -264,16 +263,15 @@ const PersonalDetails = ({ onChange }) => {
                       .slice(0, 10)
                   : ""
               }
-              onChange={(e) => handleChange("dateOfBirth", e.target.checked)}
+              onChange={handleChange}
               className="w-full p-2 border border-gray-300 rounded mt-1"
             />
           </div>
 
-          {/* Gender */}
           <div>
             <label
               htmlFor="gender"
-              className="block text-[14px] text-gray-900 font-medium"
+              className="block text-sm font-medium text-gray-700"
             >
               Gender
             </label>
@@ -281,7 +279,7 @@ const PersonalDetails = ({ onChange }) => {
               required
               name="gender"
               value={localFormData.gender || ""}
-              onChange={(e) => handleChange("gender", e.target.checked)}
+              onChange={handleChange}
               className="w-full p-2 border border-gray-300 rounded mt-1"
             >
               <option value="">Select Gender</option>
@@ -291,21 +289,18 @@ const PersonalDetails = ({ onChange }) => {
             </select>
           </div>
 
-          {/* National Insurance Number */}
-          <div>
+          <div className="mt-4">
             <label
               htmlFor="nationalInsuranceNumber"
-              className="block text-[14px] text-gray-900 font-medium"
+              className="block text-sm font-medium text-gray-700"
             >
               National Insurance Number
             </label>
-
             <p className="text-[12px] font-azoSansRegular">
-              This will be in your National Insurance letter, payslip or P60.
+              This will be in your National Insurance letter, payslip, or P60.
               For example, 'QQ 12 34 56 C'
             </p>
-
-            <div className="grid grid-cols-9 gap-3 mt-2">
+            <div className="grid grid-cols-9 gap-2 mt-2">
               {nin.map((digit, index) => (
                 <input
                   key={index}
@@ -322,7 +317,7 @@ const PersonalDetails = ({ onChange }) => {
           </div>
 
           {/* Proof of National Insurance Number */}
-          <div>
+          <div className="mt-4">
             <label
               htmlFor="passport"
               className="block text-[14px] text-gray-900 font-medium"
@@ -335,7 +330,9 @@ const PersonalDetails = ({ onChange }) => {
               "fileInputninproof"
             )}
           </div>
+        </div>
 
+        <div className="my-10 grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Proof of Address */}
           <div>
             <label
