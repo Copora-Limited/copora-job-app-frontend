@@ -373,7 +373,7 @@ export default function OnboardingLayout() {
           onClose={toggleSideNav}
           ref={sideNavRef}
         />
-        <div className="flex-1 w-full h-[92vh] mt-[9vh] overflow-y-auto scroller">
+        <div className="bg-white flex-1 w-full h-[92vh] mt-[9vh] overflow-y-auto scroller">
           <div className="w-full h-[92vh] mt-[9vh] overflow-y-auto scroller ">
             <div className="md:w-4/5 w-[90%] mx-auto">
               <div className="w-full my-5">
