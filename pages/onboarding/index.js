@@ -216,7 +216,12 @@ export default function OnboardingLayout() {
       if (!response.ok) {
         const errorData = await response.json();
         // throw new Error(errorData.message || "An error occurred.");
-        toast.error(errorData.message);
+        toast.error(
+          `${errorData?.message || "An error occurred"} ${
+            errorData?.error || ""
+          }`
+        );
+
         setIsSaving(false);
         return; // Prevent submission
       }

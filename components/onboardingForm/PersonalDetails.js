@@ -28,7 +28,7 @@ const PersonalDetails = ({ onChange }) => {
   };
 
   const [nin, setNin] = useState(Array(9).fill(""));
-  const [requireWorkVisa, setRequireWorkVisa] = useState("false");
+  // const [requireWorkVisa, setRequireWorkVisa] = useState("false");
   const [declarationAccepted, setDeclarationAccepted] = useState(false); // Keep as string for backend compatibility
 
   useEffect(() => {
@@ -157,7 +157,7 @@ const PersonalDetails = ({ onChange }) => {
           >
             <UploadIcon />
             <div>
-              {/* <p className="text-[10px] sm: text-primary font-bold">{`Upload ${title}`}</p> */}
+              <p className="hidden text-[10px] sm: text-primary font-bold">{`Upload ${title}`}</p>
               <p className="text-[10px] sm: text-[#98A2B3]">
                 PDF, DOCX, DOC, PNG, JPG, JPEG | 2MB max.
               </p>
