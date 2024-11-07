@@ -226,23 +226,21 @@ const PersonalDetails = ({ onChange }) => {
           />
         </div>
 
-        <div className="">
-          {/* <UploadBtn text="Upload Passport" onClick={handleClick(fileRef)} /> */}
+        <div>
           <UploadBtn text="Upload Passport" onClick={handleClick} />
-
           <div className="text-[12px] font-azoSansRegular my-2">
-            {" "}
             Submit a recent, passport-style headshot or a selfie featuring a
             professional smile.
           </div>
         </div>
       </div>
 
-      <div className="my-10 grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="my-10 grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Date of Birth */}
         <div>
           <label
             htmlFor="dateOfBirth"
-            className="text-[14px] text-gray-900 font-mediun"
+            className="text-[14px] text-gray-900 font-medium"
           >
             Date of Birth
           </label>
@@ -260,10 +258,11 @@ const PersonalDetails = ({ onChange }) => {
           />
         </div>
 
+        {/* Gender */}
         <div>
           <label
             htmlFor="gender"
-            className="text-[14px] text-gray-900 font-mediun"
+            className="text-[14px] text-gray-900 font-medium"
           >
             Gender
           </label>
@@ -281,20 +280,21 @@ const PersonalDetails = ({ onChange }) => {
           </select>
         </div>
 
+        {/* National Insurance Number */}
         <div>
           <label
             htmlFor="nationalInsuranceNumber"
-            className="text-[14px] text-gray-900 font-mediun"
+            className="text-[14px] text-gray-900 font-medium"
           >
             National Insurance Number
           </label>
 
           <p className="text-[12px] font-azoSansRegular">
-            This will be in you National Insurance letter, payslip or P60. For
+            This will be in your National Insurance letter, payslip or P60. For
             example, 'QQ 12 34 56 C'
           </p>
 
-          <div className="grid grid-cols-9 gap-2 mt-2">
+          <div className="grid grid-cols-9 gap-3 mt-2">
             {nin.map((digit, index) => (
               <input
                 key={index}
@@ -303,19 +303,18 @@ const PersonalDetails = ({ onChange }) => {
                 maxLength={1}
                 value={digit}
                 onChange={(e) => handleNinChange(index, e)}
-                placeholder={
-                  index < 2 ? "A" : index < 8 ? "0" : "A" // Set appropriate placeholder
-                }
+                placeholder={index < 2 ? "A" : index < 8 ? "0" : "A"}
                 className="w-10 h-10 text-center border rounded"
               />
             ))}
           </div>
         </div>
 
-        <div className="">
+        {/* Proof of National Insurance Number */}
+        <div>
           <label
             htmlFor="passport"
-            className="text-[14px] text-gray-900 font-mediun"
+            className="text-[14px] text-gray-900 font-medium"
           >
             Proof of National Insurance Number
           </label>
@@ -325,31 +324,47 @@ const PersonalDetails = ({ onChange }) => {
             "fileInputninproof"
           )}
         </div>
-      </div>
 
-      {/* Proof of Address Section */}
-      <div className="">
-        <label
-          htmlFor="addressProof"
-          className="text-[14px] text-gray-900 font-mediun"
-        >
-          Proof of address
-        </label>
-        <p className="text-[12px] font-azoSansRegular">
-          Provide either a recent bank statement or an official
-          government-issued letter.
-        </p>
+        {/* Proof of Address */}
+        <div>
+          <label
+            htmlFor="addressProof"
+            className="text-[14px] text-gray-900 font-medium"
+          >
+            Proof of Address
+          </label>
+          <p className="text-[12px] font-azoSansRegular">
+            Provide either a recent bank statement or an official
+            government-issued letter.
+          </p>
 
-        <div className="w-full grid md:grid-cols-2 grid-cols-1 gap-4">
           {renderUploadSection(
             "addressProof",
             "Proof of Address",
             "fileInputAddressProof"
           )}
         </div>
+
+        {/* Passport / Driver's License */}
+        <div>
+          <label
+            htmlFor="internationalPassport"
+            className="text-[14px] text-gray-900 font-medium"
+          >
+            Passport / Driver's license
+          </label>
+          <p className="text-[12px] font-azoSansRegular">
+            Upload Data page of your Passport or Driver's license
+          </p>
+          {renderUploadSection(
+            "internationalPassport",
+            "Passport or Driver's license",
+            "fileInputPassPort"
+          )}
+        </div>
       </div>
 
-      <div className="w-full flex items-center gap-3 my-10  ">
+      <div className="w-full flex items-center gap-3 my-10">
         <OptionsComponent
           title="Do you require a work visa to work in the resident country?"
           isCheckedLeft={localFormData.requireWorkVisa === "true"}
@@ -365,44 +380,23 @@ const PersonalDetails = ({ onChange }) => {
         />
       </div>
 
-      {/* localFormData.requireWorkVisa */}
-
       {localFormData.requireWorkVisa === "true" && (
-        <div className=" grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Visa Document */}
+          <div>
             <label
               htmlFor="visaDocument"
-              className="text-[14px] text-gray-900 font-mediun"
+              className="text-[14px] text-gray-900 font-medium"
             >
               Visa Document
             </label>
             <p className="text-[12px] font-azoSansRegular">
               Upload your visa document for verification
             </p>
-
-            <div className="">
-              {renderUploadSection(
-                "visaDocument",
-                "Visa Document",
-                "fileInputvisa"
-              )}
-            </div>
-          </div>
-
-          <div className="">
-            <label
-              htmlFor="internationalPassport"
-              className="text-[14px] text-gray-900 font-mediun"
-            >
-              Passport
-            </label>
-            <p className="text-[12px] font-azoSansRegular">
-              Upload Data page of your Passport
-            </p>
             {renderUploadSection(
-              "internationalPassport",
-              "Passport",
-              "fileInputPassPort"
+              "visaDocument",
+              "Visa Document",
+              "fileInputvisa"
             )}
           </div>
         </div>
@@ -413,20 +407,17 @@ const PersonalDetails = ({ onChange }) => {
         <label className="flex items-center">
           <input
             type="checkbox"
-            // checked={declarationAccepted}
-            // onChange={() => setDeclarationAccepted(!declarationAccepted)}
-
+            className="mr-2 accent-appGreen"
             checked={localFormData.declarationAccepted}
             onChange={(e) =>
               handleChange("declarationAccepted", e.target.checked)
             }
-            className="mr-2"
           />
           <span className="text-sm font-medium text-gray-700">
             “I hereby confirm that the information provided is accurate,
             complete, and truthful. I affirm that all documents submitted along
             with this form are genuine and unaltered. I agree to promptly inform
-            Copora Ltd in writing of any changes to the information provided,
+            Copora Ltd. in writing of any changes to the information provided,
             and I commit to updating my information as requested by Copora Ltd.
             I understand that this declaration is final, binding, and cannot be
             revoked or modified.”

@@ -62,6 +62,10 @@ interface FormData {
           isValid = false;
         }
 
+        if (!formData.personalDetails?.internationalPassport) {
+          errors.internationalPassport = "Please upload Passport or Driver's license.";
+          isValid = false;
+      }
 
         if (!formData.personalDetails?.requireWorkVisa) {
           
@@ -74,10 +78,7 @@ interface FormData {
               errors.visaDocument = "Please upload visa document for verification.";
               isValid = false;
           }
-          if (!formData.personalDetails?.internationalPassport) {
-              errors.internationalPassport = "Please upload Passport.";
-              isValid = false;
-          }
+          
         }
 
         if (!formData.personalDetails?.declarationAccepted || formData.personalDetails?.declarationAccepted == undefined || null) {
