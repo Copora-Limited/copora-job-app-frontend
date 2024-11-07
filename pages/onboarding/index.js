@@ -361,8 +361,9 @@ export default function OnboardingLayout() {
   // };
 
   return (
-    <div className="flex md:flex-row flex-col bg-[#F7F9FC] ">
+    <div className="flex flex-col md:flex-row bg-[#F7F9FC] h-screen">
       <OnboardingTopNav onMenuClick={toggleSideNav} />
+
       <div className="flex w-full h-full">
         <AsideLeft
           steps={steps.map((step) => step.label)}
@@ -373,24 +374,20 @@ export default function OnboardingLayout() {
           onClose={toggleSideNav}
           ref={sideNavRef}
         />
-        {/* <div className="bg-white flex-1 w-full h-[92vh] mt-[3vh] overflow-y-auto scroller"> */}
-        <div className="bg-white flex-1 w-full">
-          <div className="w-full h-[92vh] mt-[9vh] overflow-y-auto scroller ">
-            <div className="md:w-4/5 w-[90%] mx-auto">
-              <div className="w-full my-5">
-                {/* <h4 className="md:text-[18px] text-[16px] font-medium my-3 capitalize">
-                  {username}
-                </h4> */}
 
-                <h5 className="md:text-[18px] text-[16px] font-medium text-[#101828]">
+        <div className="flex-1 w-full bg-white h-full flex flex-col">
+          <div className="w-full h-[92vh] mt-[9vh] overflow-y-auto scroller px-4">
+            <div className="md:w-4/5 w-full max-w-[90%] mx-auto">
+              <header className="my-5">
+                <h5 className="md:text-lg text-base font-medium text-[#101828]">
                   {steps[currentStep]?.label}
                 </h5>
-                <p className="md:text-[14px] text-[12px] text-[#475467] font-azoSansRegular">
+                <p className="md:text-sm text-xs text-[#475467] font-azoSansRegular">
                   {steps[currentStep]?.description}
                 </p>
-              </div>
-              {/*  */}
-              <div className="">
+              </header>
+
+              <div className="mb-10">
                 <OnboardingStepContent
                   currentStep={currentStep}
                   formData={formData}
@@ -398,44 +395,35 @@ export default function OnboardingLayout() {
                   steps={steps}
                 />
               </div>
+
               {error && <Alert message={error} />}
               {validationErrors && <Alert message={validationErrors} />}
-              <div className="flex justify-between  my-10 border-t pt-4">
-                {/* <div> */}
+
+              <footer className="flex justify-between items-center mt-auto border-t pt-4">
                 <button
                   onClick={handlePrevious}
                   disabled={currentStep === 0}
-                  className="w-full mr-5 bg-gray-300 px-4 py-2 rounded-full"
+                  className="w-full mr-2 bg-gray-300 px-4 py-2 rounded-full"
                 >
                   Previous
                 </button>
-                {/* </div> */}
 
-                {/* <div> */}
-                {[14].includes(currentStep) ? ( // Check if current step is Health and Disability
-                  <button
-                    onClick={handleNext}
-                    disabled={isSaving}
-                    className="w-full bg-teal-600 me-4 hover:bg-teal-700 transition duration-500 text-white border border-[#667080] px-4 py-2 rounded-full"
-                  >
-                    I Agree
-                  </button>
-                ) : (
-                  // w-full h-[44px] flex items-center justify-center gap-2 bg-appGreen hover:bg-teal-700 transition duration-500 text-white border border-[#667080] rounded-[100px] md:text-[16px] text-[13px] font-semibold px-[12px]
-                  <button
-                    onClick={handleSaveAndNext}
-                    disabled={isSaving}
-                    className="w-full bg-teal-600 hover:bg-teal-700 transition duration-500 text-white border border-[#667080] px-4 py-2 rounded-full"
-                  >
-                    {isSaving
-                      ? "Saving..."
-                      : currentStep === steps.length - 1
-                      ? "Submit"
-                      : "Save & Next"}
-                  </button>
-                )}
-                {/* </div> */}
-              </div>
+                <button
+                  onClick={
+                    currentStep === steps.length - 1
+                      ? handleSaveAndNext
+                      : handleNext
+                  }
+                  disabled={isSaving}
+                  className="w-full bg-teal-600 hover:bg-teal-700 transition duration-500 text-white border border-[#667080] px-4 py-2 rounded-full"
+                >
+                  {isSaving
+                    ? "Saving..."
+                    : currentStep === steps.length - 1
+                    ? "Submit"
+                    : "Save & Next"}
+                </button>
+              </footer>
             </div>
           </div>
         </div>
