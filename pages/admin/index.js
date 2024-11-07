@@ -44,6 +44,9 @@ export default function AdminDashboard() {
 
         const data = await response.json();
 
+        // Filter users to only include applicants
+        const applicants = data.filter((user) => user.role === "applicant");
+
         // Process data to count users based on their onboarding status
         const statistics = {
           invitationSent: 0,
@@ -52,7 +55,7 @@ export default function AdminDashboard() {
           approved: 0,
         };
 
-        data.forEach((user) => {
+        applicants.forEach((user) => {
           switch (user.onboardingStatus) {
             case "Invitation Sent":
               statistics.invitationSent += 1;
