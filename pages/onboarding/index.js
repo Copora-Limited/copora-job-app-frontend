@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { useSessionContext } from "@/context/SessionContext";
@@ -23,36 +23,6 @@ export default function OnboardingLayout() {
   const [error, setError] = useState(null);
   const [validationErrors, setValidationErrors] = useState(null);
 
-  const [isSideNavOpen, setIsSideNavOpen] = useState(false);
-  const sideNavRef = useRef(null);
-
-  const toggleSideNav = () => {
-    setIsSideNavOpen((prev) => !prev);
-  };
-
-  const closeSideNav = () => {
-    setIsSideNavOpen(false);
-  };
-
-  // Detect click outside of SideNav to close it
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (sideNavRef.current && !sideNavRef.current.contains(event.target)) {
-        closeSideNav();
-      }
-    };
-
-    if (isSideNavOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isSideNavOpen]);
-
   // Check for session and redirect if necessary
   useEffect(() => {
     if (status === "loading") return; // Avoid redirecting while loading
@@ -64,11 +34,6 @@ export default function OnboardingLayout() {
   }, [session, status, router]);
 
   const steps = [
-    // {
-    //   label: "Welcome",
-    //   message: "",
-    //   description: "",
-    // },
     {
       label: "Personal Details",
       message: "Enter your personal information accurately.",
@@ -246,12 +211,7 @@ export default function OnboardingLayout() {
       if (!response.ok) {
         const errorData = await response.json();
         // throw new Error(errorData.message || "An error occurred.");
-        toast.error(
-          `${errorData?.message || "An error occurred"} ${
-            errorData?.error || ""
-          }`
-        );
-
+        toast.error(errorData.message);
         setIsSaving(false);
         return; // Prevent submission
       }
@@ -361,59 +321,63 @@ export default function OnboardingLayout() {
   // };
 
   return (
-    <div className="flex flex-col md:flex-row bg-[#F7F9FC] h-screen">
-      <OnboardingTopNav onMenuClick={toggleSideNav} />
+    <div className="w-screen h-screen flex md:flex-row flex-col bg-white">
+      <AsideLeft
+        steps={steps.map((step) => step.label)}
+        stepMessages={steps.map((step) => step.message)}
+        currentStep={currentStep}
+        setCurrentStep={setCurrentStep}
+      />
 
-      <div className="flex w-full h-full">
-        <AsideLeft
-          steps={steps.map((step) => step.label)}
-          stepMessages={steps.map((step) => step.message)}
-          currentStep={currentStep}
-          setCurrentStep={setCurrentStep}
-          isOpen={isSideNavOpen}
-          onClose={toggleSideNav}
-          ref={sideNavRef}
-        />
+      <div className="md:w-3/4 w-screen h-full">
+        <OnboardingTopNav />
+        <div className="w-full h-[92vh] mt-[9vh] overflow-y-auto scroller">
+          <div className="md:w-4/5 w-[90%] mx-auto">
+            <div className="w-full my-5">
+              <h4 className="md:text-[18px] text-[16px] font-medium my-3 capitalize">
+                Welcome {username}
+              </h4>
 
-        <div className="flex-1 w-full bg-white h-full flex flex-col">
-          <div className="w-full h-[92vh] mt-[9vh] overflow-y-auto scroller px-4">
-            <div className="md:w-4/5 w-full max-w-[90%] mx-auto">
-              <header className="my-5">
-                <h5 className="md:text-lg text-base font-medium text-[#101828]">
-                  {steps[currentStep]?.label}
-                </h5>
-                <p className="md:text-sm text-xs text-[#475467] font-azoSansRegular">
-                  {steps[currentStep]?.description}
-                </p>
-              </header>
+              <h5 className="md:text-[18px] text-[16px] font-medium text-[#101828]">
+                {steps[currentStep]?.label}
+              </h5>
+              <p className="md:text-[14px] text-[12px] text-[#475467] font-azoSansRegular">
+                {steps[currentStep]?.description}
+              </p>
+            </div>
 
-              <div className="mb-10">
-                <OnboardingStepContent
-                  currentStep={currentStep}
-                  formData={formData}
-                  handleFormChange={handleFormChange}
-                  steps={steps}
-                />
-              </div>
+            <OnboardingStepContent
+              currentStep={currentStep}
+              formData={formData}
+              handleFormChange={handleFormChange}
+              steps={steps}
+            />
+            {error && <Alert message={error} />}
+            {validationErrors && <Alert message={validationErrors} />}
+            <div className="flex justify-between  my-10">
+              {/* <div> */}
+              <button
+                onClick={handlePrevious}
+                disabled={currentStep === 0}
+                className="w-full mr-5 bg-gray-300 px-4 py-2 rounded-full"
+              >
+                Previous
+              </button>
+              {/* </div> */}
 
-              {error && <Alert message={error} />}
-              {validationErrors && <Alert message={validationErrors} />}
-
-              <footer className="flex justify-between items-center mt-auto border-t pt-4">
+              {/* <div> */}
+              {[14].includes(currentStep) ? ( // Check if current step is Health and Disability
                 <button
-                  onClick={handlePrevious}
-                  disabled={currentStep === 0}
-                  className="w-full mr-2 bg-gray-300 px-4 py-2 rounded-full"
+                  onClick={handleNext}
+                  disabled={isSaving}
+                  className="w-full bg-teal-600 me-4 hover:bg-teal-700 transition duration-500 text-white border border-[#667080] px-4 py-2 rounded-full"
                 >
-                  Previous
+                  Save & Next
                 </button>
-
+              ) : (
+                // w-full h-[44px] flex items-center justify-center gap-2 bg-appGreen hover:bg-teal-700 transition duration-500 text-white border border-[#667080] rounded-[100px] md:text-[16px] text-[13px] font-semibold px-[12px]
                 <button
-                  onClick={
-                    currentStep === steps.length - 1
-                      ? handleSaveAndNext
-                      : handleNext
-                  }
+                  onClick={handleSaveAndNext}
                   disabled={isSaving}
                   className="w-full bg-teal-600 hover:bg-teal-700 transition duration-500 text-white border border-[#667080] px-4 py-2 rounded-full"
                 >
@@ -423,7 +387,8 @@ export default function OnboardingLayout() {
                     ? "Submit"
                     : "Save & Next"}
                 </button>
-              </footer>
+              )}
+              {/* </div> */}
             </div>
           </div>
         </div>
