@@ -26,6 +26,7 @@ const PersonalDetails = ({ onChange }) => {
     addressProof: useRef(null),
     photo: useRef(null),
   };
+
   const [nin, setNin] = useState(Array(9).fill(""));
   const [requireWorkVisa, setRequireWorkVisa] = useState("false");
   const [declarationAccepted, setDeclarationAccepted] = useState(false); // Keep as string for backend compatibility
@@ -78,12 +79,12 @@ const PersonalDetails = ({ onChange }) => {
     onChange(updatedFormData);
   };
 
-  const handleFileChange = (type) => (e) => {
+ const handleFileChange = (e) => {
     const file = e.target.files?.[0];
     if (file) {
-      const updatedFormData = { ...localFormData, [type]: file };
-      setLocalFormData(updatedFormData);
-      onChange(updatedFormData);
+      setProfilePic(URL.createObjectURL(file));
+      setLocalFormData(prevState => ({ ...prevState, passportPhoto: file }));
+      onChange(localFormData);
     }
   };
 
@@ -108,25 +109,19 @@ const PersonalDetails = ({ onChange }) => {
     }
   };
 
-  const handleClick = (ref) => () => {
-    ref.current?.click();
-  };
+
 
   const handleUploadClick = (inputId) => {
     document.getElementById(inputId).click();
   };
 
-  const handleCheckboxChange = (name, value) => {
-    const updatedFormData = { ...localFormData, [name]: value };
-    setLocalFormData(updatedFormData);
-    onChange(updatedFormData);
-  };
-
-  const handleDeclarationChange = (e) => {
-    const value = e.target.checked;
-    setDeclarationAccepted(value);
-    const updatedFormState = { declarationAccepted: value };
-    onChange(updatedFormState); // Notify parent component
+  const handleUploadFileChange = (event, fileType) => {
+    const file = event.target.files[0];
+    if (file) {
+      const updatedFormData = { ...localFormData, [fileType]: file };
+      setLocalFormData(updatedFormData);
+      onChange(updatedFormData);
+    }
   };
 
   const renderUploadSection = (fileType, title, id) => {
@@ -164,8 +159,8 @@ const PersonalDetails = ({ onChange }) => {
           >
             <UploadIcon />
             <div>
-              {/* <p className="text-[12px] text-primary font-medium">{`Upload ${title}`}</p> */}
-              <p className="text-[12px] text-[#98A2B3]">
+              {/* <p className="text-[10px] sm:text-[12px] text-primary font-bold">{`Upload ${title}`}</p> */}
+              <p className="text-[10px] sm:text-[12px] text-[#98A2B3]">
                 PDF, DOCX, DOC, PNG, JPG, JPEG | 2MB max.
               </p>
             </div>
@@ -176,13 +171,26 @@ const PersonalDetails = ({ onChange }) => {
               type="file"
               id={id}
               className="hidden"
-              onChange={(event) => handleFileChange(event, fileType)} // Handle file change
+              onChange={(event) => handleUploadFileChange(event, fileType)} // Handle file change
               accept=".pdf, docx, .doc, .png, .jpg, .jpeg"
             />
           </div>
         )}
       </div>
     );
+  };
+
+  const handleCheckboxChange = (name, value) => {
+    const updatedFormData = { ...localFormData, [name]: value };
+    setLocalFormData(updatedFormData);
+    onChange(updatedFormData);
+  };
+
+  const handleDeclarationChange = (e) => {
+    const value = e.target.checked;
+    setDeclarationAccepted(value);
+    const updatedFormState = { declarationAccepted: value };
+    onChange(updatedFormState); // Notify parent component
   };
 
   return (
@@ -201,7 +209,7 @@ const PersonalDetails = ({ onChange }) => {
           type="file"
           hidden
           ref={fileRef}
-          onChange={handleFileChange("profilePic")}
+          onChange={handleFileChange}
           accept="image/*"
         />
         <div className="relative w-[60px] h-[60px] rounded-full">
@@ -210,7 +218,6 @@ const PersonalDetails = ({ onChange }) => {
             alt="user"
             fill
             className="rounded-full object-cover"
-            placeholder="empty"
           />
           <Image
             src="/assets/img/verified_tick.svg"
@@ -218,16 +225,9 @@ const PersonalDetails = ({ onChange }) => {
             width={19}
             height={19}
             className="absolute bottom-0 right-0"
-            placeholder="empty"
           />
         </div>
-        <div>
-          <UploadBtn text="Upload" onClick={handleClick(fileRef)} />
-          <label className="block text-[12px] font-azoSansRegular my-2">
-            Current Photo: A recent, passport-style headshot or
-            professional-quality selfie.
-          </label>
-        </div>
+        <UploadBtn text="Upload" onClick={() => fileRef.current.click()} />
       </div>
 
       <div className="my-10 grid grid-cols-1 md:grid-cols-2 gap-4">
