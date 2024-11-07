@@ -26,8 +26,8 @@ const PersonalDetails = ({ onChange }) => {
     photo: useRef(null),
   };
   const [nin, setNin] = useState(Array(9).fill(""));
+  const [declarationAccepted, setDeclarationAccepted] = useState(false);
   const [requireWorkVisa, setRequireWorkVisa] = useState("false");
-  const [declarationAccepted, setDeclarationAccepted] = useState(false); // Keep as string for backend compatibility
 
   useEffect(() => {
     setIsMounted(true);
@@ -57,9 +57,6 @@ const PersonalDetails = ({ onChange }) => {
         setNin(data.nationalInsuranceNumber?.split("") || Array(9).fill(""));
         onChange(data);
         setHasFetchedData(true);
-        console.log("data.declarationAccepted", data.declarationAccepted);
-        setDeclarationAccepted(data.declarationAccepted);
-
         setIsLoading(false);
       } catch (error) {
         console.error("Error fetching applicant data:", error);
@@ -109,25 +106,6 @@ const PersonalDetails = ({ onChange }) => {
 
   const handleClick = (ref) => () => {
     ref.current?.click();
-  };
-
-  const handleCheckboxChange = (name, value) => {
-    const updatedFormData = { ...localFormData, [name]: value };
-    setLocalFormData(updatedFormData);
-    onChange(updatedFormData);
-  };
-
-  const handleDeclarationChange = (e) => {
-    const updatedDeclarationAccepted = e.target.checked;
-    setDeclarationAccepted(updatedDeclarationAccepted);
-
-    // Optionally update the local form data
-    const updatedFormData = {
-      ...localFormData,
-      declarationAccepted: updatedDeclarationAccepted,
-    };
-    setLocalFormData(updatedFormData);
-    onChange(updatedFormData); // Pass updated data to the parent
   };
 
   const renderUploadSection = (fileType, title, id) => {
@@ -194,9 +172,12 @@ const PersonalDetails = ({ onChange }) => {
           overlayColor="rgba(0,153,255,0.2)"
         />
       )}
-      {/* <div className="mt-8">
-        
-      </div> */}
+      <div className="mt-8">
+        <label className="block text-sm font-medium text-gray-700 mt-4 mb-1">
+          Submit a recent, passport-style headshot or a selfie featuring a
+          professional smile.
+        </label>
+      </div>
       <div className="w-full flex items-center gap-3">
         <input
           type="file"
@@ -222,13 +203,10 @@ const PersonalDetails = ({ onChange }) => {
             placeholder="empty"
           />
         </div>
-        <div>
-          <UploadBtn text="Upload" onClick={handleClick(fileRef)} />
-          <label className="block text-[12px] font-azoSansRegular my-2">
-            Submit a recent, passport-style headshot or a selfie featuring a
-            professional smile.
-          </label>
-        </div>
+        <UploadBtn
+          text="Upload Passport-Style Photo"
+          onClick={handleClick(fileRef)}
+        />
       </div>
 
       <div className="my-10 grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -398,46 +376,30 @@ const PersonalDetails = ({ onChange }) => {
       )}
 
       {/* Declaration Agreement Toggle */}
-      <div className="my-5">
-        <label className="block text-sm font-medium text-gray-700">
-          Do you accept the declaration?
-        </label>
-        <div className="flex items-center gap-2 mt-2">
-          <input
-            type="checkbox"
-            name="declarationAccepted"
-            id="agreement"
-            checked={declarationAccepted}
-            onChange={handleDeclarationChange} // Pass the handler here
-            className="w-5 h-5 accent-appGreen"
-          />
-
-          <label htmlFor="agreement" className="text-sm text-gray-600">
-            I hereby confirm that the information provided is accurate,
-            complete, and truthful. I affirm that all documents submitted along
-            with this form are genuine and unaltered. I agree to promptly inform
-            Copora Ltd. in writing of any changes to the information provided,
-            and I commit to updating my information as requested by Copora Ltd.
-            I understand that this declaration is final, binding, and cannot be
-            revoked or modified.
-          </label>
-        </div>
-      </div>
-
       {/* <div className="w-full flex items-center gap-3 col-span-2">
-        <input type="checkbox" id="declarationAccepted" className="mr-2" />
+        <input
+          type="checkbox"
+          id="declarationAccepted"
+          checked={declarationAccepted === "true"}
+          onChange={handleDeclarationToggle}
+          className="mr-2"
+        />
         <label
           htmlFor="declarationAccepted"
           className="text-gray-900 font-medium"
         >
-          I hereby confirm that the information provided is accurate, complete,
+          “I hereby confirm that the information provided is accurate, complete,
           and truthful. I affirm that all documents submitted along with this
           form are genuine and unaltered. I agree to promptly inform Copora Ltd.
           in writing of any changes to the information provided, and I commit to
           updating my information as requested by Copora Ltd. I understand that
-          this declaration is final, binding, and cannot be revoked or modified.
+          this declaration is final, binding, and cannot be revoked or
+          modified.”
         </label>
       </div> */}
+
+      {/* Additional sections for Passport, NIN proof, Address proof, etc. */}
+      {/* Include the additional upload buttons and instructions as outlined before */}
     </>
   );
 };

@@ -27,13 +27,13 @@ const OnboardingStepContent = ({
 
   const renderStepContent = () => {
     switch (currentStepName) {
-      case "Welcome":
-        return (
-          <Welcome
-            onChange={handleFormChange}
-            // formData={formData.personalDetails}
-          />
-        );
+      // case "Welcome":
+      //   return (
+      //     <Welcome
+      //       onChange={handleFormChange}
+      //       // formData={formData.personalDetails}
+      //     />
+      //   );
       case "Personal Details":
         return (
           <PersonalDetails

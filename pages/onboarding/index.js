@@ -34,11 +34,11 @@ export default function OnboardingLayout() {
   }, [session, status, router]);
 
   const steps = [
-    {
-      label: "Welcome",
-      message: "",
-      description: "",
-    },
+    // {
+    //   label: "Welcome",
+    //   message: "",
+    //   description: "",
+    // },
     {
       label: "Personal Details",
       message: "Enter your personal information accurately.",
@@ -361,7 +361,7 @@ export default function OnboardingLayout() {
             </div>
             {error && <Alert message={error} />}
             {validationErrors && <Alert message={validationErrors} />}
-            <div className="flex justify-between  my-2 border-t pt-4">
+            <div className="flex justify-between  my-10 border-t pt-4">
               {/* <div> */}
               <button
                 onClick={handlePrevious}
@@ -373,7 +373,7 @@ export default function OnboardingLayout() {
               {/* </div> */}
 
               {/* <div> */}
-              {[0].includes(currentStep) ? ( // Check if current step is Health and Disability
+              {[14].includes(currentStep) ? ( // Check if current step is Health and Disability
                 <button
                   onClick={handleNext}
                   disabled={isSaving}
