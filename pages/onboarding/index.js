@@ -361,7 +361,7 @@ export default function OnboardingLayout() {
             </div>
             {error && <Alert message={error} />}
             {validationErrors && <Alert message={validationErrors} />}
-            <div className="flex justify-between  my-10">
+            <div className="flex justify-between  my-2 border-t pt-4">
               {/* <div> */}
               <button
                 onClick={handlePrevious}
