@@ -2,7 +2,7 @@ const Welcome = ({ onchange }) => {
   return (
     <>
       <p className="text-lg font-semibold text-gray-800 mb-4">
-        Please provide the following to complete your registration:
+        Please prepare the following before you proceed with this registration:
       </p>
 
       <ul className="list-disc pl-6 space-y-2 text-sm text-gray-700">
@@ -41,9 +41,13 @@ const Welcome = ({ onchange }) => {
         <strong>Declaration</strong>
       </p>
       <p className="text-sm text-gray-700 mt-2">
-        "I confirm that the information and documents provided are accurate,
-        genuine, and complete. I will promptly inform Copora Ltd of any changes
-        to this information."
+        I confirm that the information and documents I provide are accurate,
+        genuine, and complete to the best of my knowledge. I understand that any
+        false or misleading information may result in the rejection of my
+        registration or employment. I agree to promptly inform Copora Ltd of any
+        changes to this information, including my personal details, documents,
+        or status, and I will ensure that such updates are provided in a timely
+        and accurate manner.
       </p>
     </>
   );
