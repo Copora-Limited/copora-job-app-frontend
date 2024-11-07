@@ -57,11 +57,10 @@ const PersonalDetails = ({ onChange }) => {
         setProfilePic(data.passportPhoto || "");
 
         setNin(data.nationalInsuranceNumber?.split("") || Array(9).fill(""));
-        onChange(data);
-        setHasFetchedData(true);
-        console.log("data.declarationAccepted", data.declarationAccepted);
-        setDeclarationAccepted(data.declarationAccepted || false);
 
+        setHasFetchedData(true);
+        setDeclarationAccepted(data.declarationAccepted || false);
+        onChange(data);
         setIsLoading(false);
       } catch (error) {
         console.error("Error fetching applicant data:", error);
@@ -417,9 +416,9 @@ const PersonalDetails = ({ onChange }) => {
           </p>
 
           <CheckOption
-            checked={declarationAccepted}
             text="I accept the declaration"
             id="agrrement"
+            checked={declarationAccepted}
             onChange={handleDeclarationChange}
           />
         </div>
