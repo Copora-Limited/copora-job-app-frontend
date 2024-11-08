@@ -211,7 +211,7 @@ const Login = () => {
 
           {isMounted && (
             <p className="w-full text-[12px] text-appMuted text-center">
-              By continuing you agree to {process.env.NEXT_PUBLIC_APP_NAME}'s{" "}
+              By continuing you agree to COPORA JOBS{" "}
               <Link
                 href="/"
                 className="text-appGreen cursor-pointer transition-all duration-500 hover:text-teal-600"
