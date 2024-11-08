@@ -158,22 +158,28 @@ const Login = () => {
               </span>
             </label>
 
-            <div className="w-full md:h-[40px] h-[35px] flex items-center justify-between rounded-[8px] border border-[#D0D5DD] py-[8px] px-[14px]">
+            <div
+              className={`w-full flex items-center justify-between rounded-lg border py-2 px-4 ${
+                isDarkMode
+                  ? "bg-gray-700 border-gray-600"
+                  : "bg-white border-gray-300"
+              } md:h-10 h-9`}
+            >
               <input
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className={`outline-0 border-0 w-full h-full placeholder:text-[#667085] placeholder:text-[14px] text-[14px] text-[#667085] ${
+                className={`outline-none border-none w-full h-full placeholder:text-gray-400 text-sm ${
                   isDarkMode
-                    ? "bg-gray-700 border-gray-600 text-white focus:ring-cyan-600"
-                    : "bg-white border-gray-300 text-gray-900 focus:ring-cyan-500"
+                    ? "text-white focus:ring-cyan-600"
+                    : "text-gray-900 focus:ring-cyan-500"
                 }`}
               />
               <button
                 type="button"
                 onClick={togglePasswordVisibility}
-                className=""
+                className="text-gray-500 focus:outline-none"
               >
                 <FontAwesomeIcon
                   icon={showPassword ? faEyeSlash : faEye}

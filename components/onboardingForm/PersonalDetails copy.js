@@ -5,9 +5,9 @@ import { useSessionContext } from "@/context/SessionContext";
 import UploadBtn from "@/components/Custom/Buttons/UploadBtn";
 import { UploadIcon } from "@/components/Icon";
 import UploadedFile from "@/components/Custom/UploadedFile";
-import { CircleSpinnerOverlay } from "react-spinner-overlay";
 import OptionsComponent from "@/components/GeneralInformation/OptionComponentNew";
-import CheckOption from "@/components/GeneralInformation/CheckOption";
+
+import { CircleSpinnerOverlay } from "react-spinner-overlay";
 
 const PersonalDetails = ({ onChange }) => {
   const { data: session } = useSession();
@@ -16,9 +16,14 @@ const PersonalDetails = ({ onChange }) => {
 
   const [isLoading, setIsLoading] = useState(true);
   const [isMounted, setIsMounted] = useState(false);
-  const [localFormData, setLocalFormData] = useState({});
-  const [hasFetchedData, setHasFetchedData] = useState(false);
+  const [localFormData, setLocalFormData] = useState({
+    declarationAccepted: false,
+  });
+  // const [hasFetchedData, setHasFetchedData] = useState(false);
   const [profilePic, setProfilePic] = useState("");
+  const [requireWorkVisa, setRequireWorkVisa] = useState("false");
+  const [declarationAccepted, setDeclarationAccepted] = useState("false"); // Keep as string for backend compatibility
+
   const fileRef = useRef(null);
   const fileRefs = {
     passport: useRef(null),
@@ -26,16 +31,14 @@ const PersonalDetails = ({ onChange }) => {
     addressProof: useRef(null),
     photo: useRef(null),
   };
-
-  const [nin, setNin] = useState(Array(9).fill(""));
-  // const [requireWorkVisa, setRequireWorkVisa] = useState("false");
-  const [declarationAccepted, setDeclarationAccepted] = useState(false); // Keep as string for backend compatibility
+  const [nin, setNin] = useState(Array(9).fill("")); // Initialize NIN array with 9 empty strings
+  const hasFetchedDataRef = useRef(false); // Track if data has been fetched
 
   useEffect(() => {
-    setIsMounted(true);
+    if (hasFetchedDataRef.current || !token || !applicationNo) return; // Prevent re-fetching if data is already fetched
 
     const fetchApplicantData = async () => {
-      if (!token || !applicationNo || hasFetchedData) return;
+      setIsLoading(true);
 
       try {
         const response = await fetch(
@@ -53,14 +56,13 @@ const PersonalDetails = ({ onChange }) => {
         }
 
         const data = await response.json();
+        onChange(data);
         setLocalFormData(data);
         setProfilePic(data.passportPhoto || "");
-
-        setNin(data.nationalInsuranceNumber?.split("") || Array(9).fill(""));
-
-        setHasFetchedData(true);
-        setDeclarationAccepted(data.declarationAccepted || false);
-        onChange(data);
+        setNin(data.nationalInsuranceNumber?.split("") || Array(9).fill("")); // Split NIN into digits
+        setRequireWorkVisa(data.requireWorkVisa);
+        setDeclarationAccepted(data.declarationAccepted || "false"); // Set initial declarationAccepted
+        hasFetchedDataRef.current = true; // Set ref to true after fetching
         setIsLoading(false);
       } catch (error) {
         console.error("Error fetching applicant data:", error);
@@ -69,30 +71,37 @@ const PersonalDetails = ({ onChange }) => {
     };
 
     fetchApplicantData();
-  }, [token, applicationNo, hasFetchedData, onChange]);
+  }, [token, applicationNo, onChange]); // Remove hasFetchedData from dependencies
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    const updatedFormData = { ...localFormData, [name]: value };
-    setLocalFormData(updatedFormData);
-    onChange(updatedFormData);
+  const handleChange = (field, value) => {
+    const updatedFormData = { ...localFormData, [field]: value };
+    onChange(updatedFormData); // Notify parent component
   };
 
   const handleFileChange = (e) => {
     const file = e.target.files?.[0];
     if (file) {
       setProfilePic(URL.createObjectURL(file));
-      setLocalFormData((prevState) => ({ ...prevState, passportPhoto: file }));
-      onChange(localFormData);
+      const updatedFormData = { ...localFormData, passportPhoto: file };
+      setLocalFormData(updatedFormData);
+      onChange(updatedFormData);
     }
   };
 
+  // const handleClick = () => {
+  //   fileRef.current?.click();
+  // };
+
+  const handleClick = () => {
+    if (fileRef.current) fileRef.current.click();
+  };
+
   const handleNinChange = (index, e) => {
-    const value = e.target.value.toUpperCase();
+    const value = e.target.value.toUpperCase(); // Ensure the NIN is in uppercase
     const isValidInput =
-      (index < 2 && /^[A-Za-z]?$/.test(value)) ||
-      (index >= 2 && index < 8 && /^\d?$/.test(value)) ||
-      (index === 8 && /^[A-Za-z]?$/.test(value));
+      (index < 2 && /^[A-Za-z]?$/.test(value)) || // First 2 inputs: Alphabets only
+      (index >= 2 && index < 8 && /^\d?$/.test(value)) || // Next 6 inputs: Numbers only
+      (index === 8 && /^[A-Za-z]?$/.test(value)); // Last input: Alphabet only
 
     if (isValidInput && value.length <= 1) {
       const newNin = [...nin];
@@ -102,6 +111,7 @@ const PersonalDetails = ({ onChange }) => {
       setLocalFormData({ ...localFormData, nationalInsuranceNumber });
       onChange({ ...localFormData, nationalInsuranceNumber });
 
+      // Move focus to the next input if the current one is filled
       if (value && index < nin.length - 1) {
         document.getElementById(`nin-${index + 1}`).focus();
       }
@@ -156,12 +166,12 @@ const PersonalDetails = ({ onChange }) => {
           >
             <UploadIcon />
             <div>
-              <p className="hidden text-[10px] sm: text-primary font-bold">{`Upload ${title}`}</p>
-              <p className="text-[10px] sm: text-[#98A2B3]">
+              <p className="text-[10px] sm:text-[12px] text-primary font-bold">{`Upload ${title}`}</p>
+              <p className="text-[10px] sm:text-[12px] text-[#98A2B3]">
                 PDF, DOCX, DOC, PNG, JPG, JPEG | 2MB max.
               </p>
             </div>
-            <div className="w-[80px] h-[36px] flex items-center justify-center bg-teal-700 text-white  rounded-[6px]">
+            <div className="w-[80px] h-[36px] flex items-center justify-center bg-teal-700 text-white text-[14px] rounded-[6px]">
               Upload
             </div>
             <input
@@ -183,11 +193,10 @@ const PersonalDetails = ({ onChange }) => {
     onChange(updatedFormData);
   };
 
-  const handleDeclarationChange = (e) => {
-    const value = e.target.checked;
-    setDeclarationAccepted(value);
-    const updatedFormState = { declarationAccepted: value };
-    onChange(updatedFormState); // Notify parent component
+  const handleDeclarationToggle = () => {
+    const newValue = declarationAccepted === "false" ? "true" : "false"; // Toggle between "true" and "false"
+    setDeclarationAccepted(newValue);
+    handleCheckboxChange("declarationAccepted", newValue); // Update localFormData with string value
   };
 
   return (
@@ -198,11 +207,8 @@ const PersonalDetails = ({ onChange }) => {
           overlayColor="rgba(0,153,255,0.2)"
         />
       )}
-      {/* <div className="mt-8">
-        
-      </div> */}
-      <content className="text-[14px]">
-        <div className="w-full flex items-center gap-3">
+      <content>
+        <div className="w-full flex items-center gap-3 mt-8">
           <input
             type="file"
             hidden
@@ -210,12 +216,14 @@ const PersonalDetails = ({ onChange }) => {
             onChange={handleFileChange}
             accept="image/*"
           />
+
           <div className="relative w-[60px] h-[60px] rounded-full">
             <Image
               src={profilePic || "/assets/img/user-avatar.svg"}
               alt="user"
               fill
               className="rounded-full object-cover"
+              placeholder="empty"
             />
             <Image
               src="/assets/img/verified_tick.svg"
@@ -223,14 +231,16 @@ const PersonalDetails = ({ onChange }) => {
               width={19}
               height={19}
               className="absolute bottom-0 right-0"
+              placeholder="empty"
             />
           </div>
+
           <div>
-            <UploadBtn text="Upload" onClick={() => fileRef.current.click()} />
-            <p className=" font-azoSansRegular">
-              Current Photo: A recent, passport-style headshot or
-              professional-quality selfie.
-            </p>
+            <UploadBtn text="Upload Passport" onClick={handleClick} />
+            <div className="text-[12px] font-azoSansRegular my-2">
+              Submit a recent, passport-style headshot or a selfie featuring a
+              professional smile.
+            </div>
           </div>
         </div>
 
@@ -270,7 +280,7 @@ const PersonalDetails = ({ onChange }) => {
               name="gender"
               value={localFormData.gender || ""}
               onChange={handleChange}
-              className="w-full px-2 pt-3 pb-2 border border-gray-300 rounded mt-1"
+              className="w-full p-2 border border-gray-300 rounded mt-1"
             >
               <option value="">Select Gender</option>
               <option value="Male">Male</option>
@@ -279,14 +289,14 @@ const PersonalDetails = ({ onChange }) => {
             </select>
           </div>
 
-          <div>
+          <div className="mt-4">
             <label
               htmlFor="nationalInsuranceNumber"
               className="block text-sm font-medium text-gray-700"
             >
               National Insurance Number
             </label>
-            <p className=" font-azoSansRegular">
+            <p className="text-[12px] font-azoSansRegular">
               This will be in your National Insurance letter, payslip, or P60.
               For example, 'QQ 12 34 56 C'
             </p>
@@ -305,37 +315,35 @@ const PersonalDetails = ({ onChange }) => {
               ))}
             </div>
           </div>
-        </div>
 
-        <div className="">
-          <div className="my-5">
+          {/* Proof of National Insurance Number */}
+          <div className="mt-4">
             <label
               htmlFor="passport"
-              className="block  text-gray-900 font-medium"
+              className="block text-[14px] text-gray-900 font-medium"
             >
               Proof of National Insurance Number
             </label>
-            <p className=" font-azoSansRegular">
-              An HMRC letter, payslip, or income support letter showing your
-              National Insurance Number.
-            </p>
             {renderUploadSection(
               "ninProof",
               "Proof of National Insurance Number",
               "fileInputninproof"
             )}
           </div>
+        </div>
 
-          <div className="my-5">
+        <div className="my-10 grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Proof of Address */}
+          <div>
             <label
               htmlFor="addressProof"
-              className="block  text-gray-900 font-medium"
+              className="block text-[14px] text-gray-900 font-medium"
             >
               Proof of Address
             </label>
-            <p className=" font-azoSansRegular">
-              A recent bank statement, government letter, or utility bill with
-              your current address.
+            <p className="text-[12px] font-azoSansRegular">
+              Provide either a recent bank statement or an official
+              government-issued letter.
             </p>
 
             {renderUploadSection(
@@ -346,15 +354,15 @@ const PersonalDetails = ({ onChange }) => {
           </div>
 
           {/* Passport / Driver's License */}
-          <div className="my-5">
+          <div>
             <label
               htmlFor="internationalPassport"
-              className="block  text-gray-900 font-medium"
+              className="block text-[14px] text-gray-900 font-medium"
             >
-              Photo ID
+              Passport / Driver's license
             </label>
-            <p className=" font-azoSansRegular">
-              A valid passport or driver's license.
+            <p className="text-[12px] font-azoSansRegular">
+              Upload Data page of your Passport or Driver's license
             </p>
             {renderUploadSection(
               "internationalPassport",
@@ -386,12 +394,12 @@ const PersonalDetails = ({ onChange }) => {
             <div>
               <label
                 htmlFor="visaDocument"
-                className="block  text-gray-900 font-medium"
+                className="block text-[14px] text-gray-900 font-medium"
               >
                 Visa Document
               </label>
-              <p className=" font-azoSansRegular">
-                Include a copy of your valid visa document.
+              <p className="text-[12px] font-azoSansRegular">
+                Upload your visa document for verification
               </p>
               {renderUploadSection(
                 "visaDocument",
@@ -402,26 +410,32 @@ const PersonalDetails = ({ onChange }) => {
           </div>
         )}
 
+        {/* Declaration Section */}
+
         {/* Declaration Agreement Toggle */}
+        {/* <div className="w-full flex items-center gap-3 col-span-2">
+        <input
+          type="checkbox"
+          id="declarationAccepted"
+          checked={declarationAccepted === "true"}
+          onChange={handleDeclarationToggle}
+          className="mr-2"
+        />
+        <label
+          htmlFor="declarationAccepted"
+          className="text-gray-900 font-medium"
+        >
+          “I hereby confirm that the information provided is accurate, complete,
+          and truthful. I affirm that all documents submitted along with this
+          form are genuine and unaltered. I agree to promptly inform Copora Ltd.
+          in writing of any changes to the information provided, and I commit to
+          updating my information as requested by Copora Ltd. I understand that
+          this declaration is final, binding, and cannot be revoked or
+          modified.”
+        </label>
+      </div> */}
 
-        <div className="w-full mt-4 font-azoSansLight">
-          <p htmlFor="agrrement" className="mb-4">
-            I hereby confirm that the information provided is accurate,
-            complete, and truthful. I affirm that all documents submitted along
-            with this form are genuine and unaltered. I agree to promptly inform
-            Copora Ltd. in writing of any changes to the information provided,
-            and I commit to updating my information as requested by Copora Ltd.
-            I understand that this declaration is final, binding, and cannot be
-            revoked or modified.
-          </p>
-
-          <CheckOption
-            text="I accept the declaration"
-            id="agrrement"
-            checked={declarationAccepted}
-            onChange={handleDeclarationChange}
-          />
-        </div>
+        {/*  */}
       </content>
     </>
   );

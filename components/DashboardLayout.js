@@ -69,8 +69,8 @@ const DashboardLayout = ({ children }) => {
           <SideNav
             isOpen={isSideNavOpen}
             onClose={toggleSideNav}
-            isApplicant={isApplicant}
             ref={sideNavRef}
+            isApplicant={isApplicant}
           />
         )}
         <div className="flex-1 w-full h-[92vh] mt-[9vh] overflow-y-auto scroller">

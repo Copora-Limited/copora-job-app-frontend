@@ -1,84 +1,131 @@
-// components/SideBarNav.tsx
-import { FC } from "react";
+// components/SideBarNav.js
+import React, { useEffect, useState, forwardRef } from "react";
 import { useRouter } from "next/router";
-import { Dispatch, SetStateAction } from "react";
 import Logo from "@/components/Logo";
 import Link from "next/link";
+import WhiteLogo from "./WhiteLogo";
+import { CloseIcon } from "./Icon";
+// const SideNav = forwardRef(({ isOpen, onClose, isApplicant }, ref) => {
+const OnboardingAsideLeft = forwardRef(
+  (
+    { steps, stepMessages, currentStep, setCurrentStep, isOpen, onClose },
+    ref
+  ) => {
+    const router = useRouter();
+    const [lastCompletedStep, setLastCompletedStep] = useState(0);
 
-const OnboardingAsideLeft = ({
-  steps,
-  stepMessages,
-  currentStep,
-  setCurrentStep,
-}) => {
-  const router = useRouter();
+    useEffect(() => {
+      // Only runs on client side to retrieve last completed step
+      if (typeof window !== "undefined") {
+        const storedStep = Number(
+          localStorage.getItem("lastCompletedStep") || 0
+        );
+        setLastCompletedStep(storedStep);
 
-  const handleNavigation = (index) => {
-    router.push(`/onboarding?step=${index + 1}`, undefined, {
-      shallow: true,
-    });
-    setCurrentStep(index);
-  };
+        // Redirect to last completed step + 1 if attempting to access a future step
+        if (currentStep > storedStep + 1) {
+          router.replace(`/onboarding?step=${storedStep + 1}`, undefined, {
+            shallow: true,
+          });
+          setCurrentStep(storedStep + 1);
+        }
+      }
+    }, [currentStep, router, setCurrentStep]);
 
-  return (
-    <aside className="md:w-1/4 h-full md:flex hidden md:flex-col gap-4 overflow-y-auto scroller bg-[#032541] p-4">
-      <Link href="/">
-        <Logo />
-      </Link>
-      <ul className="space-y-4">
-        {steps.map((step, index) => (
-          <li
-            key={step}
-            className={`cursor-pointer flex items-center gap-5 transition-all duration-500 hover:bg-[#000] py-1 pl-4 ${
-              currentStep === index
-                ? "bg-blue-100 text-[#032541]"
-                : " text-white"
-            }`}
-            onClick={() => handleNavigation(index)}
-          >
-            <div>
-              {index + 1 > currentStep ? (
+    const handleNavigation = (index) => {
+      // Only allow navigation if the step is within the last completed step
+      if (index <= lastCompletedStep) {
+        router.push(`/onboarding?step=${index + 1}`, undefined, {
+          shallow: true,
+        });
+        setCurrentStep(index);
+      }
+    };
+
+    const handleCompleteStep = () => {
+      // Only update lastCompletedStep if advancing to a new step
+      if (currentStep === lastCompletedStep + 1) {
+        const newLastCompletedStep = currentStep;
+        localStorage.setItem("lastCompletedStep", String(newLastCompletedStep));
+        setLastCompletedStep(newLastCompletedStep);
+      }
+    };
+
+    useEffect(() => {
+      handleCompleteStep();
+    }, [currentStep]);
+
+    return (
+      <aside
+        ref={ref}
+        className={`overflow-y-auto scroller fixed top-0 left-0 h-full w-64 bg-[#032541] text-white transition-transform transform ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        } md:w-1/4 md:static md:translate-x-0 z-50 p-4`}
+      >
+        <div className="flex justify-between">
+          <Link href="/">
+            <WhiteLogo />
+          </Link>
+          <button onClick={onClose} className="md:hidden p-2">
+            <CloseIcon />
+          </button>
+        </div>
+        <ul className="space-y-4">
+          {steps.map((step, index) => (
+            <li
+              key={step}
+              className={`cursor-pointer flex items-center gap-5 transition-all duration-500 hover:bg-[#000] py-1 pl-4 ${
+                currentStep === index
+                  ? "bg-blue-100 text-[#032541]"
+                  : "text-white"
+              } ${
+                index > lastCompletedStep ? "cursor-not-allowed opacity-50" : ""
+              }`}
+              onClick={() => handleNavigation(index)}
+            >
+              <div>
+                {index + 1 > currentStep ? (
+                  <p
+                    className={`w-[18px] h-[18px] md:text-[14px] text-[12px] ${
+                      currentStep === index ? "text-[#032541]" : "text-white"
+                    }`}
+                  >
+                    {index + 1}
+                  </p>
+                ) : (
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 26 25"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M13 0C6.1125 0 0.5 5.6125 0.5 12.5C0.5 19.3875 6.1125 25 13 25C19.8875 25 25.5 19.3875 25.5 12.5C25.5 5.6125 19.8875 0 13 0ZM18.975 9.625L11.8875 16.7125C11.7125 16.8875 11.475 16.9875 11.225 16.9875C10.975 16.9875 10.7375 16.8875 10.5625 16.7125L7.025 13.175C6.6625 12.8125 6.6625 12.2125 7.025 11.85C7.3875 11.4875 7.9875 11.4875 8.35 11.85L11.225 14.725L17.65 8.3C18.0125 7.9375 18.6125 7.9375 18.975 8.3C19.3375 8.6625 19.3375 9.25 18.975 9.625Z"
+                      fill="white"
+                    />
+                  </svg>
+                )}
+              </div>
+
+              <div>
+                <h5 className="md:text-[16px] text-[14px] font-medium capitalize">
+                  {step}
+                </h5>
                 <p
-                  className={`w-[18px] h-[18px] md:text-[14px] text-[12px] ${
+                  className={`md:text-[14px] text-[12px] font-normal ${
                     currentStep === index ? "text-[#032541]" : "text-white"
                   }`}
                 >
-                  {index + 1}
+                  {stepMessages[index]}
                 </p>
-              ) : (
-                <svg
-                  width="18"
-                  height="18"
-                  viewBox="0 0 26 25"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M13 0C6.1125 0 0.5 5.6125 0.5 12.5C0.5 19.3875 6.1125 25 13 25C19.8875 25 25.5 19.3875 25.5 12.5C25.5 5.6125 19.8875 0 13 0ZM18.975 9.625L11.8875 16.7125C11.7125 16.8875 11.475 16.9875 11.225 16.9875C10.975 16.9875 10.7375 16.8875 10.5625 16.7125L7.025 13.175C6.6625 12.8125 6.6625 12.2125 7.025 11.85C7.3875 11.4875 7.9875 11.4875 8.35 11.85L11.225 14.725L17.65 8.3C18.0125 7.9375 18.6125 7.9375 18.975 8.3C19.3375 8.6625 19.3375 9.25 18.975 9.625Z"
-                    fill="white"
-                  />
-                </svg>
-              )}
-            </div>
-
-            <div>
-              <h5 className="md:text-[16px] text-[14px] font-medium capitalize">
-                {step}
-              </h5>
-              <p
-                className={`md:text-[14px] text-[12px] font-normal ${
-                  currentStep === index ? "text-[#032541]" : "text-white"
-                }`}
-              >
-                {stepMessages[index]}
-              </p>
-            </div>
-            {/* </div> */}
-          </li>
-        ))}
-      </ul>
-    </aside>
-  );
-};
+              </div>
+            </li>
+          ))}
+        </ul>
+      </aside>
+    );
+  }
+);
 
 export default OnboardingAsideLeft;

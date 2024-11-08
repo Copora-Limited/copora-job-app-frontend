@@ -37,6 +37,7 @@ interface FormData {
   
     switch (currentStepData.label) {
       case "Personal Details":
+        console.log("personalDetails Data",formData.personalDetails.declarationAccepted)
         if (!formData.personalDetails?.dateOfBirth) {
           errors.dateOfBirth = "Date of Birth is required";
           isValid = false;
@@ -51,36 +52,40 @@ interface FormData {
           isValid = false;
         }
 
-        // if (!formData.personalDetails?.ninProof) {
-        //   errors.ninProof = "Please Upload Proof of National Insurance Number";
-        //   isValid = false;
-        // }
+        if (!formData.personalDetails?.ninProof) {
+          errors.ninProof = "Please Upload Proof of National Insurance Number";
+          isValid = false;
+        }
 
-        // if (!formData.personalDetails?.addressProof) {
-        //   errors.addressProof = "Please upload proof of address?";
-        //   isValid = false;
-        // }
+        if (!formData.personalDetails?.addressProof) {
+          errors.addressProof = "Please upload proof of address?";
+          isValid = false;
+        }
 
+        if (!formData.personalDetails?.internationalPassport) {
+          errors.internationalPassport = "Please upload Passport or Driver's license.";
+          isValid = false;
+      }
 
-        // if (formData.personalDetails?.requireWorkVisa === null) {
-        //   errors.requireWorkVisa = "Select Yes or No if require a work visa to work in the resident country ?";
-        //   isValid = false;
-        // }
+        if (!formData.personalDetails?.requireWorkVisa) {
+          
+          errors.requireWorkVisa = "Select Yes or No if require a work visa to work in the resident country ?";
+          isValid = false;
+        }
 
-        // if (formData.personalDetails?.requireWorkVisa && !formData.personalDetails?.visaDocument) {
-        //   errors.visaDocument = "Please upload visa docuement for verification ?";
-        //   isValid = false;
-        // }
-
-        // if (formData.personalDetails?.requireWorkVisa && !formData.personalDetails?.internationalPassport) {
-        //   errors.internationalPassport = "Please upload International Passport ?";
-        //   isValid = false;
-        // }
-
+        if (formData.personalDetails?.requireWorkVisa === "true") {
+          if (!formData.personalDetails?.visaDocument) {
+              errors.visaDocument = "Please upload visa document for verification.";
+              isValid = false;
+          }
+          
+        }
+        if (!formData.personalDetails?.declarationAccepted) {
+          errors.declarationAccepted = "Please accept declaration before you proceed";
+          isValid = false;
+        }
+        
       
-
-   
-
         
         break;
   

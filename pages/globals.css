@@ -60,9 +60,12 @@ body {
 
 @layer base {
   body {
-    @apply antialiased w-screen h-screen bg-gradient-to-r from-[#F6FEFD] to-[#FFF6F1] overflow-hidden;
+    @apply antialiased w-screen h-screen bg-gradient-to-r from-[#F6FEFD] to-[#FFF6F1];
+    overflow-x: hidden; /* Disable horizontal scroll */
+    overflow-y: auto; /* Allow vertical scrolling */
   }
 
+  /* Scrollbar styles */
   ::-webkit-scrollbar {
     width: 4px;
     background-color: rgb(214, 214, 214);
@@ -96,9 +99,10 @@ body {
   .click_btn.clicked {
     animation: clickEffect 0.4s ease-out;
   }
-  .form-control{
-    color: #000 !important;
-    font-weight: bolder !important;
+
+  .form-control {
+    color: #292828 !important;
+    font-weight: lighter !important;
   }
 
   .accent-appGreen {
@@ -106,7 +110,7 @@ body {
   }
 
   .bg-appGreen {
-    background-color: #16565d; 
+    background-color: #16565d;
   }
 
   @keyframes clickEffect {
@@ -120,8 +124,14 @@ body {
       transform: scale(1);
     }
   }
+
+  /* Add media query for mobile screens */
+  @media (max-width: 768px) {
+    body {
+      overflow-y: auto; /* Ensure scrolling is enabled on mobile screens */
+    }
+  }
 }
-/* Example of using the custom colors */
 
 
 @keyframes saved_slide {

@@ -92,9 +92,10 @@ const AgreementConsentForm = ({ onChange }) => {
       <div className="w-[100%] mx-auto font-azoSansLight">
         {/* Agreement Content */}
         <div className="mt-3">
-          <h5 className="md:text-[18px] text-[16px] font-medium text-primary text-center">
-            Terms of engagement for temporary workers
+          <h5 className="md:text-[20px] text-[18px] font-bold text-primary text-center">
+            Terms of Engagement for Temporary Workers
           </h5>
+
           <p className="md:text-[14px] text-[12px] text-primary text-center">
             between
           </p>
