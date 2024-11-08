@@ -55,7 +55,6 @@ const OnboardingAsideLeft = forwardRef(
       handleCompleteStep();
     }, [currentStep]);
 
-    // "md:w-1/4 h-full md:flex hidden md:flex-col gap-4 overflow-y-auto scroller bg-[#032541] p-4
     return (
       <aside
         ref={ref}
