@@ -18,7 +18,7 @@ export default function App({ Component, pageProps }) {
       </Head>
       <NextAuthProvider session={pageProps.session}>
         <SessionProvider>
-          <SessionTimeout timeout={300000} />
+          <SessionTimeout timeout={900000} />
           <ThemeProvider>
             <Component {...pageProps} />
             <ToastContainer

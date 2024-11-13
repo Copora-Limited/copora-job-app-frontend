@@ -20,8 +20,8 @@ export default function ApplicantPage() {
         <div></div>
 
         <div className="w-full h-[95%] bg-white rounded-[10px] border border-[#E4E7EC] flex flex-col gap-3 overflow-y-auto p-4 scroller-none">
-          <div class="grid grid-cols-12 gap-4">
-            <div class="col-span-8">
+          <div className="grid grid-cols-12 gap-4">
+            <div className="col-span-8">
               {/* <!-- Content for the 8-column section --> */}
               <div className="w-full h-[170px] rounded-[12px] flex items-center justify-between bg-[#ECF7F5] p-4">
                 <div className="md:basis-[70%] basis-full text-secondary h-full flex flex-col justify-center gap-2">
@@ -91,7 +91,7 @@ export default function ApplicantPage() {
                 </div>
               </div>
             </div>
-            <div class="col-span-4 p-4">
+            <div className="col-span-4 p-4">
               {/* Replace with actual profile card */}
               <div className="flex flex-col items-center justify-center  p-4 text-center shadow my-4">
                 <img

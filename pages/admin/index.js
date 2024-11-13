@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import DashboardLayout from "@/components/DashboardLayout"; // Adjust the path as needed
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/router"; // Import router
 import { CircleSpinnerOverlay } from "react-spinner-overlay";
 // import { Spin } from "antd";
 import StatisticsCard from "@/components/dashboard/StatisticCard"; // Adjust the path as needed
 
 export default function AdminDashboard() {
   const { data: session } = useSession();
+  const router = useRouter(); // Initialize router
   const fullName = session?.user?.firstName + " " + session?.user?.lastName;
   const token = session?.user?.token;
 
@@ -23,6 +25,12 @@ export default function AdminDashboard() {
 
   useEffect(() => {
     setIsMounted(true);
+
+    // Check if the token is invalid and redirect to the login page
+    if (!token) {
+      router.push("/auth/login");
+      return;
+    }
 
     const fetchApplicantData = async () => {
       if (!token || hasFetchedData) return;
@@ -84,7 +92,7 @@ export default function AdminDashboard() {
     };
 
     fetchApplicantData();
-  }, [token, hasFetchedData]);
+  }, [token, hasFetchedData, router]); // Add router to dependency array
 
   return (
     <DashboardLayout>
@@ -158,7 +166,6 @@ export default function AdminDashboard() {
           </div>
         </div>
       </div>
-      {/*  */}
     </DashboardLayout>
   );
 }

@@ -16,7 +16,7 @@ const DashboardLayout = ({ children }) => {
     if (
       status !== "loading" &&
       !isPublicRoute &&
-      (!session || !session.user.token)
+      (!session || !session.user?.token) // Check for session and valid token
     ) {
       // Redirect to the login page if the session or token is not available
       router.push("/auth/login");

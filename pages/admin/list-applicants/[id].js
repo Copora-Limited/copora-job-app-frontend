@@ -1,194 +1,194 @@
-import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { useSessionContext } from "@/context/SessionContext"; // Use the custom session context
+import { useSessionContext } from "@/context/SessionContext";
+import SideNav from "./sideNav";
+import { CircleSpinnerOverlay } from "react-spinner-overlay";
+import { ApproveIcon } from "@/components/Icon";
+import { ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { GeneralInformation } from "@/components/OnboardingContent/GeneralInformation";
 import DashboardLayout from "@/components/DashboardLayout";
+import {
+  useUserProfile,
+  useContactDetails,
+  usePersonalDetails,
+} from "@/hooks/useUserProfile";
+import { useResendInvite } from "@/hooks/useUserProfile";
+import { toast } from "react-toastify";
+import { useState } from "react";
 
-export default function EditApplicant() {
+// Confirmation Modal Component (confirming resending invite)
+const ConfirmationModal = ({ isLoading, onConfirm, onCancel }) => (
+  <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50">
+    <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
+      <h3 className="text-lg font-semibold mb-4">
+        Are you sure you want to resend the invite?
+      </h3>
+      <div className="flex justify-end gap-4">
+        <Button variant="outline" onClick={onCancel}>
+          Cancel
+        </Button>
+        <button
+          type="button"
+          className={`w-full h-[44px] mt-6 flex items-center justify-center gap-2 transition duration-500 text-white border border-[#667080] rounded-[100px] md:text-[16px] text-[13px] font-semibold px-[12px] disabled:bg-[#D0D5DD] disabled:text-white disabled:cursor-not-allowed disabled:border-none click_btn ${
+            isLoading ? "bg-gray-400" : "bg-appGreen hover:bg-teal-700"
+          }`}
+          onClick={onConfirm}
+          disabled={isLoading}
+        >
+          Yes, Resend
+        </button>
+      </div>
+    </div>
+  </div>
+);
+
+export default function Component() {
   const router = useRouter();
-  const { id } = router.query; // Assuming user ID is passed in query params
-  const [role, setRole] = useState("applicant");
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const { id } = router.query;
   const { token } = useSessionContext();
+  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
 
-  useEffect(() => {
-    const fetchUserDetails = async () => {
-      if (id) {
-        try {
-          const response = await fetch(
-            `${process.env.NEXT_PUBLIC_BASE_URL}/auth/users/${id}`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
+  const {
+    userData,
+    loading: profileLoading,
+    error: profileError,
+  } = useUserProfile(id, token);
+  const {
+    contactData,
+    loading: contactLoading,
+    error: contactError,
+  } = useContactDetails(userData?.applicationNo, token);
+  const {
+    personalData,
+    loading: personalLoading,
+    error: personalError,
+  } = usePersonalDetails(userData?.applicationNo, token);
 
-          if (response.ok) {
-            const userData = await response.json();
-            setFirstName(userData.firstName);
-            setLastName(userData.lastName);
-            setEmail(userData.email);
-            setRole(userData.role);
-          } else {
-            throw new Error("Failed to fetch user details");
-          }
-        } catch (error) {
-          setError(error.message || "An error occurred");
-        }
-      }
-    };
+  const isLoading = profileLoading || contactLoading || personalLoading;
+  const isError = profileError || contactError || personalError;
 
-    if (token && id) {
-      fetchUserDetails();
-    }
-  }, [id, token]);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
-
+  // Handle resend invite
+  const handleResendInvite = async () => {
     try {
-      if (!token) {
-        throw new Error("User session is not available. Please log in again.");
-      }
-
-      const payload = {
-        firstName,
-        lastName,
-        email,
-        role,
-        updatedBy: "admin",
-      };
-
-      if (password) {
-        payload.password = password; // Include password only if it has been set
-      }
-
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/auth/users/${id}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(payload),
-        }
-      );
-
-      if (!response.ok) {
-        const errorResponse = await response.json();
-        throw new Error(errorResponse.message || `Error: ${response.status}`);
-      }
-
-      router.push("/admin/list-applicants"); // Redirect after successful update
+      await useResendInvite({ applicationNo: userData.applicationNo });
+      toast.success("Invitation resent successfully.");
+      setIsConfirmationModalOpen(false); // Close confirmation modal on success
     } catch (error) {
-      setError(error.message || "An unexpected error occurred");
-    } finally {
-      setLoading(false);
+      toast.error("Failed to resend invite.");
     }
   };
 
+  // Open confirmation modal for resend invite
+  const openConfirmationModal = () => setIsConfirmationModalOpen(true);
+
+  // Close confirmation modal
+  const closeConfirmationModal = () => setIsConfirmationModalOpen(false);
+
   return (
     <DashboardLayout>
-      <div className="min-h-screen flex justify-center bg-gray-100">
-        <div className="bg-white shadow-md rounded-lg p-8 w-full ">
-          <h1 className="text-2xl font-bold mb-6 text-center">
-            Edit Applicants
-          </h1>
-          {error && <p className="text-red-500 mb-4">{error}</p>}
-          <form onSubmit={handleSubmit}>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="flex flex-col">
-                <label htmlFor="firstName" className="mb-2 text-lg">
-                  First Name:
-                </label>
-                <input
-                  type="text"
-                  id="firstName"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-                  required
-                  className="p-2 border border-gray-300 rounded"
+      <CircleSpinnerOverlay
+        loading={isLoading}
+        overlayColor="rgba(0,153,255,0.2)"
+      />
+
+      {isError && (
+        <p className="text-red-500 font-medium text-center">
+          Error loading data:{" "}
+          {profileError?.message ||
+            contactError?.message ||
+            personalError?.message}
+        </p>
+      )}
+
+      {!isLoading && !isError && (
+        <div className="min-h-screen bg-gray-50 p-4 md:p-6">
+          <div className="mb-6 flex items-center gap-2 text-sm text-gray-600">
+            <Button variant="ghost" size="sm" onClick={() => router.back()}>
+              <ArrowLeft className="h-4 w-4" />
+              Go Back
+            </Button>
+            <span>/</span>
+            <span className="text-gray-400">New Candidates</span>
+            <span>/</span>
+            <span>{`${userData.firstName} ${userData.lastName}`}</span>
+          </div>
+
+          <div className="w-full h-[10%] flex md:flex-row flex-col mb-3 gap-3 md:items-center items-start justify-between md:mt-2 mt-1">
+            <div className="flex items-center gap-3">
+              <div className="h-12 w-12 overflow-hidden rounded-full bg-gray-100">
+                <img
+                  src={userData.profilePicture}
+                  alt="Profile"
+                  className="h-full w-full object-cover"
                 />
               </div>
-              <div className="flex flex-col">
-                <label htmlFor="lastName" className="mb-2 text-lg">
-                  Last Name:
-                </label>
-                <input
-                  type="text"
-                  id="lastName"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                  required
-                  className="p-2 border border-gray-300 rounded"
-                />
-              </div>
-              <div className="flex flex-col">
-                <label
-                  htmlFor="email"
-                  className="block text-gray-700 font-semibold mb-2"
-                >
-                  Email
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-              <div className="flex flex-col">
-                <label
-                  htmlFor="password"
-                  className="block text-gray-700 font-semibold mb-2"
-                >
-                  Password
-                </label>
-                <input
-                  type="password"
-                  id="password"
-                  placeholder="Leave blank if not changing"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
+              <div>
+                <h1 className="text-xl font-bold">{`${userData.firstName} ${userData.lastName}`}</h1>
+                <p className="text-sm text-gray-500">{userData.email}</p>
               </div>
             </div>
 
-            <div className="mb-4">
-              <label
-                htmlFor="role"
-                className="block text-gray-700 font-semibold mb-2"
-              >
-                Role
-              </label>
-              <input
-                id="role"
-                value={role}
-                readOnly
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
+            <div className="md:w-fit w-full flex items-center md:justify-start justify-between md:gap-3 gap-2">
+              {userData.onboardingStatus === "Invitation Sent" ? (
+                <button
+                  type="button"
+                  className="flex items-center gap-2 py-[8px] md:px-[30px] px-[18px] rounded-[100px] bg-[#247A84] text-white"
+                  onClick={openConfirmationModal} // Trigger the confirmation modal
+                >
+                  Resend Invite
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  className="flex items-center gap-2 py-[8px] md:px-[30px] px-[18px] rounded-[100px] bg-[#247A84] text-white"
+                  onClick={() => {}} // Placeholder for any future action
+                >
+                  <ApproveIcon />
+                  Approve
+                </button>
+              )}
+
+              <select className="flex items-center gap-2 py-[8px] px-[10px] rounded-[100px] border border-[#CBD5E1] outline-0 bg-white md:text-[14px] text-[10px] text-primary group">
+                <option value="">-- Choose how to export --</option>
+                <option value="Export CSV">Export CSV</option>
+                <option value="Export PDF">Export PDF</option>
+              </select>
+              <select className="flex items-center gap-2 py-[8px] px-[10px] rounded-[100px] border border-[#CBD5E1] outline-0 bg-white md:text-[14px] text-[10px] text-primary group">
+                <option value="General Information">General Information</option>
+                <option value="Contact Details">Contact Details</option>
+                <option value="Work Experience">Work Experience</option>
+                <option value="Next of Kin">Emergency Details</option>
+                <option value="Health and Disability">
+                  Health and Disability
+                </option>
+                <option value="Reference">Reference</option>
+                <option value="Food Safety">Food Safety</option>
+                <option value="Bank Details">Bank Details</option>
+              </select>
             </div>
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              {loading ? "Updating..." : "Update"}
-            </button>
-          </form>
+          </div>
+
+          <div className="flex md:flex-row flex-col gap-4 w-full md:h-[70vh] h-[65vh]">
+            <SideNav
+              userData={userData}
+              contactData={contactData}
+              personalData={personalData}
+            />
+            <div className="applicant_side h-full md:overflow-y-scroll scroller-none">
+              <GeneralInformation />
+            </div>
+          </div>
         </div>
-      </div>
+      )}
+
+      {/* Confirmation Modal for Resend Invite */}
+      {isConfirmationModalOpen && (
+        <ConfirmationModal
+          isLoading={isLoading}
+          onConfirm={handleResendInvite}
+          onCancel={closeConfirmationModal}
+        />
+      )}
     </DashboardLayout>
   );
 }
