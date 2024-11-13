@@ -73,7 +73,7 @@ const DashboardLayout = ({ children }) => {
             isApplicant={isApplicant}
           />
         )}
-        <div className="flex-1 w-full h-[92vh] mt-[9vh] overflow-y-auto scroller">
+        <div className="flex-1 bg-white w-full h-[92vh] mt-[9vh] overflow-y-auto scroller">
           {children}
         </div>
       </div>
