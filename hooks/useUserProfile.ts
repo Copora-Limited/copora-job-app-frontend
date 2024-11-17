@@ -9,6 +9,7 @@ interface UserData {
   email: string;
   phoneNumber?: string;
   role: string;
+  tags: [];
   updatedAt?: string;
   onboardingStatus?: string;
   profilePicture: string;
@@ -25,6 +26,7 @@ export const useUserProfile = (id: string | string[] | undefined, token: string 
     email: "",
     phoneNumber: "",
     role: "applicant",
+    tags: [],
     profilePicture: "/assets/default_user.png",
     dateOfBirth: "Not Provided",
   });
@@ -53,6 +55,7 @@ export const useUserProfile = (id: string | string[] | undefined, token: string 
               email: data.email,
               phoneNumber: data.phoneNumber,
               role: data.role,
+              tags: data.tags,
               updatedAt: data.updatedAt,
               onboardingStatus: data.onboardingStatus,
               profilePicture: data.profilePicture || "/assets/default_user.png",

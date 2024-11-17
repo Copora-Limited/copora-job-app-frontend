@@ -86,7 +86,7 @@
     "pages/auth/notify-me.js",
     "pages/auth/forgot-password.js",
     "components/dashboard/UserTable.js"
-  ],
+, "components/dashboard/modal/EditUserDetailsModal.js"  ],
   "exclude": [
     "node_modules"
   ]

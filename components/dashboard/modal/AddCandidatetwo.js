@@ -12,7 +12,7 @@ import TagSelect from "@/components/TagSelect";
 
 const AddCandidate = ({ isOpen, onClose }) => {
   const { token } = useSessionContext();
-  const { tags = {}, isLoading, error } = useFetchTags(token);
+  const { tags = {} } = useFetchTags(token);
 
   const [formData, setFormData] = useState({
     firstName: "",

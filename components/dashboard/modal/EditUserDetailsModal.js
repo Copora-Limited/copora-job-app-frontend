@@ -3,24 +3,18 @@ import { FaTrash } from "react-icons/fa";
 import { toast } from "react-toastify";
 import CustomModal from "./CustomModal";
 import { useSessionContext } from "@/context/SessionContext";
+import TagSelect from "@/components/TagSelect";
+
 import {
   useUserProfile,
   useContactDetails,
   useUpdateUserProfile,
+  useFetchTags,
 } from "@/hooks/useUserProfile";
 
-interface EditUserDetailsModalProps {
-  id: string;
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-const EditUserDetailsModal: React.FC<EditUserDetailsModalProps> = ({
-  id,
-  isOpen,
-  onClose,
-}) => {
+const EditUserDetailsModal = ({ id, isOpen, onClose }) => {
   const { token } = useSessionContext();
+  const { tags = {} } = useFetchTags(token);
 
   const {
     userData,
@@ -32,11 +26,11 @@ const EditUserDetailsModal: React.FC<EditUserDetailsModalProps> = ({
 
   // Form state for each field
   const [formData, setFormData] = useState({
-    id: "", // Initialize 'id' in formData
+    id: "",
     firstName: "",
-    middleName: "",
     lastName: "",
     email: "",
+    selectedTags: [],
   });
 
   //   console.log("All data", userData);
@@ -46,27 +40,57 @@ const EditUserDetailsModal: React.FC<EditUserDetailsModalProps> = ({
       setFormData({
         id: id || "", // Set the id here
         firstName: userData.firstName || "",
-        middleName: userData.middleName || "",
         lastName: userData.lastName || "",
         email: userData.email || "",
+        selectedTags: userData.tags
+          ? userData.tags.map((tag) => ({ value: tag, label: tag })) // Map user tags into expected format
+          : [],
       });
     }
   }, [userData]);
 
+  // console.log("userData", userData);
+
   // Handle form input changes
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const formatTags = (tagGroup) =>
+    Array.isArray(tagGroup)
+      ? tagGroup.map((tag) => ({ value: tag.name, label: tag.name }))
+      : [];
+
+  const items = [
+    ...(tags.location ? formatTags(tags.location) : []),
+    ...(tags.group ? formatTags(tags.group) : []),
+    ...(tags.employmentType ? formatTags(tags.employmentType) : []),
+    ...(tags.jobTitle ? formatTags(tags.jobTitle) : []),
+  ];
+
+  const handleTagsChange = (selectedItems) => {
+    setFormData((prev) => ({ ...prev, selectedTags: selectedItems }));
+  };
+
   // Handle form submission
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+
     try {
-      await useUpdateUserProfile(formData, token);
+      const tags = formData.selectedTags.map((tag) => tag.value);
+
+      // Create the payload, excluding selectedTags
+      const { selectedTags, ...otherFields } = formData; // Exclude selectedTags
+      const payload = {
+        ...otherFields,
+        tags, // Add tags array
+      };
+
+      await useUpdateUserProfile(payload, token);
       toast.success("Profile updated successfully");
-      onClose(); // Close modal after submission
+      onClose();
     } catch (error) {
       toast.error("Failed to update profile");
     } finally {
@@ -90,7 +114,7 @@ const EditUserDetailsModal: React.FC<EditUserDetailsModalProps> = ({
           className="block w-full mt-1 mb-3 p-2 border rounded"
         />
 
-        <label className="block text-sm font-medium text-gray-700">
+        {/* <label className="block text-sm font-medium text-gray-700">
           Middile Name
         </label>
         <input
@@ -99,7 +123,7 @@ const EditUserDetailsModal: React.FC<EditUserDetailsModalProps> = ({
           value={formData.middleName}
           onChange={handleChange}
           className="block w-full mt-1 mb-3 p-2 border rounded"
-        />
+        /> */}
 
         <label className="block text-sm font-medium text-gray-700">
           Last Name
@@ -121,7 +145,17 @@ const EditUserDetailsModal: React.FC<EditUserDetailsModalProps> = ({
           className="block w-full mt-1 mb-3 p-2 border rounded"
         />
 
-        {/* Add more fields here as needed */}
+        {/* Tag Selection */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700">
+            Tags
+          </label>
+          <TagSelect
+            items={items} // All available tags
+            selectedTags={formData.selectedTags} // Pre-selected tags
+            onTagsChange={handleTagsChange} // Update selected tags
+          />
+        </div>
 
         <button
           type="submit"
