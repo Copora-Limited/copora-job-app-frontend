@@ -37,7 +37,11 @@ interface FormData {
   
     switch (currentStepData.label) {
       case "Personal Details":
-        console.log("personalDetails Data",formData.personalDetails.declarationAccepted)
+        // console.log("personalDetails Data",formData.personalDetails.declarationAccepted)
+        if (!formData.personalDetails?.passportPhoto) {
+          errors.passportPhoto = "Passport-style headshot is required";
+          isValid = false;
+        }
         if (!formData.personalDetails?.dateOfBirth) {
           errors.dateOfBirth = "Date of Birth is required";
           isValid = false;

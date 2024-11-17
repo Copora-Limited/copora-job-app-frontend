@@ -24,7 +24,7 @@ const SessionTimeout = ({ timeout = 10000 }) => {
         signOut({ redirect: false });
         router.push("/auth/login");
       }, timeout);
-      console.log(`New timeout set for ${timeout / 1000} seconds.`);
+      // console.log(`New timeout set for ${timeout / 1000} seconds.`);
     } else {
       // console.log("User is on a public route. Timeout not applied.");
     }

@@ -65,6 +65,8 @@ export default function Component() {
     error: personalError,
   } = usePersonalDetails(userData?.applicationNo, token);
 
+  // console.log("personalData", personalData);
+
   const isLoading = profileLoading || contactLoading || personalLoading;
   const isError = profileError || contactError || personalError;
 
@@ -121,7 +123,9 @@ export default function Component() {
             <div className="flex items-center gap-3">
               <div className="h-12 w-12 overflow-hidden rounded-full bg-gray-100">
                 <img
-                  src={userData.profilePicture}
+                  src={
+                    personalData?.passportPhoto || "/assets/default_user.png"
+                  }
                   alt="Profile"
                   className="h-full w-full object-cover"
                 />

@@ -113,8 +113,6 @@ export const useContactDetails = (applicationNo: string | undefined, token: stri
   return { contactData, loading, error };
 };
 
-
-
 export const usePersonalDetails = (applicationNo: string | undefined, token: string | undefined) => {
     const [personalData, setPersonalData] = useState<UserData | null>(null);
     const [loading, setLoading] = useState(false);
@@ -149,49 +147,108 @@ export const usePersonalDetails = (applicationNo: string | undefined, token: str
     }, [applicationNo, token]);
   
     return { personalData, loading, error };
-  };
+};
 
 
-  export const useUpdateUserProfile = async (profileData: any, token: string) => {
-    
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/users/${profileData.id}`, {
-      // Adjust the URL as necessary
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(profileData),
-    });
+export const useUpdateUserProfile = async (profileData: any, token: string) => {
   
-    if (!response.ok) {
-      throw new Error('Failed to update user profile');
-    }
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/users/${profileData.id}`, {
+    // Adjust the URL as necessary
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(profileData),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to update user profile');
+  }
+
+  const result = await response.json();
+  return result;
+};
+
+export const useAddUser = async (profileData: any, token: string) => {
   
-    const result = await response.json();
-    return result;
-  };
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/users/register`, {
+    // Adjust the URL as necessary
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(profileData),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to update user profile');
+  }
+
+  const result = await response.json();
+  return result;
+};
 
 
-  export const useResendInvite = async (data: any, token: string) => {
-    
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/users/resend-invitation`, {
-      // Adjust the URL as necessary
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(data),
-    });
+export const useFetchTags =  (token: string) => {
+  const [tags, setTags] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchTags = async () => {
+      setIsLoading(true);
+      try {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/job-listings/tags`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch tags");
+        }
+
+        const data = await response.json();
+        setTags(data || {});
+      } catch (err: any) {
+        setError(err || "An error occurred");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchTags();
+  }, [token]);
+
+  return { tags, isLoading, error };
+};
+
+
+
+
+
+
+export const useResendInvite = async (data: any, token: string) => {
   
-    if (!response.ok) {
-      throw new Error('Failed to update user profile');
-    }
-  
-    const result = await response.json();
-    return result;
-  };
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/users/resend-invitation`, {
+    // Adjust the URL as necessary
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to update user profile');
+  }
+
+  const result = await response.json();
+  return result;
+};
 
   
   

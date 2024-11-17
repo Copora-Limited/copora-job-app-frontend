@@ -1,59 +1,77 @@
 import React, { useState, useEffect } from "react";
+import { useSelect, useMultipleSelection } from "downshift";
 import { toast } from "react-toastify";
-import Select from "react-select";
-
 import "react-toastify/dist/ReactToastify.css";
-import { CloseIcon } from "../../Icon";
-import PrimaryInput from "../../Custom/Inputs/PrimaryInput";
-import InputError from "../../../utils/InputError";
-import SubmitBtn from "../../Custom/Buttons/SubmitBtn";
+import { CloseIcon } from "@/components/Icon";
+import PrimaryInput from "@/components/Custom/Inputs/PrimaryInput";
+import InputError from "@/utils/InputError";
+import SubmitBtn from "@/components/Custom/Buttons/SubmitBtn";
 import { useSessionContext } from "@/context/SessionContext";
-import { useAddUser, useFetchTags } from "@/hooks/useUserProfile"; // Make sure the hook is imported correctly
+import { useAddUser, useFetchTags } from "@/hooks/useUserProfile";
 
-interface AddCandidateProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-interface FormErrors {
-  firstName?: string;
-  lastName?: string;
-  email?: string;
-}
-
-const AddCandidate: React.FC<AddCandidateProps> = ({ isOpen, onClose }) => {
+const AddCandidate = ({ isOpen, onClose }) => {
   const { token } = useSessionContext();
-  const { tags, isLoading, error } = useFetchTags(token); // Use the custom hook
-  console.log("All tags", tags);
+  const { tags, isLoading, error } = useFetchTags(token);
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
     email: "",
-    selectedTags: [] as string[],
+    selectedTags: [],
   });
 
-  const [errors, setErrors] = useState<FormErrors>({});
+  const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   if (!isOpen) return null;
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleTagSelection = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedOptions = Array.from(
-      e.target.selectedOptions,
-      (option) => option.value
-    );
-    setFormData({ ...formData, selectedTags: selectedOptions });
+  const handleSelectedItemsChange = (selectedItems) => {
+    setFormData({ ...formData, selectedTags: selectedItems });
   };
 
+  const {
+    getDropdownProps,
+    addSelectedItem,
+    removeSelectedItem,
+    selectedItems,
+  } = useMultipleSelection({
+    selectedItems: formData.selectedTags,
+    onSelectedItemsChange: ({ selectedItems }) =>
+      handleSelectedItemsChange(selectedItems),
+  });
+
+  const {
+    isOpen: menuOpen,
+    getToggleButtonProps,
+    getMenuProps,
+    highlightedIndex,
+    getItemProps,
+  } = useSelect({
+    items: [
+      ...formatTags(tags.location || []),
+      ...formatTags(tags.group || []),
+      ...formatTags(tags.employmentType || []),
+      ...formatTags(tags.jobTitle || []),
+    ],
+    selectedItem: null,
+    onSelectedItemChange: ({ selectedItem }) => {
+      if (selectedItem && !selectedItems.includes(selectedItem)) {
+        addSelectedItem(selectedItem);
+      }
+    },
+    itemToString: (item) => (item ? item.label : ""),
+  });
+
+  const formatTags = (tagGroup) =>
+    tagGroup.map((tag) => ({ value: tag.name, label: tag.name }));
+
   const validateForm = () => {
-    const newErrors: FormErrors = {};
+    const newErrors = {};
     if (!formData.firstName.trim())
       newErrors.firstName = "First name is required.";
     if (!formData.lastName.trim())
@@ -65,7 +83,7 @@ const AddCandidate: React.FC<AddCandidateProps> = ({ isOpen, onClose }) => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
 
@@ -84,7 +102,7 @@ const AddCandidate: React.FC<AddCandidateProps> = ({ isOpen, onClose }) => {
       toast.success("Candidate added successfully");
       setFormData({ firstName: "", lastName: "", email: "", selectedTags: [] });
       onClose();
-    } catch (error: any) {
+    } catch (error) {
       console.error("Error adding candidate:", error);
       toast.error(
         error.message || "An error occurred while adding the candidate."
@@ -149,57 +167,58 @@ const AddCandidate: React.FC<AddCandidateProps> = ({ isOpen, onClose }) => {
             <label className="block text-sm font-medium text-gray-700">
               Tags
             </label>
-            <select
-              name="selectedTags"
-              multiple
-              value={formData.selectedTags}
-              onChange={handleTagSelection}
-              className="block w-full mt-1 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+            <div {...getDropdownProps({ preventKeyAction: menuOpen })}>
+              <button
+                type="button"
+                {...getToggleButtonProps()}
+                className="w-full p-2 border border-gray-300 rounded mt-1"
+              >
+                {menuOpen ? "Close" : "Select Tags"}
+              </button>
+            </div>
+            <ul
+              {...getMenuProps()}
+              className="w-full p-2 border border-gray-300 rounded mt-1"
             >
-              {isLoading ? (
-                <option>Loading...</option>
-              ) : (
-                <>
-                  {tags?.location && tags.location.length > 0 && (
-                    <optgroup label="Locations:">
-                      {tags.location.map((tag) => (
-                        <option key={tag.id} value={tag.name}>
-                          {tag.name}
-                        </option>
-                      ))}
-                    </optgroup>
-                  )}
-                  {tags.group && tags.group.length > 0 && (
-                    <optgroup label="Groups">
-                      {tags.group.map((tag) => (
-                        <option key={tag.id} value={tag.name}>
-                          {tag.name}
-                        </option>
-                      ))}
-                    </optgroup>
-                  )}
-                  {tags.employmentType && tags.employmentType.length > 0 && (
-                    <optgroup label="Employment Types">
-                      {tags.employmentType.map((tag) => (
-                        <option key={tag.id} value={tag.name}>
-                          {tag.name}
-                        </option>
-                      ))}
-                    </optgroup>
-                  )}
-                  {tags.jobTitle && tags.jobTitle.length > 0 && (
-                    <optgroup label="Job Titles">
-                      {tags.jobTitle.map((tag) => (
-                        <option key={tag.id} value={tag.name}>
-                          {tag.name}
-                        </option>
-                      ))}
-                    </optgroup>
-                  )}
-                </>
-              )}
-            </select>
-
+              {menuOpen &&
+                [
+                  ...formatTags(tags.location || []),
+                  ...formatTags(tags.group || []),
+                  ...formatTags(tags.employmentType || []),
+                  ...formatTags(tags.jobTitle || []),
+                ].map((item, index) => (
+                  <li
+                    key={item.value}
+                    {...getItemProps({ item, index })}
+                    style={{
+                      backgroundColor:
+                        highlightedIndex === index ? "#bde4ff" : "white",
+                      fontWeight: selectedItems.includes(item)
+                        ? "bold"
+                        : "normal",
+                    }}
+                  >
+                    {item.label}
+                  </li>
+                ))}
+            </ul>
+            <div className="flex flex-wrap gap-2 mt-2">
+              {selectedItems.map((selectedItem, index) => (
+                <div
+                  key={`selected-item-${index}`}
+                  className="flex items-center bg-gray-200 rounded p-1"
+                >
+                  {selectedItem.label}
+                  <button
+                    type="button"
+                    onClick={() => removeSelectedItem(selectedItem)}
+                    className="ml-2 text-red-600"
+                  >
+                    &times;
+                  </button>
+                </div>
+              ))}
+            </div>
             {error && <p className="text-red-600 text-sm">{error}</p>}
           </div>
           <div className="py-6 w-full">
