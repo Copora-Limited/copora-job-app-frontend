@@ -85,34 +85,26 @@
   }
   
   export const registerUser = async (data: RegisterData) => {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/users/register`, { // Adjust the URL as necessary
-      method: 'POST',
-      headers: {
-      'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-  });
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/users/register`, { // Adjust the URL as necessary
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    });
 
-  if (!response.ok) {
-      throw new Error('Failed to register');
-  }
+    if (!response.ok) {
+        throw new Error('Failed to register');
+    }
 
-  const result = await response.json();
-  return result;
+    const result = await response.json();
+    return result;
   };
 
   // hooks/reset password
-
-  interface ResetPasswordData {
-    token: string;
-    newPassword: string;
-  }
   
   export const sendResetPasswordEmail = async (email: string) => {
-    // const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/users/forgot-password`, { 
-    const response = await fetch("https://seashell-app-xpacn.ondigitalocean.app/users/forget-password", { 
-    
-      // Adjust URL as necessary
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/users/forgot-password`, { 
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
