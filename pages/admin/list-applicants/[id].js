@@ -174,8 +174,6 @@ export default function Component() {
             </div>
 
             <div className="md:w-fit w-full flex items-center md:justify-start justify-between md:gap-3 gap-2">
-              // Show "Resend Invite" button if onboardingStatus is "Invitation
-              Sent", otherwise show "Approve" button
               {["Invitation Sent", "Onboarding not Completed"].includes(
                 userData.onboardingStatus
               ) ? (
