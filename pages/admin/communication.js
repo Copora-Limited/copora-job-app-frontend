@@ -82,6 +82,7 @@ export default function EmailForm() {
                   type="button"
                   onClick={handleFilterSubmit}
                   disabled={isLoading}
+                  size="sm"
                 >
                   {isLoading ? "Filtering..." : "Filter"}
                 </Button>
