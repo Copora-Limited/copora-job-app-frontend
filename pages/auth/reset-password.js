@@ -105,7 +105,7 @@ const ResetPassword = () => {
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className={`w-full px-3 py-2 border rounded-full text-lg focus:outline-none focus:ring-2 ${
+              className={`outline-none border-none w-full h-full placeholder:text-gray-400 text-sm ${
                 isDarkMode
                   ? "bg-gray-700 border-gray-600 text-white focus:ring-cyan-600"
                   : "bg-white border-gray-300 text-gray-900 focus:ring-cyan-500"
@@ -130,7 +130,7 @@ const ResetPassword = () => {
               placeholder="Confirm Password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className={`w-full px-3 py-2 border rounded-full text-lg focus:outline-none focus:ring-2 ${
+              className={`outline-none border-none w-full h-full placeholder:text-gray-400 text-sm ${
                 isDarkMode
                   ? "bg-gray-700 border-gray-600 text-white focus:ring-cyan-600"
                   : "bg-white border-gray-300 text-gray-900 focus:ring-cyan-500"
