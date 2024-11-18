@@ -91,6 +91,16 @@ const SideNav = forwardRef(({ isOpen, onClose, isApplicant }, ref) => {
                 <span className="mt-1">New Candidate</span>
               </Link>
               {/* Add more admin-specific links here */}
+
+              <Link
+                href="/admin/communication"
+                className={getLinkClass("/admin/communication")}
+              >
+                <AnnouncementIcon
+                  className={getIconClass("/admin/communication")}
+                />
+                <span className="mt-1">Communication</span>
+              </Link>
             </>
           )}
           <hr />
