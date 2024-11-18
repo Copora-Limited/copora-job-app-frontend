@@ -73,7 +73,6 @@ const ImageModal = ({ isOpen, imageUrl, onClose }) => {
   );
 };
 
-
 export default function Component() {
   const router = useRouter();
   const { id } = router.query;
@@ -175,10 +174,14 @@ export default function Component() {
             </div>
 
             <div className="md:w-fit w-full flex items-center md:justify-start justify-between md:gap-3 gap-2">
-              {userData.onboardingStatus === "Invitation Sent" ? (
+              // Show "Resend Invite" button if onboardingStatus is "Invitation
+              Sent", otherwise show "Approve" button
+              {["Invitation Sent", "Onboarding not Completed"].includes(
+                userData.onboardingStatus
+              ) ? (
                 <button
                   type="button"
-                  className="flex items-center gap-2 py-[8px] md:px-[30px] px-[18px] rounded-[100px] bg-[#247A84] text-white"
+                  className="flex items-center gap-2 py-2 md:px-8 px-4 rounded-full bg-[#247A84] text-white"
                   onClick={openConfirmationModal} // Trigger the confirmation modal
                 >
                   Resend Invite
@@ -186,14 +189,13 @@ export default function Component() {
               ) : (
                 <button
                   type="button"
-                  className="flex items-center gap-2 py-[8px] md:px-[30px] px-[18px] rounded-[100px] bg-[#247A84] text-white"
+                  className="flex items-center gap-2 py-2 md:px-8 px-4 rounded-full bg-[#247A84] text-white"
                   onClick={() => {}} // Placeholder for any future action
                 >
                   <ApproveIcon />
                   Approve
                 </button>
               )}
-
               <select className="flex items-center gap-2 py-[8px] px-[10px] rounded-[100px] border border-[#CBD5E1] outline-0 bg-white md:text-[14px] text-[10px] text-primary group">
                 <option value="">-- Choose how to export --</option>
                 <option value="Export CSV">Export CSV</option>
