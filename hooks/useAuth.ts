@@ -104,7 +104,7 @@ export const registerUser = async (data: RegisterData) => {
 // hooks/reset password
 
 export const sendResetPasswordEmail = async (email: string) => {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/users/forgot-password`, { 
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/users/forget-password`, { 
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
