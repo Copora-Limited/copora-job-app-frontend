@@ -63,8 +63,12 @@ const VerifyEmail = () => {
     <div className="flex items-center justify-center min-h-screen bg-primary text-white p-4">
       <div className="bg-white text-black rounded-lg shadow-lg p-8 max-w-md w-full">
         <h4 className="text-xl font-bold mb-4 text-center uppercase">
-          <Link href="/" className="text-secondary">
-            {process.env.NEXT_PUBLIC_APP_NAME}
+          <Link href="/">
+            <img
+              src="/assets/logo.png"
+              alt="logo"
+              className="md:w-[200px] w-[180px] md:h-[50px] h-[40px] mx-auto"
+            />
           </Link>
         </h4>
         <div className="text-center">
