@@ -16,6 +16,9 @@ import { EducationalDetails } from "@/components/OnboardingContent/EducationalDe
 import { HealthAndDisability } from "@/components/OnboardingContent/HealthAndDisability";
 import { FoodSafetyQuestionnaire } from "@/components/OnboardingContent/FoodSafetyQuestionnaire";
 import { BankDetails } from "@/components/OnboardingContent/BankDetails";
+import { ConfirmationModal } from "@/components/modal/ConfirmationModal";
+import ApproveUserModal from "@/components/dashboard/modal/ApproveUserModal"; // Import the modal
+import { ImageModal } from "@/components/modal/ImageModal";
 import DashboardLayout from "@/components/DashboardLayout";
 import {
   useUserProfile,
@@ -24,61 +27,6 @@ import {
   useResendInvite,
 } from "@/hooks/useUserProfile";
 import { toast } from "react-toastify";
-
-// Confirmation Modal Component (confirming resending invite)
-const ConfirmationModal = ({ isProcessing, onConfirm, onCancel }) => (
-  <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50">
-    <div className="bg-white p-6 rounded-lg shadow-lg max-w-sm w-full">
-      <h3 className="text-lg font-semibold mb-4">
-        Are you sure you want to resend the invite?
-      </h3>
-      <div className="flex justify-end gap-4">
-        <Button variant="outline" onClick={onCancel}>
-          Cancel
-        </Button>
-        <button
-          type="button"
-          className={`w-full h-[44px] mt-6 flex items-center justify-center gap-2 transition duration-500 text-white border border-[#667080] rounded-[100px] md:text-[16px] text-[13px] font-semibold px-[12px] disabled:bg-[#D0D5DD] disabled:text-white disabled:cursor-not-allowed disabled:border-none click_btn ${
-            isProcessing ? "bg-gray-400" : "bg-appGreen hover:bg-teal-700"
-          }`}
-          onClick={onConfirm}
-          disabled={isProcessing}
-        >
-          {isProcessing ? "Sending..." : " Yes, Resend"}
-        </button>
-      </div>
-    </div>
-  </div>
-);
-
-const ImageModal = ({ isOpen, imageUrl, onClose }) => {
-  if (!isOpen) return null;
-  return (
-    <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-50">
-      <div className="bg-white p-4 rounded-lg shadow-lg max-w-sm w-full">
-        <h3 className="text-lg font-semibold mb-4 text-center">
-          Profile Picture
-        </h3>
-        <div className="flex justify-center items-center mb-4">
-          <img
-            src={imageUrl}
-            alt="Profile"
-            className="max-h-60 w-auto object-contain rounded-lg"
-          />
-        </div>
-        <div className="flex justify-end gap-4">
-          <button
-            type="button"
-            className="w-full h-[44px] flex items-center justify-center gap-2 transition duration-500 text-white border border-[#667080] rounded-[100px] md:text-[16px] text-[13px] font-semibold px-[12px] bg-gray-400 hover:bg-gray-600"
-            onClick={onClose}
-          >
-            Close
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 export default function Component() {
   const router = useRouter();
@@ -89,6 +37,7 @@ export default function Component() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [applicantdata, setApplicantData] = useState([]);
   const [isMounted, setIsMounted] = useState(false);
+  const [isApproveUserModalOpen, setIsApproveUserModalOpen] = useState(false); // Add state for approve modal
 
   const {
     userData,
@@ -146,6 +95,16 @@ export default function Component() {
     }
   };
 
+  // Approve applicant - open the approve modal
+  const handleApproveApplicant = () => {
+    setIsApproveUserModalOpen(true); // Open the ApproveUserModal
+  };
+
+  // Close approve modal
+  const closeApproveUserModal = () => {
+    setIsApproveUserModalOpen(false);
+  };
+
   // Open confirmation modal for resend invite
   const openConfirmationModal = () => setIsConfirmationModalOpen(true);
 
@@ -190,7 +149,7 @@ export default function Component() {
   return (
     <DashboardLayout>
       <CircleSpinnerOverlay
-        loading={isLoading}
+        loading={isLoading || isProcessing}
         overlayColor="rgba(0,153,255,0.2)"
       />
       {isError && (
@@ -249,7 +208,7 @@ export default function Component() {
                 <button
                   type="button"
                   className="flex items-center gap-2 py-2 md:px-8 px-4 rounded-full bg-[#247A84] text-white"
-                  onClick={() => {}} // Placeholder for any future action
+                  onClick={handleApproveApplicant} // Open the ApproveUserModal
                 >
                   <ApproveIcon />
                   Approve
@@ -341,6 +300,13 @@ export default function Component() {
           isProcessing={isProcessing}
           onConfirm={handleResendInvite}
           onCancel={() => setIsConfirmationModalOpen(false)}
+        />
+      )}
+      {isApproveUserModalOpen && ( // Show the ApproveUserModal when open
+        <ApproveUserModal
+          id={userData?.id}
+          isOpen={isApproveUserModalOpen}
+          onClose={closeApproveUserModal}
         />
       )}
     </DashboardLayout>

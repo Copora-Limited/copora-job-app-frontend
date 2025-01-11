@@ -154,7 +154,6 @@ export const usePersonalDetails = (applicationNo: string | undefined, token: str
 
 
 export const useUpdateUserProfile = async (profileData: any, token: string) => {
-  
   const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/users/${profileData.id}`, {
     // Adjust the URL as necessary
     method: 'PUT',
@@ -229,10 +228,6 @@ export const useFetchTags =  (token: string) => {
 };
 
 
-
-
-
-
 export const useResendInvite = async (data: any, token: string) => {
   
   const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/users/resend-invitation`, {
@@ -243,6 +238,26 @@ export const useResendInvite = async (data: any, token: string) => {
       Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to update user profile');
+  }
+
+  const result = await response.json();
+  return result;
+};
+
+export const useApproveApplicant = async (profileData: any, token: string) => {
+  
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/users/${profileData.id}`, {
+    // Adjust the URL as necessary
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(profileData),
   });
 
   if (!response.ok) {

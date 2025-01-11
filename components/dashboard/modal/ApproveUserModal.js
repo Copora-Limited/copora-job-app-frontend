@@ -12,7 +12,7 @@ import {
   useFetchTags,
 } from "@/hooks/useUserProfile";
 
-const EditUserDetailsModal = ({ id, isOpen, onClose }) => {
+const ApproveUserModal = ({ id, isOpen, onClose }) => {
   const { token } = useSessionContext();
   const { tags = {} } = useFetchTags(token);
 
@@ -27,10 +27,8 @@ const EditUserDetailsModal = ({ id, isOpen, onClose }) => {
   // Form state for each field
   const [formData, setFormData] = useState({
     id: "",
-    firstName: "",
-    lastName: "",
-    email: "",
     selectedTags: [],
+    onboardingStatus: "", // Initialize with an empty string
   });
 
   //   console.log("All data", userData);
@@ -39,12 +37,10 @@ const EditUserDetailsModal = ({ id, isOpen, onClose }) => {
     if (userData) {
       setFormData({
         id: id || "", // Set the id here
-        firstName: userData.firstName || "",
-        lastName: userData.lastName || "",
-        email: userData.email || "",
         selectedTags: userData.tags
           ? userData.tags.map((tag) => ({ value: tag, label: tag })) // Map user tags into expected format
           : [],
+        onboardingStatus: userData.onboardingStatus || "", // Set the initial onboarding status
       });
     }
   }, [userData]);
@@ -76,6 +72,18 @@ const EditUserDetailsModal = ({ id, isOpen, onClose }) => {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Check if required fields are filled
+    if (formData.selectedTags.length === 0) {
+      toast.error("Please select at least one tag.");
+      return;
+    }
+
+    if (!formData.onboardingStatus) {
+      toast.error("Please select a status.");
+      return;
+    }
+
     setIsLoading(true);
 
     try {
@@ -100,53 +108,16 @@ const EditUserDetailsModal = ({ id, isOpen, onClose }) => {
 
   return (
     <CustomModal isOpen={isOpen} onClose={onClose}>
-      <h2 className="text-lg font-semibold mb-4">Edit Candidate Data</h2>
+      <h2 className="text-lg font-semibold mb-4">Approve Candidate</h2>
 
+      <p class="text-[#475467] text-[12px]">
+        Use the form below to update the candidate's status to "approved," add
+        new tags, modify existing ones, or revert to a previous status if
+        needed.
+      </p>
       <form onSubmit={handleSubmit}>
-        <label className="block text-sm font-medium text-gray-700">
-          First Name
-        </label>
-        <input
-          type="text"
-          name="firstName"
-          value={formData.firstName}
-          onChange={handleChange}
-          className="block w-full mt-1 mb-3 p-2 border rounded"
-        />
-
-        {/* <label className="block text-sm font-medium text-gray-700">
-          Middile Name
-        </label>
-        <input
-          type="text"
-          name="middleName"
-          value={formData.middleName}
-          onChange={handleChange}
-          className="block w-full mt-1 mb-3 p-2 border rounded"
-        /> */}
-
-        <label className="block text-sm font-medium text-gray-700">
-          Last Name
-        </label>
-        <input
-          type="text"
-          name="lastName"
-          value={formData.lastName}
-          onChange={handleChange}
-          className="block w-full mt-1 mb-3 p-2 border rounded"
-        />
-
-        <label className="block text-sm font-medium text-gray-700">Email</label>
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          className="block w-full mt-1 mb-3 p-2 border rounded"
-        />
-
         {/* Tag Selection */}
-        <div>
+        <div className="my-4">
           <label className="block text-sm font-medium text-gray-700">
             Tags
           </label>
@@ -156,7 +127,26 @@ const EditUserDetailsModal = ({ id, isOpen, onClose }) => {
             onTagsChange={handleTagsChange} // Update selected tags
           />
         </div>
-        
+
+        <div className="my-4">
+          <label className="block text-sm font-medium text-gray-700">
+            Status
+          </label>
+          <select
+            name="onboardingStatus"
+            value={formData.onboardingStatus}
+            onChange={handleChange}
+            className="block w-full mt-1 mb-3 p-2 border rounded"
+          >
+            <option value="">Select Status</option>
+
+            <option value="Onboarding Completed">Onboarding Completed</option>
+            <option value="Approved">Approved</option>
+            {/* <option value="Onboarding not completed">
+              Onboarding not completed
+            </option> */}
+          </select>
+        </div>
 
         <button
           type="submit"
@@ -165,11 +155,11 @@ const EditUserDetailsModal = ({ id, isOpen, onClose }) => {
           }`}
           disabled={isLoading}
         >
-          {isLoading ? "Updating..." : "Update Profile"}
+          {isLoading ? "processing..." : "Submit"}
         </button>
       </form>
     </CustomModal>
   );
 };
 
-export default EditUserDetailsModal;
+export default ApproveUserModal;
