@@ -42,7 +42,7 @@ const GeneralInformation = ({ onChange }) => {
           if (JSON.stringify(prevData) !== JSON.stringify(data)) {
             onChange(data);
             return data;
-          }
+          } 
           setHasFetchedData(true);
           return prevData;
         });
