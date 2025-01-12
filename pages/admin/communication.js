@@ -1,6 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -9,36 +8,26 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import TagSelect from "@/components/TagSelect";
-
+import EmailInput from "@/components/EmailInput";
 import { useFetchTags } from "@/hooks/useUserProfile";
-
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/selectTwo";
-import { filterEmails } from "@/hooks/actions";
-import DashboardLayout from "@/components/DashboardLayout"; // Adjust the path as needed
+import { fetchUsersByTags, sendBulkEmail } from "@/hooks/actions";
+import DashboardLayout from "@/components/DashboardLayout";
 import { useSessionContext } from "@/context/SessionContext";
 
 export default function EmailForm() {
   const { token } = useSessionContext();
-  const [filters, setFilters] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const { register, handleSubmit, setValue } = useForm();
   const { tags = {} } = useFetchTags(token);
 
-  // Form state for each field
+  // State for managing the form data
   const [formData, setFormData] = useState({
-    id: "",
     selectedTags: [],
-    onboardingStatus: "", // Initialize with an empty string
+    emails: [],
+    subject: "",
+    content: "",
   });
 
   // Handle form input changes
@@ -47,6 +36,7 @@ export default function EmailForm() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Format tags for the `TagSelect` component
   const formatTags = (tagGroup) =>
     Array.isArray(tagGroup)
       ? tagGroup.map((tag) => ({ value: tag.name, label: tag.name }))
@@ -59,36 +49,60 @@ export default function EmailForm() {
     ...(tags.jobTitle ? formatTags(tags.jobTitle) : []),
   ];
 
+  // Handle tag changes
   const handleTagsChange = (selectedItems) => {
     setFormData((prev) => ({ ...prev, selectedTags: selectedItems }));
   };
 
-  const handleFilterChange = (value) => {
-    setFilters((prev) => {
-      if (prev.includes(value)) {
-        return prev.filter((item) => item !== value);
-      } else {
-        return [...prev, value];
-      }
-    });
+  // Handle email changes dynamically
+  const handleEmailsChange = (newEmails) => {
+    setFormData((prev) => ({ ...prev, emails: newEmails }));
   };
 
+  // Fetch users by tags
   const handleFilterSubmit = async () => {
     setIsLoading(true);
     try {
-      const emails = await filterEmails(filters);
-      setValue("to", emails.join(", "));
+      const selectedTags = formData.selectedTags.map((tag) => tag.value);
+      const data = await fetchUsersByTags(token, selectedTags);
+
+      if (data.emails && data.emails.length > 0) {
+        handleEmailsChange(data.emails); // Update emails state
+      } else {
+        alert("No users found with the selected tags.");
+      }
     } catch (error) {
       console.error("Error fetching filtered emails:", error);
+      alert("Error fetching filtered emails. Please try again.");
     } finally {
       setIsLoading(false);
     }
   };
 
-  const onSubmit = (data) => {
-    console.log(data);
-    // Here you would typically send the email using an API
-    alert("Email sent successfully!");
+  // Submit form using FormData
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const data = new FormData(e.target);
+
+    const payload = {
+      customSubject: data.get("subject"),
+      customContent: data.get("content"),
+      emails: formData.emails.join(", "),
+    };
+
+    try {
+      const response = await sendBulkEmail(token, payload);
+      if (response.success) {
+        alert(response.message || "Email sent successfully!"); // Success message
+      } else {
+        alert(
+          response.message || "Error sending bulk email. Please try again."
+        );
+      }
+    } catch (error) {
+      console.error("Error sending bulk email:", error);
+      alert("Error sending bulk email. Please try again.");
+    }
   };
 
   return (
@@ -98,57 +112,76 @@ export default function EmailForm() {
           <CardTitle>Send Email</CardTitle>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-            <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700">
-                Tags
-              </label>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {/* Tag Selection and Filter */}
+            <div className="flex items-center gap-4">
+              <div className="flex-grow">
+                <TagSelect
+                  items={items}
+                  selectedTags={formData.selectedTags}
+                  onTagsChange={handleTagsChange}
+                />
+              </div>
+              <div>
+                <Button
+                  type="button"
+                  onClick={handleFilterSubmit}
+                  disabled={isLoading}
+                  size="sm"
+                  className="w-full p-2 rounded-md bg-teal-700 hover:bg-teal-900 transition duration-500 text-white"
+                >
+                  {isLoading ? "Filtering..." : "Filter"}
+                </Button>
+              </div>
             </div>
+
+            {/* To Field */}
             <div className="space-y-2">
               <Label htmlFor="to">To</Label>
-              <Input
-                id="to"
-                {...register("to")}
-                placeholder="Recipient email addresses"
+              <EmailInput
+                emails={formData.emails}
+                onEmailsChange={handleEmailsChange}
               />
             </div>
+
+            {/* Subject Field */}
             <div className="space-y-2">
               <Label htmlFor="subject">Subject</Label>
-              <Input
+              <input
                 id="subject"
-                {...register("subject")}
+                name="subject"
+                type="text"
+                onChange={handleChange}
                 placeholder="Email subject"
+                className="w-full p-2 border border-gray-300 rounded-md"
               />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="cc">Copy (CC)</Label>
-              <Input
-                id="cc"
-                {...register("cc")}
-                placeholder="CC email addresses"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="bcc">Blind Copy (BCC)</Label>
-              <Input
-                id="bcc"
-                {...register("bcc")}
-                placeholder="BCC email addresses"
-              />
-            </div>
+
+            {/* Content Field */}
             <div className="space-y-2">
               <Label htmlFor="content">Content</Label>
               <Textarea
                 id="content"
-                {...register("content")}
+                name="content"
+                onChange={handleChange}
                 placeholder="Email content"
-                className="min-h-[200px]"
+                className="min-h-[200px] w-full p-2 border border-gray-300 rounded-md"
               />
             </div>
+
+            {/* File Attachment Field */}
             <div className="space-y-2">
               <Label htmlFor="attach">Attach</Label>
-              <Input id="attach" type="file" multiple />
+              <input
+                id="attach"
+                name="attach"
+                type="file"
+                multiple
+                className="w-full p-2 border border-gray-300 rounded-md"
+              />
             </div>
+
+            {/* Submit Button */}
             <Button type="submit" className="w-full">
               Send Email
             </Button>

@@ -33,7 +33,7 @@ const TagSelect = ({ items, selectedTags, onTagsChange }) => {
             (item) => item.value === selectedItem.value
           );
           if (!isAlreadySelected) {
-            console.log("selectedItem", selectedItem);
+            // console.log("selectedItem", selectedItem);
 
             addSelectedItem(selectedItem);
           } else {
