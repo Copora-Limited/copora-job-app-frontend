@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import React from "react";
 import { useTheme } from "@/context/ThemeContext";
 import Link from "next/link";
 import { Menu } from "@headlessui/react";
