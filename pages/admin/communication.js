@@ -1,13 +1,9 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import TagSelect from "@/components/TagSelect";
@@ -22,21 +18,18 @@ export default function EmailForm() {
   const [isLoading, setIsLoading] = useState(false);
   const { tags = {} } = useFetchTags(token);
 
-  // State for managing the form data
   const [formData, setFormData] = useState({
     selectedTags: [],
     emails: [],
-    subject: "",
-    content: "",
+    customSubject: "",
+    customContent: "",
   });
 
-  // Handle form input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Format tags for the `TagSelect` component
   const formatTags = (tagGroup) =>
     Array.isArray(tagGroup)
       ? tagGroup.map((tag) => ({ value: tag.name, label: tag.name }))
@@ -49,17 +42,14 @@ export default function EmailForm() {
     ...(tags.jobTitle ? formatTags(tags.jobTitle) : []),
   ];
 
-  // Handle tag changes
   const handleTagsChange = (selectedItems) => {
     setFormData((prev) => ({ ...prev, selectedTags: selectedItems }));
   };
 
-  // Handle email changes dynamically
   const handleEmailsChange = (newEmails) => {
     setFormData((prev) => ({ ...prev, emails: newEmails }));
   };
 
-  // Fetch users by tags
   const handleFilterSubmit = async () => {
     setIsLoading(true);
     try {
@@ -67,41 +57,51 @@ export default function EmailForm() {
       const data = await fetchUsersByTags(token, selectedTags);
 
       if (data.emails && data.emails.length > 0) {
-        handleEmailsChange(data.emails); // Update emails state
+        handleEmailsChange(data.emails);
+        toast.success(`${data.emails.length} users found!`, {
+          position: "top-right",
+          autoClose: 3000,
+        });
       } else {
-        alert("No users found with the selected tags.");
+        toast.info("No users found with the selected tags.", {
+          position: "top-right",
+          autoClose: 3000,
+        });
       }
     } catch (error) {
       console.error("Error fetching filtered emails:", error);
-      alert("Error fetching filtered emails. Please try again.");
+      toast.error("Error fetching filtered emails. Please try again.", {
+        position: "top-right",
+        autoClose: 3000,
+      });
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Submit form using FormData
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = new FormData(e.target);
-
     const payload = {
-      customSubject: data.get("subject"),
-      customContent: data.get("content"),
-      emails: formData.emails.join(", "),
+      customSubject: formData.customSubject,
+      customContent: formData.customContent,
+      emails: formData.emails,
     };
 
     try {
       const response = await sendBulkEmail(token, payload);
       if (response.success) {
-        alert(response.message || "Email sent successfully!"); // Success message
+        toast.success(response.message || "Email sent successfully!");
       } else {
-        alert(
+        toast.error(
           response.message || "Error sending bulk email. Please try again."
         );
       }
     } catch (error) {
       console.error("Error sending bulk email:", error);
-      alert("Error sending bulk email. Please try again.");
+      toast.error("Error sending bulk email. Please try again.", {
+        position: "top-right",
+        autoClose: 3000,
+      });
     }
   };
 
@@ -113,7 +113,6 @@ export default function EmailForm() {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Tag Selection and Filter */}
             <div className="flex items-center gap-4">
               <div className="flex-grow">
                 <TagSelect
@@ -135,7 +134,6 @@ export default function EmailForm() {
               </div>
             </div>
 
-            {/* To Field */}
             <div className="space-y-2">
               <Label htmlFor="to">To</Label>
               <EmailInput
@@ -144,12 +142,11 @@ export default function EmailForm() {
               />
             </div>
 
-            {/* Subject Field */}
             <div className="space-y-2">
-              <Label htmlFor="subject">Subject</Label>
+              <Label htmlFor="customSubject">Subject</Label>
               <input
-                id="subject"
-                name="subject"
+                id="customSubject"
+                name="customSubject"
                 type="text"
                 onChange={handleChange}
                 placeholder="Email subject"
@@ -157,31 +154,17 @@ export default function EmailForm() {
               />
             </div>
 
-            {/* Content Field */}
             <div className="space-y-2">
-              <Label htmlFor="content">Content</Label>
+              <Label htmlFor="customContent">Content</Label>
               <Textarea
-                id="content"
-                name="content"
+                id="customContent"
+                name="customContent"
                 onChange={handleChange}
                 placeholder="Email content"
                 className="min-h-[200px] w-full p-2 border border-gray-300 rounded-md"
               />
             </div>
 
-            {/* File Attachment Field */}
-            <div className="space-y-2">
-              <Label htmlFor="attach">Attach</Label>
-              <input
-                id="attach"
-                name="attach"
-                type="file"
-                multiple
-                className="w-full p-2 border border-gray-300 rounded-md"
-              />
-            </div>
-
-            {/* Submit Button */}
             <Button
               type="submit"
               className="w-full p-2 rounded-md bg-teal-700 hover:bg-teal-900 transition duration-500 text-white"
