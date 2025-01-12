@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,6 +12,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import TagSelect from "@/components/TagSelect";
+
+import { useFetchTags } from "@/hooks/useUserProfile";
+
 import {
   Select,
   SelectContent,
@@ -21,11 +25,43 @@ import {
 } from "@/components/ui/selectTwo";
 import { filterEmails } from "@/hooks/actions";
 import DashboardLayout from "@/components/DashboardLayout"; // Adjust the path as needed
+import { useSessionContext } from "@/context/SessionContext";
 
 export default function EmailForm() {
+  const { token } = useSessionContext();
   const [filters, setFilters] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const { register, handleSubmit, setValue } = useForm();
+  const { tags = {} } = useFetchTags(token);
+
+  // Form state for each field
+  const [formData, setFormData] = useState({
+    id: "",
+    selectedTags: [],
+    onboardingStatus: "", // Initialize with an empty string
+  });
+
+  // Handle form input changes
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const formatTags = (tagGroup) =>
+    Array.isArray(tagGroup)
+      ? tagGroup.map((tag) => ({ value: tag.name, label: tag.name }))
+      : [];
+
+  const items = [
+    ...(tags.location ? formatTags(tags.location) : []),
+    ...(tags.group ? formatTags(tags.group) : []),
+    ...(tags.employmentType ? formatTags(tags.employmentType) : []),
+    ...(tags.jobTitle ? formatTags(tags.jobTitle) : []),
+  ];
+
+  const handleTagsChange = (selectedItems) => {
+    setFormData((prev) => ({ ...prev, selectedTags: selectedItems }));
+  };
 
   const handleFilterChange = (value) => {
     setFilters((prev) => {
@@ -64,29 +100,9 @@ export default function EmailForm() {
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="filter">Filter</Label>
-              <div className="flex space-x-2">
-                <Select onValueChange={handleFilterChange}>
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Select filters" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="filter1">Filter 1</SelectItem>
-                    <SelectItem value="filter2">Filter 2</SelectItem>
-                    <SelectItem value="filter3">Filter 3</SelectItem>
-                    <SelectItem value="filter4">Filter 4</SelectItem>
-                    <SelectItem value="filter5">Filter 5</SelectItem>
-                  </SelectContent>
-                </Select>
-                <Button
-                  type="button"
-                  onClick={handleFilterSubmit}
-                  disabled={isLoading}
-                  size="sm"
-                >
-                  {isLoading ? "Filtering..." : "Filter"}
-                </Button>
-              </div>
+              <label className="block text-sm font-medium text-gray-700">
+                Tags
+              </label>
             </div>
             <div className="space-y-2">
               <Label htmlFor="to">To</Label>
