@@ -182,7 +182,10 @@ export default function EmailForm() {
             </div>
 
             {/* Submit Button */}
-            <Button type="submit" className="w-full">
+            <Button
+              type="submit"
+              className="w-full p-2 rounded-md bg-teal-700 hover:bg-teal-900 transition duration-500 text-white"
+            >
               Send Email
             </Button>
           </form>
