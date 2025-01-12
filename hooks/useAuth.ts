@@ -93,9 +93,9 @@ export const registerUser = async (data: RegisterData) => {
       body: JSON.stringify(data),
   });
 
-  if (!response.ok) {
-      throw new Error('Failed to register');
-  }
+    if (!response.ok) {
+        throw new Error('Failed to register');
+    }
 
   const result = await response.json();
   return result;

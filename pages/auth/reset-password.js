@@ -99,7 +99,13 @@ const ResetPassword = () => {
           {message && (
             <p className="text-green-500 text-center mb-4">{message}</p>
           )}
-          <div className="relative mb-6">
+          <div
+            className={`relative mb-6 w-full flex items-center justify-between rounded-lg border py-2 px-4 ${
+              isDarkMode
+                ? "bg-gray-700 border-gray-600"
+                : "bg-white border-gray-300"
+            } md:h-10 h-9`}
+          >
             <input
               type={showPassword ? "text" : "password"}
               placeholder="Password"
@@ -107,8 +113,8 @@ const ResetPassword = () => {
               onChange={(e) => setPassword(e.target.value)}
               className={`outline-none border-none w-full h-full placeholder:text-gray-400 text-sm ${
                 isDarkMode
-                  ? "bg-gray-700 border-gray-600 text-white focus:ring-cyan-600"
-                  : "bg-white border-gray-300 text-gray-900 focus:ring-cyan-500"
+                  ? "text-white focus:ring-cyan-600"
+                  : "text-gray-900 focus:ring-cyan-500"
               }`}
             />
             <button
@@ -124,7 +130,13 @@ const ResetPassword = () => {
               />
             </button>
           </div>
-          <div className="relative mb-6">
+          <div
+            className={`relative mb-6 w-full flex items-center justify-between rounded-lg border py-2 px-4 ${
+              isDarkMode
+                ? "bg-gray-700 border-gray-600"
+                : "bg-white border-gray-300"
+            } md:h-10 h-9`}
+          >
             <input
               type={showPassword ? "text" : "password"}
               placeholder="Confirm Password"
@@ -132,8 +144,8 @@ const ResetPassword = () => {
               onChange={(e) => setConfirmPassword(e.target.value)}
               className={`outline-none border-none w-full h-full placeholder:text-gray-400 text-sm ${
                 isDarkMode
-                  ? "bg-gray-700 border-gray-600 text-white focus:ring-cyan-600"
-                  : "bg-white border-gray-300 text-gray-900 focus:ring-cyan-500"
+                  ? "text-white focus:ring-cyan-600"
+                  : "text-gray-900 focus:ring-cyan-500"
               }`}
             />
             <button
@@ -149,6 +161,7 @@ const ResetPassword = () => {
               />
             </button>
           </div>
+
           <button
             type="submit"
             className={`w-full p-2 rounded bg-appGreen hover:bg-teal-700 transition duration-500 text-white ${
@@ -162,15 +175,22 @@ const ResetPassword = () => {
         <div className="mt-4 text-center">
           <p>
             Remembered your password?{" "}
-            <Link href="/auth/login" className="text-secondary">
+            <Link
+              href="/auth/login"
+              className="text-appGreen cursor-pointer transition-all duration-500 hover:text-teal-600"
+            >
               Login
             </Link>
           </p>
-          <p>
-            <Link href="/auth/forgot-password" className="text-secondary">
-              Back to Forgot Password
+          Back to{" "}
+          <span>
+            <Link
+              href="/auth/forgot-password"
+              className="text-appGreen cursor-pointer transition-all duration-500 hover:text-teal-600"
+            >
+              Forgot Password
             </Link>
-          </p>
+          </span>
         </div>
       </div>
     </div>

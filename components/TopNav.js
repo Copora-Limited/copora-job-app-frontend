@@ -12,7 +12,6 @@ const TopNav = ({ onMenuClick }) => {
   const [sideNavOpen, setSideNavOpen] = useState(false);
   const { data: session } = useSession();
   const profilePicture = session?.user?.profilePicture;
-  console.log("session?.user", session?.user);
   const handleLogout = async () => {
     await signOut({ redirect: false });
     router.push("/auth/login");

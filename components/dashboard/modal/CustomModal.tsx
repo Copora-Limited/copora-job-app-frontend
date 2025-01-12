@@ -47,7 +47,7 @@ const CustomModal: React.FC<CustomModalProps> = ({
         }`}
       >
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-lg font-semibold">Upload Candidate</h2>
+          <h2 className="text-lg font-semibold"></h2>
           <button onClick={handleClose} aria-label="Close">
             <CloseIcon />
           </button>

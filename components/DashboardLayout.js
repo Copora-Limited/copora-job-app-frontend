@@ -16,7 +16,7 @@ const DashboardLayout = ({ children }) => {
     if (
       status !== "loading" &&
       !isPublicRoute &&
-      (!session || !session.user.token)
+      (!session || !session.user?.token) // Check for session and valid token
     ) {
       // Redirect to the login page if the session or token is not available
       router.push("/auth/login");
@@ -73,7 +73,7 @@ const DashboardLayout = ({ children }) => {
             isApplicant={isApplicant}
           />
         )}
-        <div className="flex-1 w-full h-[92vh] mt-[9vh] overflow-y-auto scroller">
+        <div className="flex-1 bg-white w-full h-[92vh] mt-[9vh] overflow-y-auto scroller">
           {children}
         </div>
       </div>

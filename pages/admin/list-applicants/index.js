@@ -8,7 +8,7 @@ import DashboardLayout from "@/components/DashboardLayout";
 import { CircleSpinnerOverlay } from "react-spinner-overlay";
 import UserTable from "@/components/dashboard/UserTable";
 import UploadCandidateModal from "@/components/dashboard/modal/UploadCandidateModal";
-import AddCandidate from "@/components/dashboard/modal/AddCandidate"; // Import AddCandidate
+import AddCandidate from "@/components/dashboard/modal/AddCandidatetwo"; // Import AddCandidate
 import axios from "axios";
 
 const ListUsersPage = () => {
