@@ -50,12 +50,12 @@ const EducationDetails = ({ onChange }) => {
                 schoolName: "",
                 yearAdmitted: "",
                 yearGraduated: "",
-                stillStudying: false, // Ensure this is included in the initial state
+                stillStudying: false,
               },
             ];
 
         setEducationRecords(initialData);
-        onChange(data);
+        onChange(initialData);
         setHasFetchedData(true);
       } catch (error) {
         console.error("Error fetching educational details data:", error);
@@ -68,9 +68,17 @@ const EducationDetails = ({ onChange }) => {
   }, [hasFetchedData, onChange]);
 
   const handleEducationChange = (index, field, value) => {
-    const updatedRecords = educationRecords.map((record, i) =>
-      i === index ? { ...record, [field]: value } : record
-    );
+    const updatedRecords = educationRecords.map((record, i) => {
+      if (i === index) {
+        const updatedRecord = { ...record, [field]: value };
+        // If stillStudying is being updated, set yearAdmitted to current year if checked
+        if (field === "stillStudying" && value) {
+          updatedRecord.yearAdmitted = new Date().getFullYear().toString();
+        }
+        return updatedRecord;
+      }
+      return record;
+    });
     setEducationRecords(updatedRecords);
     onChange(updatedRecords);
   };
@@ -91,14 +99,12 @@ const EducationDetails = ({ onChange }) => {
 
   const removeEducationRecord = async (index) => {
     const recordToDelete = educationRecords[index];
-    const confirmed = window.confirm(
+    const confirmedweepstakes = window.confirm(
       `Are you sure you want to delete the education record for ${recordToDelete.schoolName}?`
     );
 
     if (confirmed) {
-      // Check if the record has an ID
       if (recordToDelete.id) {
-        // Record has an ID, make an API call to delete it from the backend
         try {
           const response = await fetch(
             `${process.env.NEXT_PUBLIC_BASE_URL}/educational-details/${applicationNo}/${recordToDelete.id}`,
@@ -120,7 +126,6 @@ const EducationDetails = ({ onChange }) => {
         }
       }
 
-      // Update the local state to remove the record regardless of whether it was saved or not
       const updatedRecords = educationRecords.filter((_, i) => i !== index);
       setEducationRecords(updatedRecords);
       onChange(updatedRecords);
@@ -215,29 +220,27 @@ const EducationDetails = ({ onChange }) => {
                 handleEducationChange(index, "yearAdmitted", e.target.value)
               }
               name="yearAdmitted"
+              disabled={record.stillStudying} // Disable input when stillStudying is checked
             />
           </div>
 
-          <div className="w-full flex flex-col md:col-span-1 col-span-2 mt-4 ">
+          <div className="w-full flex flex wow-col md:col-span-1 col-span-2 mt-4">
             <PrimaryInput
               id="yearGraduated"
               label="Date of Completion"
               isRequired
               type="text"
               placeholder="YYYY"
-              value={
-                record.stillStudying
-                  ? new Date().getFullYear()
-                  : record.yearGraduated
-              }
+              value={record.yearGraduated}
               onChange={(e) =>
                 handleEducationChange(index, "yearGraduated", e.target.value)
               }
               name="yearGraduated"
+              disabled={record.stillStudying} // Disable input when stillStudying is checked
             />
           </div>
 
-          <div className="w-full flex flex-col col-span-2 gap-1 items-end ">
+          <div className="w-full flex flex-col col-span-2 gap-1 items-end">
             <div className="flex items-center gap-2">
               <input
                 type="checkbox"
